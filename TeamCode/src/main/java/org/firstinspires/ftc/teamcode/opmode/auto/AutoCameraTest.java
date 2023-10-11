@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+//import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -35,19 +38,56 @@ public class AutoCameraTest extends LinearOpMode{
     @Override
 
     public void runOpMode() throws InterruptedException {
+
+        initAprilTag();
+
+        int numOfAprilTags = 0;
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
+        Pose2d startPose = new Pose2d(36, 12, Math.toRadians(120));
 
+        drive.setPoseEstimate(startPose);
 
+        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
+                .setReversed(true)
+        //.splineToLinearHeading(new Pose2d(12, 36, Math.toRadians(90)))
 
+                .splineToLinearHeading(new Pose2d(36, 36, Math.toRadians(90)), Math.toRadians(120))
 
+                .build();
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
+                .setReversed(true)
+
+                        .build();
+
+        TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
+
+                .setReversed(true)
+                .lineToLinearHeading(new Pose2d(12,36, Math.toRadians(90)))
+                        .build();
+
+        waitForStart();
+
+        resetRuntime();
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        numOfAprilTags =  currentDetections.size();
+
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
 
 
-
+        if (numOfAprilTags == 1) {
+            drive.followTrajectorySequence(traj2);
+        }
+        else if (numOfAprilTags < 1 ){
+            drive.followTrajectorySequence(traj3);
+        }
 
 
 
@@ -101,13 +141,14 @@ public class AutoCameraTest extends LinearOpMode{
 
         }   // end method initAprilTag()
 
+
         /**
          * Add telemetry about AprilTag detections.
          */
         private void telemetryAprilTag(){
 
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-            telemetry.addData("# AprilTags Detected", currentDetections.size());
+            telemetry.addData("AprilTags Detected", currentDetections.size());
 
             // Step through the list of detections and display info for each one.
             for (AprilTagDetection detection : currentDetections) {
@@ -126,7 +167,10 @@ public class AutoCameraTest extends LinearOpMode{
             telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
             telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
             telemetry.addLine("RBE = Range, Bearing & Elevation");
-        }
+
 
         }
+        }
+
+
 
