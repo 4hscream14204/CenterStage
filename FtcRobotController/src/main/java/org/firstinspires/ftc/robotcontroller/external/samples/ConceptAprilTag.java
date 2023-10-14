@@ -48,7 +48,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Concept: AprilTag", group = "Concept")
-@Disabled
+
 public class ConceptAprilTag extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -108,8 +108,8 @@ public class ConceptAprilTag extends LinearOpMode {
         aprilTag = new AprilTagProcessor.Builder()
             //.setDrawAxes(false)
             //.setDrawCubeProjection(false)
-            //.setDrawTagOutline(true)
-            //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+            .setDrawTagOutline(true)
+            .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
             //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
             //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
 
