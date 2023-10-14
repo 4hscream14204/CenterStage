@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class AirplaneLauncherTest extends LinearOpMode{
 
-    Servo airplanelauncher;
+     Servo airplanelauncher;
 
     @Override
     public void runOpMode(){
