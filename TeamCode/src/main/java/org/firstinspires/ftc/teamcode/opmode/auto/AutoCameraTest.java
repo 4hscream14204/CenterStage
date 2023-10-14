@@ -48,7 +48,7 @@ public class AutoCameraTest extends LinearOpMode{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        Pose2d startPose = new Pose2d(36, 12, Math.toRadians(120));
+        Pose2d startPose = new Pose2d(36, 12, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
@@ -56,19 +56,20 @@ public class AutoCameraTest extends LinearOpMode{
                 .setReversed(true)
         //.splineToLinearHeading(new Pose2d(12, 36, Math.toRadians(90)))
 
-                .splineToLinearHeading(new Pose2d(36, 36, Math.toRadians(90)), Math.toRadians(120))
+                .splineToLinearHeading(new Pose2d(36, 36, Math.toRadians(180)), Math.toRadians(180))
 
                 .build();
 
         TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
                 .setReversed(true)
+                .lineToLinearHeading(new Pose2d(36,24, Math.toRadians(180)))
 
                         .build();
 
         TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
 
                 .setReversed(true)
-                .lineToLinearHeading(new Pose2d(12,36, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(36,48, Math.toRadians(180)))
                         .build();
 
         waitForStart();
