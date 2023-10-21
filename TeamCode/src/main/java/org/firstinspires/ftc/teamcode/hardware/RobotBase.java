@@ -30,7 +30,7 @@ public class RobotBase extends Object{
     public Servo srvHangingMechanism;
     public Servo srvAirplaneLauncher;
     public HuskyLens huskyLens;
-    public IMU Gyro;
+    public IMU imu;
     public grabberSubsystem Grabber;
     public airplaneLauncherSubsystem AirplaneLauncher;
     public hangingMechanismSubsystem HangingMechanism;
@@ -41,16 +41,16 @@ public class RobotBase extends Object{
         leftDistanceSensor = hwMap.get(DistanceSensor.class, "leftDistance");
         rightDistanceSensor = hwMap.get(DistanceSensor.class, "rightDistance");
         backDistanceSensor = hwMap.get(DistanceSensor.class, "backDistance");
-        rightFront = hwMap.get(DcMotor.class, "rightFrontMotor");
-        leftFront = hwMap.get(DcMotor.class, "leftFrontMotor");
-        rightRear = hwMap.get(DcMotor.class, "rightBackMotor");
-        leftRear = hwMap.get(DcMotor.class, "leftBackMotor");
+        rightFront = hwMap.get(DcMotor.class, "rightFront");
+        leftFront = hwMap.get(DcMotor.class, "leftFront");
+        rightRear = hwMap.get(DcMotor.class, "rightRear");
+        leftRear = hwMap.get(DcMotor.class, "leftRear");
         srvDoubleCenterGrabber = hwMap.get(Servo.class,"srvGrabber");
         srvArm = hwMap.get(Servo.class,"srvArm");
         srvHangingMechanism = hwMap.get(Servo.class,"hangingMechanism");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
-        Gyro = hwMap.get(IMU.class,"Gyro");
+        imu = hwMap.get(IMU.class,"imu");
 
         Grabber = new grabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new airplaneLauncherSubsystem(srvAirplaneLauncher);

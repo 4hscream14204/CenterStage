@@ -34,7 +34,7 @@ public class fieldCentricWithRoadrunner extends OpMode {
         dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
         dblChassisControllerLeftY = Math.abs(chassisController.getLeftY()) * chassisController.getLeftY();
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
-        dblCurrentHeading = robotBase.Gyro.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         // Create a vector from the gamepad x/y inputs
         // Then, rotate that vector by the inverse of that heading
