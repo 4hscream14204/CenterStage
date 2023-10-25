@@ -54,6 +54,7 @@ public class HuskyLensTelemetryTest extends LinearOpMode {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        /*
         Pose2d startPose = new Pose2d(12, 36, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
@@ -72,7 +73,7 @@ public class HuskyLensTelemetryTest extends LinearOpMode {
                 .setReversed(true)
 
                 .build();
-
+*/
          Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.MILLISECONDS);
 
         /*
