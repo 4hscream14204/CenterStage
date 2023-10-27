@@ -8,6 +8,9 @@ public class hangingMechanismSubsystem extends SubsystemBase {
 
     Servo srvHangingMechanism1;
     Servo srvHangingMechanism2;
+    private final double dblHangingReleasePosition = 0.5;
+    private final double dblHangingClosePosition1 = 0;
+    private final double dblHangingClosePosition2 = 1;
 
 
 
@@ -17,12 +20,12 @@ public class hangingMechanismSubsystem extends SubsystemBase {
     }
 
     public void Raise() {
-        srvHangingMechanism1.setPosition(1);
-        srvHangingMechanism2.setPosition(1);
+        srvHangingMechanism1.setPosition(0.5);
+        srvHangingMechanism2.setPosition(0.5);
     }
     public void Lower() {
         srvHangingMechanism1.setPosition(0);
-        srvHangingMechanism2.setPosition(0);
+        srvHangingMechanism2.setPosition(1);
     }
 }
 

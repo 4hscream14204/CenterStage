@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
@@ -39,9 +40,9 @@ public class fieldCentricWithRoadrunner extends OpMode {
         // Create a vector from the gamepad x/y inputs
         // Then, rotate that vector by the inverse of that heading
         Vector2d input = new Vector2d(
-                -dblChassisControllerLeftY,
+                dblChassisControllerLeftY,
                 -dblChassisControllerLeftX
-        ).rotated(dblCurrentHeading);
+        ).rotated(-dblCurrentHeading);
 
         // Pass in the rotated input + right stick value for rotation
         // Rotation is not part of the rotated input thus must be passed in separately
@@ -55,5 +56,7 @@ public class fieldCentricWithRoadrunner extends OpMode {
 
         // Update everything. Odometry. Etc.
         robotBase.MecanumDrive.update();
+
+        telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
     }
 }
