@@ -9,7 +9,6 @@ public class hangingMechanismSubsystem extends SubsystemBase {
     Servo srvHangingMechanism;
 
 
-
     public hangingMechanismSubsystem (Servo hangingMechanismConstructor) {
        srvHangingMechanism = hangingMechanismConstructor;
     }
