@@ -39,8 +39,8 @@ public class fieldCentricWithRoadrunner extends OpMode {
         // Create a vector from the gamepad x/y inputs
         // Then, rotate that vector by the inverse of that heading
         Vector2d input = new Vector2d(
-                -dblChassisControllerLeftY,
-                -dblChassisControllerLeftX
+                -dblChassisControllerRightX,
+                dblChassisControllerLeftX
         ).rotated(dblCurrentHeading);
 
         // Pass in the rotated input + right stick value for rotation
@@ -49,7 +49,7 @@ public class fieldCentricWithRoadrunner extends OpMode {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        -dblChassisControllerRightX
+                        dblChassisControllerLeftY
                 )
         );
 

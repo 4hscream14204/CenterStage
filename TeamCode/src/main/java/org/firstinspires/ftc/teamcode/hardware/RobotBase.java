@@ -57,7 +57,4 @@ public class RobotBase extends Object{
         HangingMechanism = new hangingMechanismSubsystem(srvHangingMechanism);
         MecanumDrive = new SampleMecanumDrive(hwMap);
     }
-
-
-
 }
