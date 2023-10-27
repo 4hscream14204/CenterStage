@@ -27,6 +27,7 @@ public class hangingMechanismTest extends OpMode {
     }
 
     public void loop() {
+        chassisController.readButtons();
         if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
             robotBase.HangingMechanism.Lower();
         }
