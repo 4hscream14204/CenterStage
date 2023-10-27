@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
-import java.util.concurrent.TimeUnit;
 
-public class huskyLensSubsystem extends SubsystemBase {
+public class HuskyLensSubsystem extends SubsystemBase {
 
     private final int READ_PERIOD = 100;
 

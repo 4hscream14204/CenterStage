@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class grabberSubsystem extends SubsystemBase{
+public class GrabberSubsystem extends SubsystemBase{
 
     private Servo srvGrabber;
     private Servo srvArm;
@@ -11,7 +11,7 @@ public class grabberSubsystem extends SubsystemBase{
     private boolean bolDropPosToggle = false;
     private int intPixelInGrabber = 1;
 
-    public grabberSubsystem (Servo grabberConstructor, Servo armConstructor) {
+    public GrabberSubsystem(Servo grabberConstructor, Servo armConstructor) {
         srvGrabber = grabberConstructor;
         srvArm = armConstructor;
     }
