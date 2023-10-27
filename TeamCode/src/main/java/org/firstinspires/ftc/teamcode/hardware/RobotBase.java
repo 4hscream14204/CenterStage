@@ -27,7 +27,8 @@ public class RobotBase extends Object{
     public DcMotor rightFront;
     public Servo srvDoubleCenterGrabber;
     public Servo srvArm;
-    public Servo srvHangingMechanism;
+    public Servo srvHangingMechanism1;
+    public Servo srvHangingMechanism2;
     public Servo srvAirplaneLauncher;
     public HuskyLens huskyLens;
     public IMU imu;
@@ -47,14 +48,15 @@ public class RobotBase extends Object{
         leftRear = hwMap.get(DcMotor.class, "leftRear");
         srvDoubleCenterGrabber = hwMap.get(Servo.class,"srvGrabber");
         srvArm = hwMap.get(Servo.class,"srvArm");
-        srvHangingMechanism = hwMap.get(Servo.class,"hangingMechanism");
+        srvHangingMechanism1 = hwMap.get(Servo.class,"hangingMechanism1");
+        srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
 
         Grabber = new grabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new airplaneLauncherSubsystem(srvAirplaneLauncher);
-        HangingMechanism = new hangingMechanismSubsystem(srvHangingMechanism);
+        HangingMechanism = new hangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         MecanumDrive = new SampleMecanumDrive(hwMap);
     }
 

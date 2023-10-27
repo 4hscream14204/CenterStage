@@ -6,16 +6,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class hangingMechanismSubsystem extends SubsystemBase {
 
-    Servo srvHangingMechanism;
+    Servo srvHangingMechanism1;
+    Servo srvHangingMechanism2;
 
 
 
-    public hangingMechanismSubsystem (Servo hangingMechanismConstructor) {
-       srvHangingMechanism = hangingMechanismConstructor;
+    public hangingMechanismSubsystem (Servo hangingMechanismConstructor1, Servo hangingMechanismConstructor2) {
+       srvHangingMechanism1 = hangingMechanismConstructor1;
+       srvHangingMechanism2 = hangingMechanismConstructor2;
     }
 
     public void Raise() {
-        srvHangingMechanism.setPosition(1);
+        srvHangingMechanism1.setPosition(1);
+        srvHangingMechanism2.setPosition(1);
+    }
+    public void Lower() {
+        srvHangingMechanism1.setPosition(0);
+        srvHangingMechanism2.setPosition(0);
     }
 }
 
