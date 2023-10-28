@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class HangingMechanismSubsystem extends SubsystemBase {
+public class hangingMechanismSubsystem extends SubsystemBase {
 
     Servo srvHangingMechanism1;
     Servo srvHangingMechanism2;
@@ -14,9 +14,9 @@ public class HangingMechanismSubsystem extends SubsystemBase {
 
 
 
-    public HangingMechanismSubsystem(Servo hangingMechanismConstructor1, Servo hangingMechanismConstructor2) {
-       srvHangingMechanism1 = hangingMechanismConstructor1;
-       srvHangingMechanism2 = hangingMechanismConstructor2;
+    public hangingMechanismSubsystem(Servo hangingMechanismConstructor1, Servo hangingMechanismConstructor2) {
+        srvHangingMechanism1 = hangingMechanismConstructor1;
+        srvHangingMechanism2 = hangingMechanismConstructor2;
     }
 
     public void Raise() {
@@ -28,4 +28,3 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         srvHangingMechanism2.setPosition(1);
     }
 }
-
