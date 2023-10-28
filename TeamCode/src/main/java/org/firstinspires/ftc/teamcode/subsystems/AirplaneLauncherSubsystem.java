@@ -10,7 +10,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
     }
-        public void Raise () {
+        public void Release () {
             srvAirplaneLauncher.setPosition(1);
         }
     }

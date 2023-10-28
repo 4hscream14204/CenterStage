@@ -32,24 +32,48 @@ public class TeleDriverRobotControl extends OpMode {
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
         dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        Vector2d input = new Vector2d(
-                dblChassisControllerLeftY,
-                -dblChassisControllerLeftX
-        ).rotated(-dblCurrentHeading);
+        if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
+            Vector2d input = new Vector2d(
+                    dblChassisControllerLeftY,
+                    -dblChassisControllerLeftX
+            ).rotated(-dblCurrentHeading);
 
-        robotBase.MecanumDrive.setWeightedDrivePower(
-                new Pose2d(
-                        input.getX(),
-                        input.getY(),
-                        -dblChassisControllerRightX
-                )
-        );
+            robotBase.MecanumDrive.setWeightedDrivePower(
+                    new Pose2d(
+                            input.getX(),
+                            input.getY(),
+                            -dblChassisControllerRightX
+                    )
+            );
+
+        } else {
+
+            robotBase.MecanumDrive.setWeightedDrivePower(
+                    new Pose2d(
+                            dblChassisControllerLeftY,
+                            -dblChassisControllerLeftX,
+                            -dblChassisControllerRightX
+                    )
+            );
+
+
+        }
 
         if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
             robotBase.HangingMechanism.Lower();
         }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
+        if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
             robotBase.HangingMechanism.Raise();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.B) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
+            robotBase.AirplaneLauncher.Release();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
+            if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
+                robotBase.controlScheme = RobotBase.ChassisControlType.ROBOTCENTRIC;
+            } else {
+                robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
+            }
         }
 
         robotBase.MecanumDrive.update();
