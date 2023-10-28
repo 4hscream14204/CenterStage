@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.hangingMechanismSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 
 
 public class RobotBase extends Object{
@@ -34,7 +34,7 @@ public class RobotBase extends Object{
     public IMU imu;
     public GrabberSubsystem Grabber;
     public AirplaneLauncherSubsystem AirplaneLauncher;
-    public hangingMechanismSubsystem HangingMechanism;
+    public HangingMechanismSubsystem HangingMechanism;
     public SampleMecanumDrive MecanumDrive;
 
     public RobotBase (HardwareMap hwMap) {
@@ -56,7 +56,7 @@ public class RobotBase extends Object{
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher);
-        HangingMechanism = new hangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         MecanumDrive = new SampleMecanumDrive(hwMap);
     }
 }
