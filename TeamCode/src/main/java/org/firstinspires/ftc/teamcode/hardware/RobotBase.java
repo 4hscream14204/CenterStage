@@ -15,6 +15,10 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 
 public class RobotBase extends Object{
 
+    public enum ChassisControlType {
+        FIELDCENTRIC,
+        ROBOTCENTRIC
+    }
 
 
     public DistanceSensor frontDistanceSensor;
@@ -36,6 +40,7 @@ public class RobotBase extends Object{
     public AirplaneLauncherSubsystem AirplaneLauncher;
     public HangingMechanismSubsystem HangingMechanism;
     public SampleMecanumDrive MecanumDrive;
+    public ChassisControlType controlScheme;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -53,6 +58,7 @@ public class RobotBase extends Object{
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
+        controlScheme = ChassisControlType.FIELDCENTRIC;
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher);
