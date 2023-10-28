@@ -20,11 +20,11 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     }
 
     public void Raise() {
-        srvHangingMechanism1.setPosition(0.5);
-        srvHangingMechanism2.setPosition(0.5);
+        srvHangingMechanism1.setPosition(dblHangingReleasePosition);
+        srvHangingMechanism2.setPosition(dblHangingReleasePosition);
     }
     public void Lower() {
-        srvHangingMechanism1.setPosition(0);
-        srvHangingMechanism2.setPosition(1);
+        srvHangingMechanism1.setPosition(dblHangingClosePosition1);
+        srvHangingMechanism2.setPosition(dblHangingClosePosition2);
     }
 }
