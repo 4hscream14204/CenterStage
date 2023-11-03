@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -78,7 +79,10 @@ public class TeleDriverRobotControl extends OpMode {
             robotBase.HangingMechanism.Raise();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.AirplaneLauncher.Release();
+            robotBase.AirplaneLauncher.RaiseAndLaunch();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
+            robotBase.AirplaneLauncher.Lower();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
             if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
