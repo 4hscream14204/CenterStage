@@ -58,15 +58,27 @@ public class AutoSuperClass extends OpMode {
         TrajectorySequence blueRight1 = drive.trajectorySequenceBuilder(blueRightStart)
 
                 .build();
+
+        TrajectorySequence strafeRight = drive.trajectorySequenceBuilder(redLeft1.end())
+
+                .build();
+
+        TrajectorySequence strafeBackRight = drive.trajectorySequenceBuilder(redLeft1.end())
+
+                .build();
+
     }
+
 @Override
-    public void init_loop(){}
-
-
+    public void init_loop() {
 
     HuskyLens.Block[] blocks = robotBase.huskyLens.blocks();
 
 
+    //if(){
+    //     drive.followTrajectorySequence();
+    //}
+}
     @Override
     public void start() {
     }
