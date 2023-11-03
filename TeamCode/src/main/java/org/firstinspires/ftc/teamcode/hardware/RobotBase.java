@@ -59,6 +59,7 @@ public class RobotBase extends Object{
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
         controlScheme = ChassisControlType.FIELDCENTRIC;
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher);
