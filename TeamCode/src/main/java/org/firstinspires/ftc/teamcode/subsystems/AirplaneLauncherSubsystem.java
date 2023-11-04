@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import android.icu.text.CaseMap;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,8 +15,8 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     AirplaneState airplaneState;
 
    private double releaseSrvPos = 1;
-   private double srvEVPosLower = 0.25;
-   private double srvEVPosRaise = 0;
+   private double srvEVPosLower = 0.0;
+   private double srvEVPosRaise = 0.5;
 
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo srvAirplaneLauncherEvCon) {
@@ -39,7 +37,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         srvAirplaneLauncherEv.setPosition(srvEVPosRaise);
         airplaneState = AirplaneState.RAISE;
     }
-    public void RaiseAndLaunch(){
+    public String RaiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
                 Raise();
@@ -48,7 +46,6 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
                 Release();
                 break;
         }
-
     }
 }
 
