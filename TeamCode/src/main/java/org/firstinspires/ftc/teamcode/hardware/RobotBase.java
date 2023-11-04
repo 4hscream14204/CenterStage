@@ -15,6 +15,11 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 
 public class RobotBase extends Object{
 
+    public enum Alliance {
+        BLUE,
+        RED,
+    }
+
     public enum ChassisControlType {
         FIELDCENTRIC,
         ROBOTCENTRIC
@@ -46,6 +51,8 @@ public class RobotBase extends Object{
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
 
+    public Alliance alliance;
+
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
         leftDistanceSensor = hwMap.get(DistanceSensor.class, "leftDistance");
@@ -74,5 +81,6 @@ public class RobotBase extends Object{
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         MecanumDrive = new SampleMecanumDrive(hwMap);
+        alliance = Alliance.RED;
     }
 }
