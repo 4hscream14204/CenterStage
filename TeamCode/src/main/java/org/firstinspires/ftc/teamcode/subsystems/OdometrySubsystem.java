@@ -7,4 +7,10 @@ public class OdometrySubsystem extends SubsystemBase {
 
     private Servo odometryLeft;
     private Servo odometryRight;
+    private Servo odometryMiddle;
+
+    private enum OdometryServos {
+        Up,
+        D
+    }
 }
