@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
@@ -53,6 +55,8 @@ public class RobotBase extends Object{
     public OdometrySubsystem OdometryServos;
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
+    public IntegratingGyroscope gyro;
+    public NavxMicroNavigationSensor navxMicro;
 
     // first instance of alliance
     public Alliance alliance;
@@ -75,11 +79,13 @@ public class RobotBase extends Object{
         srvOdometryLeft = hwMap.get(Servo.class, "odometryLeft");
         srvOdometryRight = hwMap.get(Servo.class, "odometryRight");
         srvOdometryMiddle = hwMap.get(Servo.class, "odometryMiddle");
-
+        navxMicro = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
+
         controlScheme = ChassisControlType.FIELDCENTRIC;
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
+        gyro = (IntegratingGyroscope)navxMicro;
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);

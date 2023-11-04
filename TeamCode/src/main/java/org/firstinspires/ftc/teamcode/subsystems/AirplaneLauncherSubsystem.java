@@ -37,7 +37,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         srvAirplaneLauncherEv.setPosition(srvEVPosRaise);
         airplaneState = AirplaneState.RAISE;
     }
-    public String RaiseAndLaunch(){
+    public void RaiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
                 Raise();
