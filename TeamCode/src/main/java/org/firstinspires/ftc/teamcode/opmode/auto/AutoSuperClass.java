@@ -10,20 +10,41 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 
 public class AutoSuperClass extends OpMode {
 
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
     RobotBase robotBase = new RobotBase(hardwareMap);
 
+    int blockTopCoordinate;
+    int blockLeftCoordinate;
 
+    enum PropLocation {
+        LEFT,
+        MIDDLE,
+        RIGHT,
+    }
+
+    enum Sides {
+        LEFT,
+        RIGHT,
+    }
+
+    PropLocation propLocation;
+
+    Sides side;
 
     @Override
     public void init() {
+
+        propLocation = PropLocation.LEFT;
+
+        side = Sides.LEFT;
+
         //RedLeft
         Pose2d redLeftStart = new Pose2d(-40.29, -63.05, Math.toRadians(90));
 
-        drive.setPoseEstimate(redLeftStart);
+        robotBase.MecanumDrive.setPoseEstimate(redLeftStart);
 
 
-        TrajectorySequence redLeft1 = drive.trajectorySequenceBuilder(redLeftStart)
+        TrajectorySequence redLeft1 = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeftStart)
 
                 .splineToSplineHeading(new Pose2d(-35.89, -34.42, Math.toRadians(90)), Math.toRadians(90))
 
@@ -32,38 +53,46 @@ public class AutoSuperClass extends OpMode {
         //RedRight
         Pose2d redRightStart = new Pose2d(-39, -63, Math.toRadians(270));
 
-        drive.setPoseEstimate(redRightStart);
+        robotBase.MecanumDrive.setPoseEstimate(redRightStart);
 
 
-        TrajectorySequence redRight1 = drive.trajectorySequenceBuilder(redRightStart)
+        TrajectorySequence redRight1 = robotBase.MecanumDrive.trajectorySequenceBuilder(redRightStart)
 
                 .build();
 
         //BlueLeft
         Pose2d blueLeftStart = new Pose2d(-39, -63, Math.toRadians(270));
 
-        drive.setPoseEstimate(blueLeftStart);
+        robotBase.MecanumDrive.setPoseEstimate(blueLeftStart);
 
 
-        TrajectorySequence blueLeft1 = drive.trajectorySequenceBuilder(blueLeftStart)
+        TrajectorySequence blueLeft1 = robotBase.MecanumDrive.trajectorySequenceBuilder(blueLeftStart)
 
                 .build();
 
         //BlueRight
         Pose2d blueRightStart = new Pose2d(-39, -63, Math.toRadians(270));
 
-        drive.setPoseEstimate(blueRightStart);
+        robotBase.MecanumDrive.setPoseEstimate(blueRightStart);
 
 
-        TrajectorySequence blueRight1 = drive.trajectorySequenceBuilder(blueRightStart)
+        TrajectorySequence blueRight1 = robotBase.MecanumDrive.trajectorySequenceBuilder(blueRightStart)
+
+                .build();
+//Trajectory for if the Prop is located on the middle spike tape on the redside
+        TrajectorySequence middleRed = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
+
+                .build();
+//Trajectory for if the Prop is located on left or right spike tape on the red side
+        TrajectorySequence sidesRed = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
 
                 .build();
 
-        TrajectorySequence strafeRight = drive.trajectorySequenceBuilder(redLeft1.end())
+        TrajectorySequence middleBlue = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
 
                 .build();
 
-        TrajectorySequence strafeBackRight = drive.trajectorySequenceBuilder(redLeft1.end())
+        TrajectorySequence sidesBlue = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
 
                 .build();
 
@@ -74,10 +103,68 @@ public class AutoSuperClass extends OpMode {
 
     HuskyLens.Block[] blocks = robotBase.huskyLens.blocks();
 
+    for (int i = 0; i < blocks.length; i++){
+        //Assign the block attributes to variables to use later
+        blockTopCoordinate = blocks[i].top;
+        blockLeftCoordinate = blocks[i].left;
 
-    //if(){
-    //     drive.followTrajectorySequence();
-    //}
+    if (blockLeftCoordinate < 100){
+        propLocation = PropLocation.LEFT;
+    }else if (blockLeftCoordinate > 200) {
+        propLocation = PropLocation.RIGHT;
+    } else {
+        propLocation = PropLocation.MIDDLE;
+    }
+    }
+//What trajectory to run if on Red alliance left side and prop on left tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
+
+    }
+//What trajectory to run if on Red alliance left side and prop on middle tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
+
+    }
+//What trajectory to run if on Red alliance left side and prop on right tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
+
+    }
+//What trajectory to run if on Red alliance right side and prop on left tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.LEFT){
+
+    }
+//What trajectory to run if on Red alliance right side and prop on middle tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.MIDDLE){
+
+    }
+//What trajectory to run if on Red alliance right side and prop on right tape
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.RIGHT){
+
+    }
+//What trajectory to run if on Blue alliance left side and prop on left tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.LEFT){
+
+    }
+//What trajectory to run if on Blue alliance left side and prop on middle tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
+
+    }
+//What trajectory to run if on Blue alliance left side and prop on right tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
+
+    }
+//What trajectory to run if on Blue alliance right side and prop on left tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.LEFT){
+
+    }
+//What trajectory to run if on Blue alliance right side and prop on middle tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.MIDDLE){
+
+    }
+//What trajectory to run if on Blue alliance right side and prop on right tape
+    if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.RIGHT){
+
+    }
+
 }
     @Override
     public void start() {
