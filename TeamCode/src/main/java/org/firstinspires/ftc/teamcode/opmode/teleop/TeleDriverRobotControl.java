@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -17,7 +18,6 @@ import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
 
-    //These attributes control field-centric driving
 
 
     public RobotBase robotBase;
@@ -72,14 +72,17 @@ public class TeleDriverRobotControl extends OpMode {
 
         }
 
-        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
+        if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
             robotBase.HangingMechanism.Lower();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
             robotBase.HangingMechanism.Raise();
         }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.B) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.AirplaneLauncher.Release();
+        if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
+            robotBase.AirplaneLauncher.RaiseAndLaunch();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
+            robotBase.AirplaneLauncher.Lower();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
             if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {

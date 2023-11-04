@@ -39,6 +39,7 @@ public class RobotBase extends Object{
     public Servo srvHangingMechanism1;
     public Servo srvHangingMechanism2;
     public Servo srvAirplaneLauncher;
+    public Servo srvAirplaneLauncherEv;
     public HuskyLens huskyLens;
     public IMU imu;
     public GrabberSubsystem Grabber;
@@ -63,13 +64,14 @@ public class RobotBase extends Object{
         srvHangingMechanism1 = hwMap.get(Servo.class,"hangingMechanism1");
         srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
+        srvAirplaneLauncherEv = hwMap.get(Servo.class, "airplaneLauncherEv");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
         controlScheme = ChassisControlType.FIELDCENTRIC;
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
-        AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher);
+        AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         MecanumDrive = new SampleMecanumDrive(hwMap);
         alliance = Alliance.RED;
