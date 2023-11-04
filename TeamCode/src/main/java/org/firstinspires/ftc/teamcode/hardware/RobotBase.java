@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 
 
 public class RobotBase extends Object{
@@ -48,6 +49,7 @@ public class RobotBase extends Object{
     public GrabberSubsystem Grabber;
     public AirplaneLauncherSubsystem AirplaneLauncher;
     public HangingMechanismSubsystem HangingMechanism;
+    public OdometrySubsystem OdometryServos;
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
 
@@ -80,6 +82,7 @@ public class RobotBase extends Object{
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        OdometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         MecanumDrive = new SampleMecanumDrive(hwMap);
         alliance = Alliance.RED;
     }

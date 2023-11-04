@@ -24,28 +24,25 @@ public class OdometrySubsystem extends SubsystemBase {
         srvOdometryLeft = srvOdometryLeftCon;
         srvOdometryMiddle = srvOdometryMiddleCon;
         srvOdometryRight = srvOdometryRightCon;
-        odometryState = OdometrySubsystem.OdometryState.DOWN;
+        odometryState = OdometryState.DOWN;
     }
 
     public void Up() {
         srvOdometryLeft.setPosition(srvOdometryPosUp);
         srvOdometryMiddle.setPosition(srvOdometryPosUp);
         srvOdometryRight.setPosition(srvOdometryPosUp);
-        odometryState = OdometryState.UP;
     }
 
     public void Stop() {
         srvOdometryLeft.setPosition(srvOdometryPosStop);
         srvOdometryMiddle.setPosition(srvOdometryPosStop);
         srvOdometryRight.setPosition(srvOdometryPosStop);
-        odometryState = OdometryState.STOP;
     }
 
     public void Down() {
         srvOdometryLeft.setPosition(srvOdometryPosDown);
         srvOdometryMiddle.setPosition(srvOdometryPosDown);
         srvOdometryRight.setPosition(srvOdometryPosDown);
-        odometryState = OdometryState.DOWN;
     }
 
     public void OdometryToggle() {
@@ -54,12 +51,20 @@ public class OdometrySubsystem extends SubsystemBase {
                 Up();
                 break;
             case UP:
-                Stop();
-                break;
-            case STOP:
                 Down();
                 break;
         }
+    }
+    public void OdometryStop() {
+                Stop();
+                switch (odometryState) {
+                    case UP:
+                        odometryState = OdometryState.DOWN;
+                        break;
+                    case DOWN:
+                        odometryState = OdometryState.UP;
+                        break;
+                }
     }
 }
 
