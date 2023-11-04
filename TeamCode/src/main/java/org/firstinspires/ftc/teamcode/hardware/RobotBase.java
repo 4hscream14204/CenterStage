@@ -35,6 +35,9 @@ public class RobotBase extends Object{
     public Servo srvHangingMechanism2;
     public Servo srvAirplaneLauncher;
     public Servo srvAirplaneLauncherEv;
+    public Servo srvOdometryLeft;
+    public Servo srvOdometryRight;
+    public Servo srvOdometryMiddle;
     public HuskyLens huskyLens;
     public IMU imu;
     public GrabberSubsystem Grabber;
@@ -58,6 +61,10 @@ public class RobotBase extends Object{
         srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         srvAirplaneLauncherEv = hwMap.get(Servo.class, "airplaneLauncherEv");
+        srvOdometryLeft = hwMap.get(Servo.class, "odometryLeft");
+        srvOdometryRight = hwMap.get(Servo.class, "odometryRight");
+        srvOdometryMiddle = hwMap.get(Servo.class, "odometryMiddle");
+
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
         controlScheme = ChassisControlType.FIELDCENTRIC;
