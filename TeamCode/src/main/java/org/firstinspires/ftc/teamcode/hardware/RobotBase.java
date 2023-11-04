@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 
 
 public class RobotBase extends Object{
@@ -41,11 +42,15 @@ public class RobotBase extends Object{
     public Servo srvHangingMechanism2;
     public Servo srvAirplaneLauncher;
     public Servo srvAirplaneLauncherEv;
+    public Servo srvOdometryLeft;
+    public Servo srvOdometryRight;
+    public Servo srvOdometryMiddle;
     public HuskyLens huskyLens;
     public IMU imu;
     public GrabberSubsystem Grabber;
     public AirplaneLauncherSubsystem AirplaneLauncher;
     public HangingMechanismSubsystem HangingMechanism;
+    public OdometrySubsystem OdometryServos;
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
 
@@ -67,6 +72,10 @@ public class RobotBase extends Object{
         srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         srvAirplaneLauncherEv = hwMap.get(Servo.class, "airplaneLauncherEv");
+        srvOdometryLeft = hwMap.get(Servo.class, "odometryLeft");
+        srvOdometryRight = hwMap.get(Servo.class, "odometryRight");
+        srvOdometryMiddle = hwMap.get(Servo.class, "odometryMiddle");
+
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
         controlScheme = ChassisControlType.FIELDCENTRIC;
@@ -75,6 +84,7 @@ public class RobotBase extends Object{
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
         AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        OdometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         MecanumDrive = new SampleMecanumDrive(hwMap);
 
         //default value for alliance side

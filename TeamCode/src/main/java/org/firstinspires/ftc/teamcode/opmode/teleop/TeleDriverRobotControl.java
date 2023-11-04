@@ -19,7 +19,6 @@ import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 public class TeleDriverRobotControl extends OpMode {
 
 
-
     public RobotBase robotBase;
     private GamepadEx chassisController;
     private GamepadEx armController;
@@ -27,8 +26,6 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerLeftX = 0;
     private double dblChassisControllerLeftY = 0;
     private double dblChassisControllerRightX = 0;
-
-
 
 
     public void init() {
@@ -91,9 +88,14 @@ public class TeleDriverRobotControl extends OpMode {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
         }
+            if (chassisController.isDown(GamepadKeys.Button.A)) {
+                robotBase.OdometryServos.OdometryToggle();
+            }
+            if(chassisController.wasJustReleased(GamepadKeys.Button.A)) {
+                robotBase.OdometryServos.OdometryStop();
+            }
+            robotBase.MecanumDrive.update();
 
-        robotBase.MecanumDrive.update();
-
-        telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
-        }
+            telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
     }
+}
