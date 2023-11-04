@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 
 public class RobotBase extends Object{
 
+    // enum for alliance side
     public enum Alliance {
         BLUE,
         RED,
@@ -53,6 +54,7 @@ public class RobotBase extends Object{
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
 
+    // first instance of alliance
     public Alliance alliance;
 
     public RobotBase (HardwareMap hwMap) {
@@ -84,6 +86,8 @@ public class RobotBase extends Object{
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         OdometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         MecanumDrive = new SampleMecanumDrive(hwMap);
+
+        //default value for alliance side
         alliance = Alliance.RED;
     }
 }
