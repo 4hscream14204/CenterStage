@@ -14,6 +14,8 @@ public class GrabberSubsystem extends SubsystemBase{
     public GrabberSubsystem(Servo grabberConstructor, Servo armConstructor) {
         srvGrabber = grabberConstructor;
         srvArm = armConstructor;
+        DownPosition();
+        GrabOne();
     }
     public void Drop () {
         srvGrabber.setPosition(0.5);

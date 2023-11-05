@@ -14,15 +14,16 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     }
     AirplaneState airplaneState;
 
-   private double releaseSrvPos = 1;
+   private double releaseSrvPos = 0.8;
    private double srvEVPosLower = 0.0;
-   private double srvEVPosRaise = 0.5;
+   private double srvEVPosRaise = 0.2;
+   private double srvLauncherPos = 1;
 
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo srvAirplaneLauncherEvCon) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
         srvAirplaneLauncherEv = srvAirplaneLauncherEvCon;
-        airplaneState = AirplaneState.LOWER;
+        Lower();
     }
         public void Release () {
             srvAirplaneLauncher.setPosition(releaseSrvPos);
@@ -31,6 +32,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
 
          public void Lower (){
         srvAirplaneLauncherEv.setPosition(srvEVPosLower);
+        srvAirplaneLauncher.setPosition(srvLauncherPos);
         airplaneState = AirplaneState.LOWER;
     }
     public void Raise (){

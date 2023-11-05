@@ -29,6 +29,7 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerLeftX = 0;
     private double dblChassisControllerLeftY = 0;
     private double dblChassisControllerRightX = 0;
+    private String strLastButtonPressed = "";
 
 
     public void init() {
@@ -46,6 +47,7 @@ public class TeleDriverRobotControl extends OpMode {
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         dblCurrentHeading = angles.firstAngle;
+
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
@@ -76,15 +78,18 @@ public class TeleDriverRobotControl extends OpMode {
 
         if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
             robotBase.HangingMechanism.Lower();
+            strLastButtonPressed = "B";
         }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
+        if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
             robotBase.HangingMechanism.Raise();
+            strLastButtonPressed = "Y/LB";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
             robotBase.AirplaneLauncher.RaiseAndLaunch();
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
+            strLastButtonPressed = "X/LB";
+        } else if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
             robotBase.AirplaneLauncher.Lower();
+            strLastButtonPressed = "X";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
             if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
@@ -102,5 +107,7 @@ public class TeleDriverRobotControl extends OpMode {
             robotBase.MecanumDrive.update();
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
+            telemetry.addData("Chassis Control", robotBase.controlScheme);
+        telemetry.addData("Button Pressed", strLastButtonPressed);
     }
 }
