@@ -17,6 +17,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     public HangingMechanismSubsystem(Servo hangingMechanismConstructor1, Servo hangingMechanismConstructor2) {
         srvHangingMechanism1 = hangingMechanismConstructor1;
         srvHangingMechanism2 = hangingMechanismConstructor2;
+        Lower();
     }
 
     public void Raise() {
