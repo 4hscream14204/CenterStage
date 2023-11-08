@@ -18,7 +18,7 @@ public class GrabberSubsystem extends SubsystemBase{
         GrabOne();
     }
     public void Drop () {
-        srvGrabber.setPosition(0.5);
+        srvGrabber.setPosition(0);
         intPixelInGrabber = 0;
     }
 
@@ -34,16 +34,16 @@ public class GrabberSubsystem extends SubsystemBase{
 
     public void ToggleGrabber () {
         if (intPixelInGrabber == 0) {
-            srvGrabber.setPosition(2);
-            intPixelInGrabber = 2;
+            srvGrabber.setPosition(1);
+            intPixelInGrabber = 1;
         } else {
-            srvGrabber.setPosition(0.5);
+            srvGrabber.setPosition(0);
             intPixelInGrabber = 0;
         }
     }
 
     public void DropPosition () {
-        srvArm.setPosition(1);
+        srvArm.setPosition(0.33);
         bolDropPosToggle = true;
     }
 
@@ -54,10 +54,10 @@ public class GrabberSubsystem extends SubsystemBase{
 
     private void ToggleArm () {
         if (bolDropPosToggle) {
-            srvArm.setPosition(0);
+            srvArm.setPosition(0.33);
             bolDropPosToggle = false;
         } else {
-            srvArm.setPosition(1);
+            srvArm.setPosition(0);
             bolDropPosToggle = true;
         }
     }
