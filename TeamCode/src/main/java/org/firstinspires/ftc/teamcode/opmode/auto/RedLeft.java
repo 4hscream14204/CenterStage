@@ -13,20 +13,19 @@ import java.net.PortUnreachableException;
 @Autonomous(name = "RedLeft")
 public class RedLeft extends OpMode {
     public RobotBase robotBase;
-    private TrajectorySequence RedLeftCenterInner;
+    private TrajectorySequence RedLeftCenterOuter;
     public Pose2d startPose;
 
     @Override
     public void init(){
+        robotBase = new RobotBase(hardwareMap);
         startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
-        RedLeftCenterInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-36.00, -32.28), Math.toRadians(90.00))
-                .lineToSplineHeading(new Pose2d(-36.04, -41.52, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-28.50, -60.00), Math.toRadians(-1.41))
-                .splineTo(new Vector2d(0.00, -60.00), Math.toRadians(0.00))
-                .splineTo(new Vector2d(51.00, -36.50), Math.toRadians(0.00))
-                .lineToSplineHeading(new Pose2d(51.00, -60.00, Math.toRadians(0.00)))
-                .splineTo(new Vector2d(62.00, -60.00), Math.toRadians(1.33))
+        RedLeftCenterOuter = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
+                .lineToSplineHeading(new Pose2d(-29.39, -35.00, Math.toRadians(90.00)))
+                .splineToConstantHeading(new Vector2d(51.00, -35.0), Math.toRadians(90.00))
+                //.lineToConstantHeading(new Vector2d(51.00, -12.00))
+                //.splineTo(new Vector2d(60.00, -12.00), Math.toRadians(-0.80))
                 .build();
         robotBase.MecanumDrive.setPoseEstimate(startPose);
     }
@@ -36,7 +35,7 @@ public class RedLeft extends OpMode {
     }
     @Override
     public void start(){
-        robotBase.MecanumDrive.followTrajectorySequence(RedLeftCenterInner);
+        robotBase.MecanumDrive.followTrajectorySequence(RedLeftCenterOuter);
     }
     @Override
     public void loop(){
