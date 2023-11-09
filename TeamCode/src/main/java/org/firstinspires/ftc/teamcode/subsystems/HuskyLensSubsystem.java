@@ -3,45 +3,41 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+
 public class HuskyLensSubsystem extends SubsystemBase {
 
-    private final int READ_PERIOD = 100;
-
-    private HuskyLens huskyLens;
-
-    public void runOpMode() {
-     /*
- }
-    huskyLens = hwMap.get(HuskyLens.class, "huskylens");
-
-Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.MILLISECONDS);
-
-rateLimit.expire();
-
-if (!huskyLens.knock()){
-    telemetry.addData("problem communicating with" + huskyLens.getDeviceName());
-} else {
-    telemetry.addData("Press Start to continue");
-}
-huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
-
-telemetry.update();
-waitForStart();
-
-while(opModeIsActive()) {
-    if (!rateLimit.hasExpired()) {
-        continue;
+    public enum PropPosition {
+        LEFT,
+        RIGHT,
+        MIDDLE,
+        NONE
     }
-    rateLimit.reset();
 
-    HuskyLens.Block[] blocks = huskyLens.blocks();
-    telemetry.addData("Block Count", blocks.length);
-    for (int i = 0; i < blocks.length; i++) {
-        telemetry.addData("Block", blocks[i].toString());
+     HuskyLens huskyLens;
+
+
+
+
+     public HuskyLensSubsystem(HuskyLens huskyLensConstructor) {
+         huskyLens = huskyLensConstructor;
+     }
+
+     //TEST LOCATION FOR LEFT COORDINATE EQUALS 50
+     //TEST LOCATION FOR RIGHT COORDINATE EQUALS 200
+
+     public PropPosition getLocation (int intRightDetectionLine, int intLeftDetectionLine, RobotBase.Alliance alliance) {
+         HuskyLens.Block[] blocks = huskyLens.blocks();
+         for (int i = 0; i < blocks.length; i++) {
+             int blockLeftCoordinate = blocks[i].left;
+             if (blockLeftCoordinate > intRightDetectionLine) {
+                 return PropPosition.RIGHT;
+             } else if (blockLeftCoordinate < intLeftDetectionLine) {
+                 return PropPosition.LEFT;
+             } else {
+                 return PropPosition.MIDDLE;
+             }
+         }
+         return PropPosition.NONE;
+     }
     }
-    telemetry.update();
-
-
-      */
-    }
-}

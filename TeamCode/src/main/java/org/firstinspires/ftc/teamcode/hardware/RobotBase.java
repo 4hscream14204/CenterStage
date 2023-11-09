@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 
 
@@ -53,6 +54,7 @@ public class RobotBase extends Object{
     public AirplaneLauncherSubsystem AirplaneLauncher;
     public HangingMechanismSubsystem HangingMechanism;
     public OdometrySubsystem OdometryServos;
+    public HuskyLensSubsystem huskyLensSubsystem;
     public SampleMecanumDrive MecanumDrive;
     public ChassisControlType controlScheme;
     public IntegratingGyroscope gyro;
@@ -92,6 +94,7 @@ public class RobotBase extends Object{
         HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         OdometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         MecanumDrive = new SampleMecanumDrive(hwMap);
+        huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
 
         //default value for alliance side
         alliance = Alliance.RED;
