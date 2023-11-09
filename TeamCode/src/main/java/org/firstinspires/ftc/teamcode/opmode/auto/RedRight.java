@@ -15,6 +15,7 @@ public class RedRight extends OpMode {
     public RobotBase robotBase;
     private TrajectorySequence RedRightLeftInner;
     private TrajectorySequence RedRightCenterInner;
+    private TrajectorySequence RedRightCenterInner2;
     public Pose2d startPose;
 
     @Override
@@ -31,7 +32,7 @@ public class RedRight extends OpMode {
                 .lineToLinearHeading(new Pose2d(49.00, -31.70, Math.toRadians(180.00)))
                 .waitSeconds(3)
                 .lineToConstantHeading(new Vector2d(45.00, -31.70))
-                .addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
+                .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .splineTo(new Vector2d(58.00, -60.0), Math.toRadians(0.00))
                 .build();
 
@@ -39,11 +40,18 @@ public class RedRight extends OpMode {
                 .splineToSplineHeading(new Pose2d(12.00, -34.00, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .splineToSplineHeading(new Pose2d(12.00, -37.00, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DropPosition();})
-                .lineToSplineHeading(new Pose2d(35.00, -37.00, Math.toRadians(180.00)))
-                .lineToLinearHeading(new Pose2d(46.00, -37.00, Math.toRadians(180.00)))
-                .addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
-                .lineToSplineHeading(new Pose2d(48.50, -37.00, Math.toRadians(180.00)))
-                .waitSeconds(3)
+                .lineToSplineHeading(new Pose2d(35.00, -38.00, Math.toRadians(180.00)))
+                //.lineToLinearHeading(new Pose2d(50.50, -37.50, Math.toRadians(180.00)))
+                //.addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
+                .lineToSplineHeading(new Pose2d(52.0, -38.00, Math.toRadians(180.00)))
+                //.waitSeconds(3)
+                //.lineToLinearHeading(new Pose2d(40.00, -37.00, Math.toRadians(180.00)))
+                //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
+                //.splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
+                .build();
+
+        RedRightCenterInner2 = robotBase.MecanumDrive.trajectorySequenceBuilder(RedRightCenterInner.end())
+                .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(40.00, -37.00, Math.toRadians(180.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
@@ -59,6 +67,8 @@ public class RedRight extends OpMode {
     public void start(){
         //robotBase.MecanumDrive.followTrajectorySequence(RedRightLeftInner);
         robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
+        robotBase.Grabber.Drop();
+        robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
     }
     @Override
     public void loop(){
