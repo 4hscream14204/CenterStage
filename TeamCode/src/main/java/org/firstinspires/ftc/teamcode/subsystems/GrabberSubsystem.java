@@ -10,6 +10,11 @@ public class GrabberSubsystem extends SubsystemBase{
 
     private boolean bolDropPosToggle = false;
     private int intPixelInGrabber = 1;
+    private double dblGrabOnePosition = 1;
+    private double dblGrabTwoPosition = 0;
+    private double dblGrabberDropPosition = 0.5;
+    private double dblArmDropPosition = 0;
+    private double dblArmDownPosition = 1;
 
     public GrabberSubsystem(Servo grabberConstructor, Servo armConstructor) {
         srvGrabber = grabberConstructor;
@@ -18,46 +23,46 @@ public class GrabberSubsystem extends SubsystemBase{
         GrabOne();
     }
     public void Drop () {
-        srvGrabber.setPosition(0.5);
+        srvGrabber.setPosition(dblGrabberDropPosition);
         intPixelInGrabber = 0;
     }
 
     public void GrabOne () {
-        srvGrabber.setPosition(1);
+        srvGrabber.setPosition(dblGrabOnePosition);
         intPixelInGrabber = 1;
     }
 
     public void GrabTwo () {
-        srvGrabber.setPosition(0);
+        srvGrabber.setPosition(dblGrabTwoPosition);
         intPixelInGrabber = 2;
     }
 
     public void ToggleGrabber () {
         if (intPixelInGrabber == 0) {
-            srvGrabber.setPosition(2);
+            srvGrabber.setPosition(dblGrabTwoPosition);
             intPixelInGrabber = 2;
         } else {
-            srvGrabber.setPosition(0.5);
+            srvGrabber.setPosition(dblGrabberDropPosition);
             intPixelInGrabber = 0;
         }
     }
 
     public void DropPosition () {
-        srvArm.setPosition(1);
+        srvArm.setPosition(dblArmDropPosition);
         bolDropPosToggle = true;
     }
 
-    private void DownPosition () {
-        srvArm.setPosition(0);
+    public void DownPosition () {
+        srvArm.setPosition(dblArmDownPosition);
         bolDropPosToggle = false;
     }
 
-    private void ToggleArm () {
+    public void ToggleArm () {
         if (bolDropPosToggle) {
-            srvArm.setPosition(0);
+            srvArm.setPosition(dblArmDownPosition);
             bolDropPosToggle = false;
         } else {
-            srvArm.setPosition(1);
+            srvArm.setPosition(dblArmDropPosition);
             bolDropPosToggle = true;
         }
     }
