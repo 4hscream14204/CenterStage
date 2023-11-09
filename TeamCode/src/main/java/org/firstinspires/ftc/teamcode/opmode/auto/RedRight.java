@@ -16,6 +16,7 @@ public class RedRight extends OpMode {
     private TrajectorySequence RedRightLeftInner;
     private TrajectorySequence RedRightCenterInner;
     private TrajectorySequence RedRightCenterInner2;
+    private TrajectorySequence RedRightRightInner;
     public Pose2d startPose;
 
     @Override
@@ -57,6 +58,16 @@ public class RedRight extends OpMode {
                 .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
 
+        RedRightRightInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
+                .splineToSplineHeading(new Pose2d(20.00, -35.00, Math.toRadians(70.00)), Math.toRadians(70.00))
+                .splineToSplineHeading(new Pose2d(16.50, -50.00, Math.toRadians(60.00)), Math.toRadians(270.00))
+                .splineToSplineHeading(new Pose2d(40.00, -43.00, Math.toRadians(180.00)), Math.toRadians(0.00))
+                .lineToSplineHeading(new Pose2d(50.00, -43.00, Math.toRadians(180.00)))
+                .splineToSplineHeading(new Pose2d(45.28, -43.00, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineTo(new Vector2d(60.00, -61.00), Math.toRadians(-1.74))
+                .build();
+
+
         robotBase.MecanumDrive.setPoseEstimate(startPose);
     }
     @Override
@@ -65,10 +76,14 @@ public class RedRight extends OpMode {
     }
     @Override
     public void start(){
+        //Below runs trajectory for red right, left spike mark, parking on the inside
         //robotBase.MecanumDrive.followTrajectorySequence(RedRightLeftInner);
+        //Below runs trajectories for red right, Center spike mark, parking on the insider
         robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
         robotBase.Grabber.Drop();
         robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+        //below runs trajectory for red right, right spike mark, inside parking
+        //robotBase.MecanumDrive.followTrajectorySequence(RedRightRightInner);
     }
     @Override
     public void loop(){
