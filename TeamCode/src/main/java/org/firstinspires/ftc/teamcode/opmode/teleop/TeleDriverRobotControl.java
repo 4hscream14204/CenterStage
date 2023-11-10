@@ -41,6 +41,7 @@ public class TeleDriverRobotControl extends OpMode {
 
     public void loop() {
         chassisController.readButtons();
+        armController.readButtons();
         dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
         dblChassisControllerLeftY = Math.abs(chassisController.getLeftY()) * chassisController.getLeftY();
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
