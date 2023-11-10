@@ -115,6 +115,6 @@ public class TeleDriverRobotControl extends OpMode {
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);
-        telemetry.addData("Button Pressed", strLastButtonPressed);
+            telemetry.addData("Button Pressed", strLastButtonPressed);
     }
 }
