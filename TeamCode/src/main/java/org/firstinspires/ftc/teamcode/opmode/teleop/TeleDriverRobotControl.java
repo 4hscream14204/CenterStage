@@ -41,6 +41,7 @@ public class TeleDriverRobotControl extends OpMode {
 
     public void loop() {
         chassisController.readButtons();
+        armController.readButtons();
         dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
         dblChassisControllerLeftY = Math.abs(chassisController.getLeftY()) * chassisController.getLeftY();
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
@@ -103,6 +104,12 @@ public class TeleDriverRobotControl extends OpMode {
             }
             if(chassisController.wasJustReleased(GamepadKeys.Button.A)) {
                 robotBase.OdometryServos.OdometryStop();
+            }
+            if(armController.wasJustPressed(GamepadKeys.Button.A)) {
+                robotBase.Grabber.ToggleGrabber();
+            }
+            if(armController.wasJustPressed(GamepadKeys.Button.B)){
+                robotBase.Grabber.ToggleArm();
             }
             robotBase.MecanumDrive.update();
 
