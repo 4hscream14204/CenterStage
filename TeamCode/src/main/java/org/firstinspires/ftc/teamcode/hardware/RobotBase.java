@@ -66,12 +66,12 @@ public class RobotBase extends Object{
     public OdometrySubsystem OdometryServos;
     public HuskyLensSubsystem huskyLensSubsystem;
     public SampleMecanumDrive MecanumDrive;
-    public ChassisControlType controlScheme;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
 
     // first instance of alliance
     public Alliance alliance;
+    public ChassisControlType controlScheme;
     public StartPosition startPosition;
     public PropPosition propPosition;
 
@@ -110,6 +110,8 @@ public class RobotBase extends Object{
 
         //default value for alliance side
         alliance = Alliance.RED;
+        //default value for chassis control type
+        controlScheme = ChassisControlType.FIELDCENTRIC;
         //default value for start position side
         startPosition = StartPosition.LEFT;
         //default value for the prop position

@@ -36,7 +36,6 @@ public class TeleDriverRobotControl extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
-
     }
 
     public void loop() {
