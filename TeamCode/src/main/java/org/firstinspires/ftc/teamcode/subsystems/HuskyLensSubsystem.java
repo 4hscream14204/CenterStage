@@ -7,12 +7,6 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 public class HuskyLensSubsystem extends SubsystemBase {
 
-    public enum PropPosition {
-        LEFT,
-        RIGHT,
-        MIDDLE,
-        NONE
-    }
 
      HuskyLens huskyLens;
 
@@ -23,21 +17,26 @@ public class HuskyLensSubsystem extends SubsystemBase {
          huskyLens = huskyLensConstructor;
      }
 
-     //TEST LOCATION FOR LEFT COORDINATE EQUALS 50
-     //TEST LOCATION FOR RIGHT COORDINATE EQUALS 200
 
-     public PropPosition getLocation (int intRightDetectionLine, int intLeftDetectionLine, RobotBase.Alliance alliance) {
+     public RobotBase.PropPosition getLocation (int intRightDetectionLine, int intLeftDetectionLine, RobotBase.Alliance alliance, RobotBase.StartPosition startPosition) {
          HuskyLens.Block[] blocks = huskyLens.blocks();
+         if (startPosition == RobotBase.StartPosition.LEFT) {
+             intLeftDetectionLine = 100;
+             intRightDetectionLine = 250;
+         } else {
+             intLeftDetectionLine = 50;
+             intRightDetectionLine = 200;
+         }
          for (int i = 0; i < blocks.length; i++) {
              int blockLeftCoordinate = blocks[i].left;
              if (blockLeftCoordinate > intRightDetectionLine) {
-                 return PropPosition.RIGHT;
+                 return RobotBase.PropPosition.RIGHT;
              } else if (blockLeftCoordinate < intLeftDetectionLine) {
-                 return PropPosition.LEFT;
+                 return RobotBase.PropPosition.LEFT;
              } else {
-                 return PropPosition.MIDDLE;
+                 return RobotBase.PropPosition.MIDDLE;
              }
          }
-         return PropPosition.NONE;
+         return RobotBase.PropPosition.NONE;
      }
     }

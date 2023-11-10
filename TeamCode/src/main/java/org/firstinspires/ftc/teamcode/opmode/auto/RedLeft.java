@@ -19,6 +19,7 @@ public class RedLeft extends OpMode {
     @Override
     public void init(){
         robotBase = new RobotBase(hardwareMap);
+        robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
         RedLeftCenterOuter = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))

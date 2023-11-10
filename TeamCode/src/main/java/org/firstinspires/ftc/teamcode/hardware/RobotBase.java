@@ -29,6 +29,16 @@ public class RobotBase extends Object{
         FIELDCENTRIC,
         ROBOTCENTRIC
     }
+    public enum StartPosition {
+        LEFT,
+        RIGHT
+    }
+    public enum PropPosition {
+        LEFT,
+        RIGHT,
+        MIDDLE,
+        NONE
+    }
 
 
     public DistanceSensor frontDistanceSensor;
@@ -62,6 +72,8 @@ public class RobotBase extends Object{
 
     // first instance of alliance
     public Alliance alliance;
+    public StartPosition startPosition;
+    public PropPosition propPosition;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -98,5 +110,9 @@ public class RobotBase extends Object{
 
         //default value for alliance side
         alliance = Alliance.RED;
+        //default value for start position side
+        startPosition = StartPosition.LEFT;
+        //default value for the prop position
+        propPosition = PropPosition.NONE;
     }
 }

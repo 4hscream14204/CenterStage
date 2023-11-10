@@ -18,6 +18,8 @@ public class BlueLeft extends OpMode {
     @Override
     public void init(){
         robotBase = new RobotBase(hardwareMap);
+        robotBase.alliance = RobotBase.Alliance.BLUE;
+        robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
         BlueLeftRightInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineTo(new Vector2d(6.00, 36.00), Math.toRadians(225.00))

@@ -8,10 +8,12 @@ import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 
 
 @Autonomous(name = "RedRight")
 public class RedRight extends OpMode {
+
     public RobotBase robotBase;
     private TrajectorySequence RedRightLeftInner;
     private TrajectorySequence RedRightCenterInner;
@@ -22,6 +24,7 @@ public class RedRight extends OpMode {
     @Override
     public void init(){
         robotBase = new RobotBase(hardwareMap);
+        robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         startPose = new Pose2d(15.00, -63.00, Math.toRadians(90.00));
         RedRightLeftInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(6.00, -36.00), Math.toRadians(135.00))
