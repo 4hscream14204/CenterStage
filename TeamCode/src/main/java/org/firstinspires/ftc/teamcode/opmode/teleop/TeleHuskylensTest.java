@@ -1,7 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode.auto;
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 @TeleOp(name="AutoHuskyLensTest")
-public class AutoHuskylensTest extends OpMode {
+public class TeleHuskylensTest extends OpMode {
 
     RobotBase robotBase = new RobotBase(hardwareMap);
 
@@ -50,6 +47,7 @@ public class AutoHuskylensTest extends OpMode {
 
     @Override
     public void start() {
+
     }
 
     @Override
