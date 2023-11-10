@@ -25,7 +25,6 @@ public class RedRight extends OpMode {
     public void init(){
         robotBase = new RobotBase(hardwareMap);
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
-        telemetry.addData("InitLoop","Start");
         telemetry.update();
         startPose = new Pose2d(15.00, -63.00, Math.toRadians(90.00));
         RedRightLeftInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
@@ -33,16 +32,15 @@ public class RedRight extends OpMode {
                 .lineToLinearHeading(new Pose2d(17.00, -46.00, Math.toRadians(90.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DropPosition();})
                 .splineToLinearHeading(new Pose2d(40.00, -31.70, Math.toRadians(180.00)), Math.toRadians(0.00))
-                .lineToLinearHeading(new Pose2d(47.00, -31.70, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(52.00, -31.70, Math.toRadians(180.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
                 .lineToLinearHeading(new Pose2d(49.00, -31.70, Math.toRadians(180.00)))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(45.00, -31.70))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                .splineTo(new Vector2d(58.00, -60.0), Math.toRadians(0.00))
+                .splineTo(new Vector2d(57.00, -58.0), Math.toRadians(0.00))
                 .build();
-        telemetry.addData("InitLoop","RRLI");
-        telemetry.update();
+
         RedRightCenterInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineToSplineHeading(new Pose2d(12.00, -34.00, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .splineToSplineHeading(new Pose2d(12.00, -37.00, Math.toRadians(90.00)), Math.toRadians(90.00))
@@ -56,26 +54,28 @@ public class RedRight extends OpMode {
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 //.splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
-        telemetry.addData("InitLoop","RRCI1");
-        telemetry.update();
+
         RedRightCenterInner2 = robotBase.MecanumDrive.trajectorySequenceBuilder(RedRightCenterInner.end())
+                .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(40.00, -37.00, Math.toRadians(180.00)))
-                .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
+                //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
-        telemetry.addData("InitLoop","RRCI2");
-        telemetry.update();
+
         RedRightRightInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
-                .splineToSplineHeading(new Pose2d(20.00, -35.00, Math.toRadians(70.00)), Math.toRadians(70.00))
-                .splineToSplineHeading(new Pose2d(16.50, -50.00, Math.toRadians(60.00)), Math.toRadians(270.00))
-                .splineToSplineHeading(new Pose2d(40.00, -43.00, Math.toRadians(180.00)), Math.toRadians(0.00))
-                .lineToSplineHeading(new Pose2d(50.00, -43.00, Math.toRadians(180.00)))
-                .splineToSplineHeading(new Pose2d(45.28, -43.00, Math.toRadians(180.00)), Math.toRadians(180.00))
-                .splineTo(new Vector2d(60.00, -61.00), Math.toRadians(-1.74))
+                .splineToSplineHeading(new Pose2d(20.00, -37.00, Math.toRadians(60.00)), Math.toRadians(60.00))
+                .lineToSplineHeading(new Pose2d(20.00, -43.00, Math.toRadians(90.00)))
+                .addTemporalMarker(() -> robotBase.Grabber.DropPosition())
+                .lineToSplineHeading(new Pose2d(43.00, -43.00, Math.toRadians(180.00)))
+                .lineToSplineHeading(new Pose2d(52.00, -43.00, Math.toRadians(180.00)))
+                .addTemporalMarker(() -> robotBase.Grabber.Drop())
+                .waitSeconds(1)
+                .addTemporalMarker(() -> robotBase.Grabber.DownPosition())
+                .lineToSplineHeading(new Pose2d(46.50, -43.00, Math.toRadians(180.00)))
+                .splineTo(new Vector2d(59.00, -58.00), Math.toRadians(0.00))
+                //.splineToSplineHeading(new Pose2d(59.00, -58.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .build();
-        telemetry.addData("InitLoop","Build");
-        telemetry.update();
 
         robotBase.MecanumDrive.setPoseEstimate(startPose);
     }
@@ -89,11 +89,11 @@ public class RedRight extends OpMode {
         //Below runs trajectory for red right, left spike mark, parking on the inside
         //robotBase.MecanumDrive.followTrajectorySequence(RedRightLeftInner);
         //Below runs trajectories for red right, Center spike mark, parking on the insider
-        robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
-        robotBase.Grabber.Drop();
-        robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+        //robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
+        //robotBase.Grabber.Drop();
+        //robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
         //below runs trajectory for red right, right spike mark, inside parking
-        //robotBase.MecanumDrive.followTrajectorySequence(RedRightRightInner);
+        robotBase.MecanumDrive.followTrajectorySequence(RedRightRightInner);
     }
     @Override
     public void loop(){
