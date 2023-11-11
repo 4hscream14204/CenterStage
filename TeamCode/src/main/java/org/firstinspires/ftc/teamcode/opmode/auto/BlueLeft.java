@@ -35,10 +35,10 @@ public class BlueLeft extends OpMode {
                 .lineToLinearHeading(new Pose2d(17.00, 46.00, Math.toRadians(270.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DropPosition();})
                 .splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
-                .lineToLinearHeading(new Pose2d(47.00, 31.70, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(52.00, 31.70, Math.toRadians(180.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
                 .lineToConstantHeading(new Vector2d(50.00, 31.70))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(45.00, 31.70))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
@@ -76,8 +76,9 @@ public class BlueLeft extends OpMode {
                 .lineToSplineHeading(new Pose2d(52.00, 43.00, Math.toRadians(180.00)))
                 .addTemporalMarker(() -> robotBase.Grabber.Drop())
                 .waitSeconds(1)
+                //.addTemporalMarker(() -> robotBase.Grabber.DownPosition())
+                .lineToSplineHeading(new Pose2d(46.50, 43.00, Math.toRadians(180.00)))
                 .addTemporalMarker(() -> robotBase.Grabber.DownPosition())
-                .lineToSplineHeading(new Pose2d(46.50, 43.00, Math.toRadians(182.56)))
                 .splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
                 .build();
 

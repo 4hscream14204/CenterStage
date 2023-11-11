@@ -43,7 +43,7 @@ public class GrabberSubsystem extends SubsystemBase{
     }
 
     public void DropPosition () {
-        srvArm.setPosition(0.37);
+        srvArm.setPosition(0.36);
         bolDropPosToggle = true;
     }
 
@@ -54,7 +54,7 @@ public class GrabberSubsystem extends SubsystemBase{
 
     public void ToggleArm () {
         if (bolDropPosToggle) {
-            srvArm.setPosition(0.37);
+            srvArm.setPosition(0.36);
             bolDropPosToggle = false;
         } else {
             srvArm.setPosition(0);
