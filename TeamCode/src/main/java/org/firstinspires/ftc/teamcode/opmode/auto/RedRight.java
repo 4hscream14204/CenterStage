@@ -24,6 +24,7 @@ public class RedRight extends OpMode {
     @Override
     public void init(){
         robotBase = new RobotBase(hardwareMap);
+        robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         telemetry.update();
         startPose = new Pose2d(15.00, -63.00, Math.toRadians(90.00));
@@ -81,19 +82,22 @@ public class RedRight extends OpMode {
     }
     @Override
     public void init_loop(){
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
     telemetry.addData("InitLoop","true");
+    telemetry.addData("Detection",(robotBase.propPosition));
     telemetry.update();
     }
     @Override
     public void start(){
-        //Below runs trajectory for red right, left spike mark, parking on the inside
-        //robotBase.MecanumDrive.followTrajectorySequence(RedRightLeftInner);
-        //Below runs trajectories for red right, Center spike mark, parking on the insider
-        //robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
-        //robotBase.Grabber.Drop();
-        //robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
-        //below runs trajectory for red right, right spike mark, inside parking
-        robotBase.MecanumDrive.followTrajectorySequence(RedRightRightInner);
+        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner);
+            robotBase.Grabber.Drop();
+            robotBase.MecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.MecanumDrive.followTrajectorySequence(RedRightRightInner);
+        } else {
+            robotBase.MecanumDrive.followTrajectorySequence(RedRightLeftInner);
+        }
     }
     @Override
     public void loop(){

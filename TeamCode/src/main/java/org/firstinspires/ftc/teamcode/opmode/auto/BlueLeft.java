@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 
 @Autonomous(name = "BlueLeft")
 public class BlueLeft extends OpMode {
+
     public RobotBase robotBase;
     private TrajectorySequence BlueLeftRightInner;
     private TrajectorySequence BlueLeftCenterInner;
@@ -79,15 +80,22 @@ public class BlueLeft extends OpMode {
     }
     @Override
     public void init_loop(){
-
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+        telemetry.addData("InitLoop","true");
+        telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.update();
     }
     @Override
     public void start(){
-        //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftRightInner);
-        //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner);
-        //robotBase.Grabber.Drop();
-        //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
-        robotBase.MecanumDrive.followTrajectorySequence(BlueLeftLeftInner);
+        if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
+            robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner);
+            robotBase.Grabber.Drop();
+            robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.MecanumDrive.followTrajectorySequence(BlueLeftRightInner);
+        } else {
+            robotBase.MecanumDrive.followTrajectorySequence(BlueLeftLeftInner);
+        }
     }
     @Override
     public void loop(){
