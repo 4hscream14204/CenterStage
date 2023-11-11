@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
@@ -46,7 +47,7 @@ public class TeleDriverRobotControl extends OpMode {
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-        dblCurrentHeading = angles.firstAngle;
+        dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
 
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
