@@ -98,7 +98,7 @@ public class RobotBase extends Object{
         imu = hwMap.get(IMU.class,"imu");
 
         controlScheme = ChassisControlType.FIELDCENTRIC;
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
         Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
