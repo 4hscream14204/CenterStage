@@ -36,7 +36,6 @@ public class TeleDriverRobotControl extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
-
     }
 
     public void loop() {
@@ -99,16 +98,16 @@ public class TeleDriverRobotControl extends OpMode {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
         }
-            if (chassisController.isDown(GamepadKeys.Button.A)) {
+            if (armController.isDown(GamepadKeys.Button.A)) {
                 robotBase.OdometryServos.OdometryToggle();
             }
-            if(chassisController.wasJustReleased(GamepadKeys.Button.A)) {
+            if(armController.wasJustReleased(GamepadKeys.Button.A)) {
                 robotBase.OdometryServos.OdometryStop();
             }
-            if(armController.wasJustPressed(GamepadKeys.Button.A)) {
+            if(armController.wasJustPressed(GamepadKeys.Button.X)) {
                 robotBase.Grabber.ToggleGrabber();
             }
-            if(armController.wasJustPressed(GamepadKeys.Button.B)){
+            if(armController.wasJustPressed(GamepadKeys.Button.B)) {
                 robotBase.Grabber.ToggleArm();
             }
             robotBase.MecanumDrive.update();
