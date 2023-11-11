@@ -13,7 +13,7 @@ import java.net.PortUnreachableException;
 @Autonomous(name = "RedLeft")
 public class RedLeft extends OpMode {
     public RobotBase robotBase;
-    private TrajectorySequence RedLeftCenterOuter;
+    private TrajectorySequence RedLeftPark;
     public Pose2d startPose;
 
     @Override
@@ -22,13 +22,13 @@ public class RedLeft extends OpMode {
         robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
-        RedLeftCenterOuter = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
-                .lineToSplineHeading(new Pose2d(-29.39, -35.00, Math.toRadians(90.00)))
-                .splineToConstantHeading(new Vector2d(51.00, -35.0), Math.toRadians(90.00))
-                //.lineToConstantHeading(new Vector2d(51.00, -12.00))
-                //.splineTo(new Vector2d(60.00, -12.00), Math.toRadians(-0.80))
+        RedLeftPark  = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+                .lineToLinearHeading(new Pose2d(-38.35, -12.00, Math.toRadians(0.00)))
+                .waitSeconds(20)
+                .lineTo(new Vector2d(6.00, -12.00))
+                .lineTo(new Vector2d(50, -12.00))
                 .build();
+
         robotBase.MecanumDrive.setPoseEstimate(startPose);
     }
     @Override
@@ -37,7 +37,7 @@ public class RedLeft extends OpMode {
     }
     @Override
     public void start(){
-        robotBase.MecanumDrive.followTrajectorySequence(RedLeftCenterOuter);
+        robotBase.MecanumDrive.followTrajectorySequence(RedLeftPark);
     }
     @Override
     public void loop(){
