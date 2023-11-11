@@ -1,22 +1,17 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
-import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 @TeleOp(name="DriverRobotControl")
@@ -27,9 +22,9 @@ public class TeleDriverRobotControl extends OpMode {
     private GamepadEx chassisController;
     private GamepadEx armController;
     private double dblCurrentHeading = 0;
-    private double dblChassisControllerLeftX = 0;
-    private double dblChassisControllerLeftY = 0;
     private double dblChassisControllerRightX = 0;
+    private double dblChassisControllerRightY = 0;
+    private double dblChassisControllerLeftX = 0;
     private String strLastButtonPressed = "";
 
 
@@ -42,9 +37,9 @@ public class TeleDriverRobotControl extends OpMode {
     public void loop() {
         chassisController.readButtons();
         armController.readButtons();
-        dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
-        dblChassisControllerLeftY = Math.abs(chassisController.getLeftY()) * chassisController.getLeftY();
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
+        dblChassisControllerRightY = Math.abs(chassisController.getRightY()) * chassisController.getRightY();
+        dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
@@ -52,15 +47,15 @@ public class TeleDriverRobotControl extends OpMode {
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
-                    dblChassisControllerLeftY,
-                    -dblChassisControllerLeftX
+                    dblChassisControllerRightY,
+                    -dblChassisControllerRightX
             ).rotated(-dblCurrentHeading);
 
             robotBase.MecanumDrive.setWeightedDrivePower(
                     new Pose2d(
                             input.getX(),
                             input.getY(),
-                            -dblChassisControllerRightX
+                            -dblChassisControllerLeftX
                     )
             );
 
@@ -68,9 +63,9 @@ public class TeleDriverRobotControl extends OpMode {
 
             robotBase.MecanumDrive.setWeightedDrivePower(
                     new Pose2d(
-                            dblChassisControllerLeftY,
-                            -dblChassisControllerLeftX,
-                            -dblChassisControllerRightX
+                            dblChassisControllerRightY,
+                            -dblChassisControllerRightX,
+                            -dblChassisControllerLeftX
                     )
             );
 
