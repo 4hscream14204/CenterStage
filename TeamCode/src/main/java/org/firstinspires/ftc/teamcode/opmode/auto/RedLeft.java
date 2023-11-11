@@ -5,8 +5,13 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 import java.net.PortUnreachableException;
 
@@ -42,5 +47,11 @@ public class RedLeft extends OpMode {
     @Override
     public void loop(){
 
+    }
+    @Override
+    public void stop(){
+        Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        double dblCurrentHeading = angles.firstAngle;
+        DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
     }
 }
