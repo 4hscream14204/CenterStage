@@ -51,7 +51,7 @@ public class HuskyLensTelemetryTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         /*
@@ -111,7 +111,7 @@ public class HuskyLensTelemetryTest extends LinearOpMode {
          * found in the enumeration HuskyLens.Algorithm.
          */
 
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         waitForStart();
         telemetry.update();
