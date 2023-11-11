@@ -21,8 +21,8 @@ public class RobotBase extends Object{
 
     // enum for alliance side
     public enum Alliance {
-        BLUE,
         RED,
+        BLUE
     }
 
     public enum ChassisControlType {
