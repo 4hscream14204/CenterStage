@@ -39,12 +39,15 @@ public class RedRight extends OpMode {
                 .addDisplacementMarker(() -> {robotBase.Grabber.DropPosition();})
                 .splineToLinearHeading(new Pose2d(40.00, -31.70, Math.toRadians(180.00)), Math.toRadians(0.00))
                 .lineToLinearHeading(new Pose2d(52.00, -31.70, Math.toRadians(180.00)))
-                .addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
-                .lineToLinearHeading(new Pose2d(49.00, -31.70, Math.toRadians(180.00)))
+                //.addDisplacementMarker(() -> robotBase.Grabber.Drop())
+                .addTemporalMarker(() -> {robotBase.Grabber.Drop();})
                 .waitSeconds(1)
+                .addTemporalMarker(() -> robotBase.Grabber.DownPosition())
+                .lineToLinearHeading(new Pose2d(49.00, -31.70, Math.toRadians(180.00)))
+                //.waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(45.00, -31.70))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                .splineTo(new Vector2d(57.00, -58.0), Math.toRadians(0.00))
+                .splineTo(new Vector2d(58.00, -61.0), Math.toRadians(0.00))
                 .build();
 
         RedRightCenterInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
