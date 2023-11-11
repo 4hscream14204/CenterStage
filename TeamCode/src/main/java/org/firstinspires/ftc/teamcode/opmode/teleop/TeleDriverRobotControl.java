@@ -99,6 +99,10 @@ public class TeleDriverRobotControl extends OpMode {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
         }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.BACK)) {
+            DataStorageSubsystem.dblIMUFinalHeading = 0;
+            robotBase.navxMicro.initialize();
+        }
             if (armController.isDown(GamepadKeys.Button.A)) {
                 robotBase.OdometryServos.OdometryToggle();
             }
