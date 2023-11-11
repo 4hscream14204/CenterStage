@@ -15,6 +15,7 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence BlueLeftRightInner;
     private TrajectorySequence BlueLeftCenterInner;
     private TrajectorySequence BlueLeftCenterInner2;
+    private TrajectorySequence BlueLeftLeftInner;
     public Pose2d startPose;
 
     @Override
@@ -61,6 +62,19 @@ public class BlueLeft extends OpMode {
                 .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
+        BlueLeftLeftInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+                .splineToSplineHeading(new Pose2d(20.00, 37.00, Math.toRadians(300.00)), Math.toRadians(300.00))
+                .lineToSplineHeading(new Pose2d(20.00, 43.00, Math.toRadians(270.00)))
+                .addTemporalMarker(() -> robotBase.Grabber.DropPosition())
+                .lineToSplineHeading(new Pose2d(43.00, 43.00, Math.toRadians(180.00)))
+                .lineToSplineHeading(new Pose2d(52.00, 43.00, Math.toRadians(180.00)))
+                .addTemporalMarker(() -> robotBase.Grabber.Drop())
+                .waitSeconds(1)
+                .addTemporalMarker(() -> robotBase.Grabber.DownPosition())
+                .lineToSplineHeading(new Pose2d(46.50, 43.00, Math.toRadians(182.56)))
+                .splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
+                .build();
+
         robotBase.MecanumDrive.setPoseEstimate(startPose);
     }
     @Override
@@ -70,9 +84,10 @@ public class BlueLeft extends OpMode {
     @Override
     public void start(){
         //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftRightInner);
-        robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner);
-        robotBase.Grabber.Drop();
-        robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
+        //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner);
+        //robotBase.Grabber.Drop();
+        //robotBase.MecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
+        robotBase.MecanumDrive.followTrajectorySequence(BlueLeftLeftInner);
     }
     @Override
     public void loop(){
