@@ -24,10 +24,10 @@ public class TeleOpHangingMechanismTest extends OpMode {
     public void loop() {
         chassisController.readButtons();
         if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
-            robotBase.hangingMechanism.lower();
+            robotBase.hangingMechanismSubsystem.lower();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
-            robotBase.hangingMechanism.raise();
+            robotBase.hangingMechanismSubsystem.raise();
         }
     }
 }

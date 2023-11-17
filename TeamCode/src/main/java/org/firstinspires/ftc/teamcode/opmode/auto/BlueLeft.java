@@ -30,7 +30,7 @@ public class BlueLeft extends OpMode {
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
-        BlueLeftRightInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        BlueLeftRightInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineTo(new Vector2d(6.00, 36.00), Math.toRadians(225.00))
                 .lineToLinearHeading(new Pose2d(17.00, 46.00, Math.toRadians(270.00)))
                 .addDisplacementMarker(() -> {robotBase.grabber.dropPosition();})
@@ -44,7 +44,7 @@ public class BlueLeft extends OpMode {
                 .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
                 .build();
 
-        BlueLeftCenterInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        BlueLeftCenterInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineToSplineHeading(new Pose2d(12.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .splineToSplineHeading(new Pose2d(12.00, 39.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .addDisplacementMarker(() -> {robotBase.grabber.dropPosition();})
@@ -59,7 +59,7 @@ public class BlueLeft extends OpMode {
                 //.splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
 
-        BlueLeftCenterInner2 = robotBase.mecanumDrive.trajectorySequenceBuilder(BlueLeftCenterInner.end())
+        BlueLeftCenterInner2 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(BlueLeftCenterInner.end())
                 .waitSeconds(1)
                 .addDisplacementMarker(() -> {robotBase.grabber.downPosition();})
                 //.waitSeconds(1)
@@ -68,7 +68,7 @@ public class BlueLeft extends OpMode {
                 .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
-        BlueLeftLeftInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        BlueLeftLeftInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineToSplineHeading(new Pose2d(20.00, 37.00, Math.toRadians(300.00)), Math.toRadians(300.00))
                 .lineToSplineHeading(new Pose2d(20.00, 43.00, Math.toRadians(270.00)))
                 .addTemporalMarker(() -> robotBase.grabber.dropPosition())
@@ -82,7 +82,7 @@ public class BlueLeft extends OpMode {
                 .splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
                 .build();
 
-        robotBase.mecanumDrive.setPoseEstimate(startPose);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
     }
     @Override
     public void init_loop(){
@@ -94,13 +94,13 @@ public class BlueLeft extends OpMode {
     @Override
     public void start(){
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
-            robotBase.mecanumDrive.followTrajectorySequence(BlueLeftCenterInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftCenterInner);
             robotBase.grabber.drop();
-            robotBase.mecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftCenterInner2);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.mecanumDrive.followTrajectorySequence(BlueLeftRightInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftRightInner);
         } else {
-            robotBase.mecanumDrive.followTrajectorySequence(BlueLeftLeftInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftLeftInner);
         }
     }
     @Override

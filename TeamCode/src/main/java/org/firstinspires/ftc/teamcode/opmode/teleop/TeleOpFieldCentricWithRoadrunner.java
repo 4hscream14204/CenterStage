@@ -40,7 +40,7 @@ public class TeleOpFieldCentricWithRoadrunner extends OpMode {
 
         // Pass in the rotated input + right stick value for rotation
         // Rotation is not part of the rotated input thus must be passed in separately
-        robotBase.mecanumDrive.setWeightedDrivePower(
+        robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
                 new Pose2d(
                         input.getX(),
                         input.getY(),
@@ -49,7 +49,7 @@ public class TeleOpFieldCentricWithRoadrunner extends OpMode {
         );
 
         // Update everything. Odometry. Etc.
-        robotBase.mecanumDrive.update();
+        robotBase.mecanumDriveSubsystem.update();
 
         telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
     }

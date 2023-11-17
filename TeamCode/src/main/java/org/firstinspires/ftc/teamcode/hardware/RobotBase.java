@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 
 
@@ -57,6 +58,7 @@ public class RobotBase extends Object{
     public DcMotor leftRear;
     public DcMotor rightRear;
     public DcMotor rightFront;
+    public DcMotor dcmIntake;
     public Servo srvLeftClaw;
     public Servo srvRightClaw;
     public Servo srvArm;
@@ -69,14 +71,15 @@ public class RobotBase extends Object{
     public Servo srvOdometryMiddle;
     public HuskyLens huskyLens;
     public IMU imu;
-    public ClawSubsystem claw;
-    public AirplaneLauncherSubsystem airplaneLauncher;
-    public HangingMechanismSubsystem hangingMechanism;
-    public OdometrySubsystem odometryServos;
-    public HuskyLensSubsystem huskyLensSubsystem;
-    public SampleMecanumDrive mecanumDrive;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
+    public ClawSubsystem clawSubsystem;
+    public AirplaneLauncherSubsystem airplaneLauncherSubsystem;
+    public HangingMechanismSubsystem hangingMechanismSubsystem;
+    public OdometrySubsystem odometryServosSubsystem;
+    public HuskyLensSubsystem huskyLensSubsystem;
+    public SampleMecanumDrive mecanumDriveSubsystem;
+    public IntakeSubsystem intakeSubsystem;
 
     // first instance of alliance
     public Alliance alliance;
@@ -95,6 +98,7 @@ public class RobotBase extends Object{
         leftFront = hwMap.get(DcMotor.class, "leftFront");
         rightRear = hwMap.get(DcMotor.class, "rightRear");
         leftRear = hwMap.get(DcMotor.class, "leftRear");
+        dcmIntake = hwMap.get(DcMotor.class, "Intake");
         srvLeftClaw = hwMap.get(Servo.class,"srvLeftClaw");
         srvRightClaw = hwMap.get(Servo.class,"srvRightClaw");
         srvArm = hwMap.get(Servo.class,"srvArm");
@@ -113,12 +117,13 @@ public class RobotBase extends Object{
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
-        claw = new ClawSubsystem(srvLeftClaw, srvRightClaw);
-        airplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
-        hangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
-        odometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
-        mecanumDrive = new SampleMecanumDrive(hwMap);
+        clawSubsystem = new ClawSubsystem(srvLeftClaw, srvRightClaw);
+        airplaneLauncherSubsystem = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
+        hangingMechanismSubsystem = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        odometryServosSubsystem = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
+        mecanumDriveSubsystem = new SampleMecanumDrive(hwMap);
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
+        intakeSubsystem = new IntakeSubsystem(dcmIntake);
 
         //default value for alliance side
         alliance = Alliance.RED;

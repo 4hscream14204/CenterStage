@@ -25,14 +25,14 @@ public class BlueRight extends OpMode {
         robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
-        BlueRightPark = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
+        BlueRightPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
                 .lineToLinearHeading(new Pose2d(-38.35, 12.00, Math.toRadians(0.00)))
                 .waitSeconds(20)
                 .lineTo(new Vector2d(6.00, 12.00))
                 .lineTo(new Vector2d(50.00, 12.00))
                 .build();
 
-        robotBase.mecanumDrive.setPoseEstimate(startPose);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
     }
     @Override
     public void init_loop(){
@@ -40,7 +40,7 @@ public class BlueRight extends OpMode {
     }
     @Override
     public void start(){
-        robotBase.mecanumDrive.followTrajectorySequence(BlueRightPark);
+        robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueRightPark);
     }
     @Override
     public void loop(){

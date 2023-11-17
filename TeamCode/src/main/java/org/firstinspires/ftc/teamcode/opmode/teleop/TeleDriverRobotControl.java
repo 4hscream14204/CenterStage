@@ -51,7 +51,7 @@ public class TeleDriverRobotControl extends OpMode {
                     -dblChassisControllerRightX
             ).rotated(-dblCurrentHeading);
 
-            robotBase.mecanumDrive.setWeightedDrivePower(
+            robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
                     new Pose2d(
                             input.getX(),
                             input.getY(),
@@ -61,7 +61,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         } else {
 
-            robotBase.mecanumDrive.setWeightedDrivePower(
+            robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
                     new Pose2d(
                             -dblChassisControllerRightY,
                             -dblChassisControllerRightX,
@@ -73,18 +73,18 @@ public class TeleDriverRobotControl extends OpMode {
         }
 
         if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
-            robotBase.hangingMechanism.lower();
+            robotBase.hangingMechanismSubsystem.lower();
             strLastButtonPressed = "B";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.hangingMechanism.raise();
+            robotBase.hangingMechanismSubsystem.raise();
             strLastButtonPressed = "Y/LB";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.airplaneLauncher.raiseAndLaunch();
+            robotBase.airplaneLauncherSubsystem.raiseAndLaunch();
             strLastButtonPressed = "X/LB";
         } else if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
-            robotBase.airplaneLauncher.lower();
+            robotBase.airplaneLauncherSubsystem.lower();
             strLastButtonPressed = "X";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
@@ -99,10 +99,10 @@ public class TeleDriverRobotControl extends OpMode {
             robotBase.navxMicro.initialize();
         }
             if (armController.isDown(GamepadKeys.Button.A)) {
-                robotBase.odometryServos.odometryToggle();
+                robotBase.odometryServosSubsystem.odometryToggle();
             }
             if(armController.wasJustReleased(GamepadKeys.Button.A)) {
-                robotBase.odometryServos.odometryStop();
+                robotBase.odometryServosSubsystem.odometryStop();
             }
             if(armController.wasJustPressed(GamepadKeys.Button.X)) {
                 robotBase.grabber.toggleGrabber();
@@ -110,7 +110,7 @@ public class TeleDriverRobotControl extends OpMode {
             if(armController.wasJustPressed(GamepadKeys.Button.B)) {
                 robotBase.grabber.toggleArm();
             }
-            robotBase.mecanumDrive.update();
+            robotBase.mecanumDriveSubsystem.update();
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);

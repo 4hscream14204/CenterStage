@@ -31,7 +31,7 @@ public class RedRight extends OpMode {
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         telemetry.update();
         startPose = new Pose2d(15.00, -63.00, Math.toRadians(90.00));
-        RedRightLeftInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
+        RedRightLeftInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(6.00, -36.00), Math.toRadians(135.00))
                 .lineToLinearHeading(new Pose2d(17.00, -46.00, Math.toRadians(90.00)))
                 .addDisplacementMarker(() -> {robotBase.grabber.dropPosition();})
@@ -48,7 +48,7 @@ public class RedRight extends OpMode {
                 .splineTo(new Vector2d(58.00, -61.0), Math.toRadians(0.00))
                 .build();
 
-        RedRightCenterInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
+        RedRightCenterInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineToSplineHeading(new Pose2d(12.00, -34.00, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .splineToSplineHeading(new Pose2d(12.00, -37.00, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> {robotBase.grabber.dropPosition();})
@@ -62,7 +62,7 @@ public class RedRight extends OpMode {
                 //.splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
 
-        RedRightCenterInner2 = robotBase.mecanumDrive.trajectorySequenceBuilder(RedRightCenterInner.end())
+        RedRightCenterInner2 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(RedRightCenterInner.end())
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(50.00, -37.00, Math.toRadians(180.00)))
@@ -70,7 +70,7 @@ public class RedRight extends OpMode {
                 .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
 
-        RedRightRightInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
+        RedRightRightInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineToSplineHeading(new Pose2d(20.00, -37.00, Math.toRadians(60.00)), Math.toRadians(60.00))
                 .lineToSplineHeading(new Pose2d(20.00, -43.00, Math.toRadians(90.00)))
                 .addTemporalMarker(() -> robotBase.grabber.dropPosition())
@@ -85,7 +85,7 @@ public class RedRight extends OpMode {
                 //.splineToSplineHeading(new Pose2d(59.00, -58.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .build();
 
-        robotBase.mecanumDrive.setPoseEstimate(startPose);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
     }
     @Override
     public void init_loop(){
@@ -97,13 +97,13 @@ public class RedRight extends OpMode {
     @Override
     public void start(){
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-            robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RedRightCenterInner);
             robotBase.grabber.drop();
-            robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RedRightCenterInner2);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.mecanumDrive.followTrajectorySequence(RedRightRightInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RedRightRightInner);
         } else {
-            robotBase.mecanumDrive.followTrajectorySequence(RedRightLeftInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RedRightLeftInner);
         }
     }
     @Override

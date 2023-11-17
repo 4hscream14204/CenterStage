@@ -49,10 +49,10 @@ public class AutoSuperClass extends OpMode {
 
         Pose2d startRedLsLp = new Pose2d(-40.29, -63.05, Math.toRadians(90));
 
-        robotBase.mecanumDrive.setPoseEstimate(startRedLsLp);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsLp);
 
 //Red alliance on the left starting side and team prop on left spike tape position
-        TrajectorySequence redLsLp = robotBase.mecanumDrive.trajectorySequenceBuilder(startRedLsLp)
+        TrajectorySequence redLsLp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsLp)
 
                 .splineToSplineHeading(new Pose2d(-35.89, -34.42, Math.toRadians(90)), Math.toRadians(90))
 
@@ -61,30 +61,30 @@ public class AutoSuperClass extends OpMode {
         //RedRight
         Pose2d startRedLsMp = new Pose2d(-39, -63, Math.toRadians(270));
 
-        robotBase.mecanumDrive.setPoseEstimate(startRedLsMp);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsMp);
 
 //Red alliance on the left starting side and team prop on middle spike tape position
-        TrajectorySequence redLsMp = robotBase.mecanumDrive.trajectorySequenceBuilder(startRedLsMp)
+        TrajectorySequence redLsMp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsMp)
 
                 .build();
 
         //BlueLeft
         Pose2d blueLeftStart = new Pose2d(-39, -63, Math.toRadians(270));
 
-        robotBase.mecanumDrive.setPoseEstimate(blueLeftStart);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(blueLeftStart);
 
 
-        TrajectorySequence blueLeft1 = robotBase.mecanumDrive.trajectorySequenceBuilder(blueLeftStart)
+        TrajectorySequence blueLeft1 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(blueLeftStart)
 
                 .build();
 
         //BlueRight
         Pose2d blueRightStart = new Pose2d(-39, -63, Math.toRadians(270));
 
-        robotBase.mecanumDrive.setPoseEstimate(blueRightStart);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(blueRightStart);
 
 
-        TrajectorySequence blueRight1 = robotBase.mecanumDrive.trajectorySequenceBuilder(blueRightStart)
+        TrajectorySequence blueRight1 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(blueRightStart)
 
                 .build();
 
