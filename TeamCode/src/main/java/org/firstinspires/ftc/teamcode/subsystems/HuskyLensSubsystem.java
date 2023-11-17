@@ -10,7 +10,7 @@ public class HuskyLensSubsystem extends SubsystemBase {
 
      HuskyLens huskyLens;
      private RobotBase.PropPosition propPosition;
-     private int allianceNumber = 1;
+     private int intAllianceNumber = 1;
      private int intLeftDetectionLine = 80;
     private int intRightDetectionLine = 280;
 
@@ -31,13 +31,13 @@ public class HuskyLensSubsystem extends SubsystemBase {
              intRightDetectionLine = 230;
          }
          if (alliance == RobotBase.Alliance.RED) {
-             allianceNumber = 1;
+             intAllianceNumber = 1;
          } else {
-             allianceNumber = 2;
+             intAllianceNumber = 2;
          }
          for (int i = 0; i < blocks.length; i++) {
              int blockLeftCoordinate = blocks[i].left;
-             if (blocks[i].id == allianceNumber) {
+             if (blocks[i].id == intAllianceNumber) {
                  if (startPosition == RobotBase.StartPosition.LEFT) {
                      if (blockLeftCoordinate < intLeftDetectionLine) {
                          propPosition = RobotBase.PropPosition.LEFT;

@@ -60,12 +60,12 @@ public class RobotBase extends Object{
     public Servo srvOdometryMiddle;
     public HuskyLens huskyLens;
     public IMU imu;
-    public GrabberSubsystem Grabber;
-    public AirplaneLauncherSubsystem AirplaneLauncher;
-    public HangingMechanismSubsystem HangingMechanism;
-    public OdometrySubsystem OdometryServos;
+    public GrabberSubsystem grabber;
+    public AirplaneLauncherSubsystem airplaneLauncher;
+    public HangingMechanismSubsystem hangingMechanism;
+    public OdometrySubsystem odometryServos;
     public HuskyLensSubsystem huskyLensSubsystem;
-    public SampleMecanumDrive MecanumDrive;
+    public SampleMecanumDrive mecanumDrive;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
 
@@ -101,11 +101,11 @@ public class RobotBase extends Object{
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
-        Grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
-        AirplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
-        HangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
-        OdometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
-        MecanumDrive = new SampleMecanumDrive(hwMap);
+        grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
+        airplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
+        hangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        odometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
+        mecanumDrive = new SampleMecanumDrive(hwMap);
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
 
         //default value for alliance side

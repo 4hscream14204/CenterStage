@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
-@TeleOp(name="TeleHuskyLensTest")
+@TeleOp(name="HuskyLensTest")
 public class TeleHuskyLensTest extends OpMode {
 
     RobotBase robotBase = new RobotBase(hardwareMap);

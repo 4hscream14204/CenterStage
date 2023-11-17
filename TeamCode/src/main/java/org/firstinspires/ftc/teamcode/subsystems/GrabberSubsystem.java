@@ -14,25 +14,25 @@ public class GrabberSubsystem extends SubsystemBase{
     public GrabberSubsystem(Servo grabberConstructor, Servo armConstructor) {
         srvGrabber = grabberConstructor;
         srvArm = armConstructor;
-        DownPosition();
-        GrabOne();
+        downPosition();
+        grabOne();
     }
-    public void Drop () {
+    public void drop() {
         srvGrabber.setPosition(0);
         intPixelInGrabber = 0;
     }
 
-    public void GrabOne () {
+    public void grabOne() {
         srvGrabber.setPosition(1);
         intPixelInGrabber = 1;
     }
 
-    public void GrabTwo () {
+    public void grabTwo() {
         srvGrabber.setPosition(0);
         intPixelInGrabber = 2;
     }
 
-    public void ToggleGrabber () {
+    public void toggleGrabber() {
         if (intPixelInGrabber == 0) {
             srvGrabber.setPosition(1);
             intPixelInGrabber = 1;
@@ -42,17 +42,17 @@ public class GrabberSubsystem extends SubsystemBase{
         }
     }
 
-    public void DropPosition () {
+    public void dropPosition() {
         srvArm.setPosition(0.36);
         bolDropPosToggle = true;
     }
 
-    public void DownPosition () {
+    public void downPosition() {
         srvArm.setPosition(0);
         bolDropPosToggle = false;
     }
 
-    public void ToggleArm () {
+    public void toggleArm() {
         if (bolDropPosToggle) {
             srvArm.setPosition(0.36);
             bolDropPosToggle = false;

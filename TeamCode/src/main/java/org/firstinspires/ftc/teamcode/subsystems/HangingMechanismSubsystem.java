@@ -14,17 +14,17 @@ public class HangingMechanismSubsystem extends SubsystemBase {
 
 
 
-    public HangingMechanismSubsystem(Servo hangingMechanismConstructor1, Servo hangingMechanismConstructor2) {
-        srvHangingMechanism1 = hangingMechanismConstructor1;
-        srvHangingMechanism2 = hangingMechanismConstructor2;
-        Lower();
+    public HangingMechanismSubsystem(Servo hangingMechanism1Constructor, Servo hangingMechanism2Constructor) {
+        srvHangingMechanism1 = hangingMechanism1Constructor;
+        srvHangingMechanism2 = hangingMechanism2Constructor;
+        lower();
     }
 
-    public void Raise() {
+    public void raise() {
         srvHangingMechanism1.setPosition(dblHangingReleasePosition);
         srvHangingMechanism2.setPosition(dblHangingReleasePosition);
     }
-    public void Lower() {
+    public void lower() {
         srvHangingMechanism1.setPosition(dblHangingClosePosition1);
         srvHangingMechanism2.setPosition(dblHangingClosePosition2);
     }
