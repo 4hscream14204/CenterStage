@@ -14,38 +14,38 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     }
     AirplaneState airplaneState;
 
-   private double releaseSrvPos = 0.8;
-   private double srvEVPosLower = 0.0;
-   private double srvEVPosRaise = 0.2;
-   private double srvLauncherPos = 1;
+   private double dblReleaseSrvPos = 0.8;
+   private double dblEVPosLower = 0.0;
+   private double dblEVPosRaise = 0.2;
+   private double dblLauncherPos = 1;
 
 
-    public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo srvAirplaneLauncherEvCon) {
+    public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
-        srvAirplaneLauncherEv = srvAirplaneLauncherEvCon;
-        Lower();
+        srvAirplaneLauncherEv = LauncherElevatorConstructor;
+        lower();
     }
-        public void Release () {
-            srvAirplaneLauncher.setPosition(releaseSrvPos);
+        public void release() {
+            srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
             airplaneState = AirplaneState.RELEASE;
         }
 
-         public void Lower (){
-        srvAirplaneLauncherEv.setPosition(srvEVPosLower);
-        srvAirplaneLauncher.setPosition(srvLauncherPos);
+         public void lower(){
+        srvAirplaneLauncherEv.setPosition(dblEVPosLower);
+        srvAirplaneLauncher.setPosition(dblLauncherPos);
         airplaneState = AirplaneState.LOWER;
     }
-    public void Raise (){
-        srvAirplaneLauncherEv.setPosition(srvEVPosRaise);
+    public void raise(){
+        srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = AirplaneState.RAISE;
     }
-    public void RaiseAndLaunch(){
+    public void raiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
-                Raise();
+                raise();
                 break;
             case RAISE:
-                Release();
+                release();
                 break;
         }
     }

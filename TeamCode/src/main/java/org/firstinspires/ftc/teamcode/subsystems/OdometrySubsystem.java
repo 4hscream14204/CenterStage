@@ -20,44 +20,40 @@ public class OdometrySubsystem extends SubsystemBase {
     private double srvOdometryPosDown = 0;
     private double srvOdometryPosStop = 0.5;
 
-    public OdometrySubsystem(Servo srvOdometryLeftCon, Servo srvOdometryRightCon, Servo srvOdometryMiddleCon) {
-        srvOdometryLeft = srvOdometryLeftCon;
-        srvOdometryMiddle = srvOdometryMiddleCon;
-        srvOdometryRight = srvOdometryRightCon;
-        Stop();
+    public OdometrySubsystem(Servo odometryLeftConstructor, Servo odometryRightConstructor, Servo odometryMiddleConstructor) {
+        srvOdometryLeft = odometryLeftConstructor;
+        srvOdometryMiddle = odometryMiddleConstructor;
+        srvOdometryRight = odometryRightConstructor;
+        odometryStop();
         odometryState = OdometryState.DOWN;
     }
 
-    public void Up() {
+    public void odometryRaise() {
         srvOdometryLeft.setPosition(srvOdometryPosUp);
         srvOdometryMiddle.setPosition(srvOdometryPosUp);
         srvOdometryRight.setPosition(srvOdometryPosUp);
     }
 
-    public void Stop() {
-        srvOdometryLeft.setPosition(srvOdometryPosStop);
-        srvOdometryMiddle.setPosition(srvOdometryPosStop);
-        srvOdometryRight.setPosition(srvOdometryPosStop);
-    }
-
-    public void Down() {
+    public void odometryLower() {
         srvOdometryLeft.setPosition(srvOdometryPosDown);
         srvOdometryMiddle.setPosition(srvOdometryPosDown);
         srvOdometryRight.setPosition(srvOdometryPosDown);
     }
 
-    public void OdometryToggle() {
+    public void odometryToggle() {
         switch (odometryState) {
             case DOWN:
-                Up();
+                odometryRaise();
                 break;
             case UP:
-                Down();
+                odometryLower();
                 break;
         }
     }
-    public void OdometryStop() {
-                Stop();
+    public void odometryStop() {
+        srvOdometryLeft.setPosition(srvOdometryPosStop);
+        srvOdometryMiddle.setPosition(srvOdometryPosStop);
+        srvOdometryRight.setPosition(srvOdometryPosStop);
                 switch (odometryState) {
                     case UP:
                         odometryState = OdometryState.DOWN;

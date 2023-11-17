@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 
-@TeleOp(name="hangingMechanismTest")
+@TeleOp(name="HangingMechanismTest")
 public class TeleOpHangingMechanismTest extends OpMode {
 
     public RobotBase robotBase;
@@ -24,10 +24,10 @@ public class TeleOpHangingMechanismTest extends OpMode {
     public void loop() {
         chassisController.readButtons();
         if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
-            robotBase.HangingMechanism.Lower();
+            robotBase.hangingMechanism.lower();
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
-            robotBase.HangingMechanism.Raise();
+            robotBase.hangingMechanism.raise();
         }
     }
 }

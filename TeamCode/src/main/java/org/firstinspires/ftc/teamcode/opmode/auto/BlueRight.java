@@ -13,8 +13,6 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
-import java.net.PortUnreachableException;
-
 @Autonomous(name = "BlueRight")
 public class BlueRight extends OpMode {
     public RobotBase robotBase;
@@ -27,14 +25,14 @@ public class BlueRight extends OpMode {
         robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
-        BlueRightPark = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
+        BlueRightPark = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
                 .lineToLinearHeading(new Pose2d(-38.35, 12.00, Math.toRadians(0.00)))
                 .waitSeconds(20)
                 .lineTo(new Vector2d(6.00, 12.00))
                 .lineTo(new Vector2d(50.00, 12.00))
                 .build();
 
-        robotBase.MecanumDrive.setPoseEstimate(startPose);
+        robotBase.mecanumDrive.setPoseEstimate(startPose);
     }
     @Override
     public void init_loop(){
@@ -42,7 +40,7 @@ public class BlueRight extends OpMode {
     }
     @Override
     public void start(){
-        robotBase.MecanumDrive.followTrajectorySequence(BlueRightPark);
+        robotBase.mecanumDrive.followTrajectorySequence(BlueRightPark);
     }
     @Override
     public void loop(){
