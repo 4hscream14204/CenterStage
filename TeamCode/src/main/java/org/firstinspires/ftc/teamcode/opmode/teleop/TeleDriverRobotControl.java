@@ -104,12 +104,14 @@ public class TeleDriverRobotControl extends OpMode {
             if(armController.wasJustReleased(GamepadKeys.Button.A)) {
                 robotBase.odometryServosSubsystem.odometryStop();
             }
+            /*
             if(armController.wasJustPressed(GamepadKeys.Button.X)) {
                 robotBase.grabber.toggleGrabber();
             }
             if(armController.wasJustPressed(GamepadKeys.Button.B)) {
                 robotBase.grabber.toggleArm();
             }
+            */
             robotBase.mecanumDriveSubsystem.update();
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
