@@ -1,1 +1,1 @@
-This is auto opmode
+This is compilation of auto opmode code
