@@ -79,7 +79,7 @@ public class BlueLeft extends OpMode {
                 //.addTemporalMarker(() -> robotBase.Grabber.DownPosition())
                 .lineToSplineHeading(new Pose2d(46.50, 43.00, Math.toRadians(180.00)))
                 .addTemporalMarker(() -> robotBase.Grabber.DownPosition())
-                .splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
+                .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(360.00))
                 .build();
 
         robotBase.MecanumDrive.setPoseEstimate(startPose);

@@ -47,7 +47,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
-                    dblChassisControllerRightY,
+                    -dblChassisControllerRightY,
                     -dblChassisControllerRightX
             ).rotated(-dblCurrentHeading);
 
@@ -63,7 +63,7 @@ public class TeleDriverRobotControl extends OpMode {
 
             robotBase.MecanumDrive.setWeightedDrivePower(
                     new Pose2d(
-                            dblChassisControllerRightY,
+                            -dblChassisControllerRightY,
                             -dblChassisControllerRightX,
                             -dblChassisControllerLeftX
                     )

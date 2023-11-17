@@ -69,7 +69,7 @@ public class RedRight extends OpMode {
                 .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(50.00, -37.00, Math.toRadians(180.00)))
                 .addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
+                .splineTo(new Vector2d(60.00, -61.00), Math.toRadians(0.00))
                 .build();
 
         RedRightRightInner = robotBase.MecanumDrive.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
