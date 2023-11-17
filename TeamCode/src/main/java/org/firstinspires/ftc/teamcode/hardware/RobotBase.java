@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
@@ -39,6 +39,14 @@ public class RobotBase extends Object{
         MIDDLE,
         NONE
     }
+    public enum LeftClawState {
+        OPEN,
+        CLOSED
+    }
+    public enum RightClawState {
+        OPEN,
+        CLOSED
+    }
 
 
     public DistanceSensor frontDistanceSensor;
@@ -49,7 +57,8 @@ public class RobotBase extends Object{
     public DcMotor leftRear;
     public DcMotor rightRear;
     public DcMotor rightFront;
-    public Servo srvDoubleCenterGrabber;
+    public Servo srvLeftClaw;
+    public Servo srvRightClaw;
     public Servo srvArm;
     public Servo srvHangingMechanism1;
     public Servo srvHangingMechanism2;
@@ -60,7 +69,7 @@ public class RobotBase extends Object{
     public Servo srvOdometryMiddle;
     public HuskyLens huskyLens;
     public IMU imu;
-    public GrabberSubsystem grabber;
+    public ClawSubsystem claw;
     public AirplaneLauncherSubsystem airplaneLauncher;
     public HangingMechanismSubsystem hangingMechanism;
     public OdometrySubsystem odometryServos;
@@ -74,6 +83,8 @@ public class RobotBase extends Object{
     public ChassisControlType controlScheme;
     public StartPosition startPosition;
     public PropPosition propPosition;
+    public LeftClawState leftClawState;
+    public RightClawState rightClawState;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -84,7 +95,8 @@ public class RobotBase extends Object{
         leftFront = hwMap.get(DcMotor.class, "leftFront");
         rightRear = hwMap.get(DcMotor.class, "rightRear");
         leftRear = hwMap.get(DcMotor.class, "leftRear");
-        srvDoubleCenterGrabber = hwMap.get(Servo.class,"srvGrabber");
+        srvLeftClaw = hwMap.get(Servo.class,"srvLeftClaw");
+        srvRightClaw = hwMap.get(Servo.class,"srvRightClaw");
         srvArm = hwMap.get(Servo.class,"srvArm");
         srvHangingMechanism1 = hwMap.get(Servo.class,"hangingMechanism1");
         srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
@@ -101,7 +113,7 @@ public class RobotBase extends Object{
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
-        grabber = new GrabberSubsystem(srvDoubleCenterGrabber, srvArm);
+        claw = new ClawSubsystem(srvLeftClaw, srvRightClaw);
         airplaneLauncher = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         hangingMechanism = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
         odometryServos = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
