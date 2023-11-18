@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
@@ -72,6 +73,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         }
 
+        //CHASSIS CONTROLLER BINDS
         if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
             robotBase.hangingMechanismSubsystem.lower();
             strLastButtonPressed = "B";
@@ -98,20 +100,33 @@ public class TeleDriverRobotControl extends OpMode {
             DataStorageSubsystem.dblIMUFinalHeading = 0;
             robotBase.navxMicro.initialize();
         }
+        robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        robotBase.intakeSubsystem.outake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+        /*
+        if() {
+            robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        }
+        if() {
+            robotBase.intakeSubsystem.outake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+        }
+        */
+
+        //ARM CONTROLLER BINDS
             if (armController.isDown(GamepadKeys.Button.A)) {
                 robotBase.odometryServosSubsystem.odometryToggle();
             }
             if(armController.wasJustReleased(GamepadKeys.Button.A)) {
                 robotBase.odometryServosSubsystem.odometryStop();
             }
-            /*
-            if(armController.wasJustPressed(GamepadKeys.Button.X)) {
-                robotBase.grabber.toggleGrabber();
+            if(armController.wasJustPressed(GamepadKeys.Button.A)) {
+                robotBase.slideSubsystem.rightLowToggle();
             }
             if(armController.wasJustPressed(GamepadKeys.Button.B)) {
-                robotBase.grabber.toggleArm();
+                robotBase.slideSubsystem.rightMediumToggle();
             }
-            */
+            if(armController.wasJustPressed(GamepadKeys.Button.Y)) {
+                robotBase.slideSubsystem.rightHighToggle();
+            }
             robotBase.mecanumDriveSubsystem.update();
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());

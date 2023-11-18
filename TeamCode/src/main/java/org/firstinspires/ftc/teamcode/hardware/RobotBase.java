@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 
 
 public class RobotBase extends Object{
@@ -48,7 +50,18 @@ public class RobotBase extends Object{
         OPEN,
         CLOSED
     }
-
+    public enum LeftSlideHeight {
+            DOWN,
+            LOW,
+            MEDIUM,
+            HIGH
+    }
+    public enum RightSlideHeight {
+        DOWN,
+        LOW,
+        MEDIUM,
+        HIGH
+    }
 
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor leftDistanceSensor;
@@ -69,11 +82,18 @@ public class RobotBase extends Object{
     public Servo srvOdometryLeft;
     public Servo srvOdometryRight;
     public Servo srvOdometryMiddle;
+    public Servo srvLeftSlide;
+    public Servo srvRightSlide;
+    public TouchSensor redSwitch;
+    public TouchSensor greenSwitch;
+    public TouchSensor blackSwitch;
+    public TouchSensor blueSwitch;
     public HuskyLens huskyLens;
     public IMU imu;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
     public ClawSubsystem clawSubsystem;
+    public SlideSubsystem slideSubsystem;
     public AirplaneLauncherSubsystem airplaneLauncherSubsystem;
     public HangingMechanismSubsystem hangingMechanismSubsystem;
     public OdometrySubsystem odometryServosSubsystem;
@@ -88,6 +108,8 @@ public class RobotBase extends Object{
     public PropPosition propPosition;
     public LeftClawState leftClawState;
     public RightClawState rightClawState;
+    public LeftSlideHeight leftSlideHeight;
+    public RightSlideHeight rightSlideHeight;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
