@@ -4,8 +4,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 public class AutoSuperClass extends OpMode {
 
@@ -47,14 +52,14 @@ public class AutoSuperClass extends OpMode {
         // START OF TRAJECTORIES
 
 
-        Pose2d startRedLsLp = new Pose2d(-40.29, -63.05, Math.toRadians(90));
+        Pose2d startRedLsLp = new Pose2d(-38.35, -63.3, Math.toRadians(90));
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsLp);
 
 //Red alliance on the left starting side and team prop on left spike tape position
         TrajectorySequence redLsLp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsLp)
 
-                .splineToSplineHeading(new Pose2d(-35.89, -34.42, Math.toRadians(90)), Math.toRadians(90))
+
 
                 .build();
 
@@ -67,6 +72,17 @@ public class AutoSuperClass extends OpMode {
         TrajectorySequence redLsMp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsMp)
 
                 .build();
+
+
+        Pose2d startRedLsRp = new Pose2d(-39, -63, Math.toRadians(270));
+
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsMp);
+
+//Red alliance on the left starting side and team prop on middle spike tape position
+        TrajectorySequence redLsRp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsRp)
+
+                .build();
+
 
         //BlueLeft
         Pose2d blueLeftStart = new Pose2d(-39, -63, Math.toRadians(270));
@@ -112,6 +128,7 @@ public class AutoSuperClass extends OpMode {
 @Override
     public void init_loop() {
 
+        /*
     HuskyLens.Block[] blocks = robotBase.huskyLens.blocks();
 
     for (int i = 0; i < blocks.length; i++){
@@ -127,9 +144,11 @@ public class AutoSuperClass extends OpMode {
         propLocation = PropLocation.MIDDLE;
     }
     }
+         */
 //What trajectory to run if on Red alliance left side and prop on left tape
     if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
        // robotBase.MecanumDrive.followTrajectorySequence();
+
     }
 //What trajectory to run if on Red alliance left side and prop on middle tape
     if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
@@ -185,4 +204,12 @@ public class AutoSuperClass extends OpMode {
     public void loop() {
 
     }
+
+    @Override
+    public void stop(){
+        Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        double dblCurrentHeading = angles.firstAngle;
+        DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
+    }
+
 }
