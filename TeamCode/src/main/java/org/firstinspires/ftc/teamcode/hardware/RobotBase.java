@@ -50,13 +50,13 @@ public class RobotBase extends Object{
         CLOSED
     }
     public enum LeftSlideHeight {
-            DOWN,
-            LOW,
-            MEDIUM,
-            HIGH
+        GRABBING,
+        LOW,
+        MEDIUM,
+        HIGH
     }
     public enum RightSlideHeight {
-        DOWN,
+        GRABBING,
         LOW,
         MEDIUM,
         HIGH
@@ -64,6 +64,10 @@ public class RobotBase extends Object{
     public enum SyncSlidesMode {
         On,
         Off
+    }
+    public enum HangingState {
+        RELEASED,
+        DOWN
     }
 
     public DistanceSensor frontDistanceSensor;
@@ -112,6 +116,7 @@ public class RobotBase extends Object{
     public LeftSlideHeight leftSlideHeight;
     public RightSlideHeight rightSlideHeight;
     public SyncSlidesMode syncSlidesMode;
+    public HangingState hangingState;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -157,5 +162,7 @@ public class RobotBase extends Object{
         propPosition = PropPosition.NONE;
         //default value for the sync slides mode
         syncSlidesMode = SyncSlidesMode.On;
+        //default value for hanging stat
+        hangingState = HangingState.DOWN;
     }
 }

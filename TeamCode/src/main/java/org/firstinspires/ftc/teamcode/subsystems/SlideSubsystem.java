@@ -30,8 +30,15 @@ public class SlideSubsystem extends SubsystemBase {
     //PUTS THE LEFT SLIDE IN THE POSITION FOR GRABBING PIXELS
     public void slideLeftGrabbingPos() {
         srvSlideLeft.setPosition(dblSlideGrabbingPos);
-        leftSlideHeight = RobotBase.LeftSlideHeight.DOWN;
+        leftSlideHeight = RobotBase.LeftSlideHeight.GRABBING;
         intLeftSlidePosition = 0;
+    }
+
+    //PUTS THE LEFT SLIDE IN THE POSITION BELOW THE LOWEST SET LINE
+    public void slideLeftLowest() {
+        srvSlideLeft.setPosition(dblSlideLowestPos);
+        leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
+        intLeftSlidePosition = 1;
     }
 
     //PUTS THE LEFT SLIDE IN THE POSITION ON THE LOWEST SET LINE
@@ -41,6 +48,13 @@ public class SlideSubsystem extends SubsystemBase {
         intLeftSlidePosition = 2;
     }
 
+    //PUTS THE LEFT SLIDE IN THE POSITION BETWEEN THE LOWEST AND MIDDLE SET LINES
+    public void slideLeftLowMedium() {
+        srvSlideLeft.setPosition(dblSlideLowMediumPos);
+        leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
+        intLeftSlidePosition = 3;
+    }
+
     //PUTS THE LEFT SLIDE IN THE POSITION ON THE MEDIUM SET LINE
     public void slideLeftMedium() {
         srvSlideLeft.setPosition(dblSlideMediumPos);
@@ -48,45 +62,47 @@ public class SlideSubsystem extends SubsystemBase {
         intLeftSlidePosition = 4;
     }
 
-    //PUTS THE LEFT SLIDE IN THE POSITION ON THE HIGH SET LINE
+    //PUTS THE LEFT SLIDE IN THE POSITION BETWEEN THE MIDDLE AND HIGHEST SET LINES
+    public void slideLeftMediumHigh() {
+        srvSlideLeft.setPosition(dblSlideMediumHighPos);
+        leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
+        intLeftSlidePosition = 5;
+    }
+
+    //PUTS THE LEFT SLIDE IN THE POSITION ON THE HIGHEST SET LINE
     public void slideLeftHigh() {
         srvSlideLeft.setPosition(dblSlideHighPos);
         leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
         intLeftSlidePosition = 6;
     }
 
+    //PUTS THE LEFT SLIDE IN THE POSITION ABOVE THE HIGHEST SET LINE
+    public void slideLeftHighest() {
+        srvSlideLeft.setPosition(dblSlideHighestPos);
+        leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
+        intLeftSlidePosition = 7;
+    }
+
     //MOVES CURRENT LEFT SLIDE POSITION DOWN BY ONE PRESET POSITION
     public void leftSlidePositionLower() {
         switch (intLeftSlidePosition) {
             case 2:
-                srvSlideLeft.setPosition(dblSlideLowestPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
-                intLeftSlidePosition = 1;
+                slideLeftLowest();
                 break;
             case 3:
-                srvSlideLeft.setPosition(dblSlideLowPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
-                intLeftSlidePosition = 2;
+                slideLeftLow();
                 break;
             case 4:
-                srvSlideLeft.setPosition(dblSlideLowMediumPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
-                intLeftSlidePosition = 3;
+                slideLeftLowMedium();
                 break;
             case 5:
-                srvSlideLeft.setPosition(dblSlideMediumPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
-                intLeftSlidePosition = 4;
+                slideLeftMedium();
                 break;
             case 6:
-                srvSlideLeft.setPosition(dblSlideMediumHighPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
-                intLeftSlidePosition = 5;
+                slideLeftMediumHigh();
                 break;
             case 7:
-                srvSlideLeft.setPosition(dblSlideHighPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
-                intLeftSlidePosition = 6;
+                slideLeftHigh();
                 break;
         }
     }
@@ -95,39 +111,25 @@ public class SlideSubsystem extends SubsystemBase {
     public void leftSlidePositionRaise() {
         switch (intLeftSlidePosition) {
             case 0:
-                srvSlideLeft.setPosition(dblSlideLowestPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
-                intLeftSlidePosition = 1;
+                slideLeftLowest();
                 break;
             case 1:
-                srvSlideLeft.setPosition(dblSlideLowPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
-                intLeftSlidePosition = 2;
+                slideLeftLow();
                 break;
             case 2:
-                srvSlideLeft.setPosition(dblSlideLowMediumPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.LOW;
-                intLeftSlidePosition = 3;
+                slideLeftLowMedium();
                 break;
             case 3:
-                srvSlideLeft.setPosition(dblSlideMediumPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
-                intLeftSlidePosition = 4;
+                slideLeftMedium();
                 break;
             case 4:
-                srvSlideLeft.setPosition(dblSlideMediumHighPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.MEDIUM;
-                intLeftSlidePosition = 5;
+                slideLeftMediumHigh();
                 break;
             case 5:
-                srvSlideLeft.setPosition(dblSlideHighPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
-                intLeftSlidePosition = 6;
+                slideLeftHigh();
                 break;
             case 6:
-                srvSlideLeft.setPosition(dblSlideHighestPos);
-                leftSlideHeight = RobotBase.LeftSlideHeight.HIGH;
-                intLeftSlidePosition = 7;
+                slideLeftHighest();
                 break;
         }
     }
@@ -162,8 +164,15 @@ public class SlideSubsystem extends SubsystemBase {
     //PUTS THE RIGHT SLIDE IN THE POSITION FOR GRABBING PIXELS
     public void slideRightGrabbingPos() {
         srvSlideRight.setPosition(dblSlideHighPos);
-        rightSlideHeight = RobotBase.RightSlideHeight.DOWN;
+        rightSlideHeight = RobotBase.RightSlideHeight.GRABBING;
         intRightSlidePosition = 0;
+    }
+
+    //PUTS THE RIGHT SLIDE IN THE POSITION BELOW THE LOWEST SET LINE
+    public void slideRightLowest() {
+        srvSlideRight.setPosition(dblSlideLowestPos);
+        rightSlideHeight = RobotBase.RightSlideHeight.LOW;
+        intRightSlidePosition = 1;
     }
 
     //PUTS THE RIGHT SLIDE IN THE POSITION ON THE LOWEST SET LINE
@@ -173,6 +182,13 @@ public class SlideSubsystem extends SubsystemBase {
         intRightSlidePosition = 2;
     }
 
+    //PUTS THE RIGHT SLIDE IN THE POSITION BETWEEN THE LOWEST AND MIDDLE SET LINES
+    public void slideRightLowMedium() {
+        srvSlideRight.setPosition(dblSlideLowMediumPos);
+        rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
+        intRightSlidePosition = 3;
+    }
+
     //PUTS THE RIGHT SLIDE IN THE POSITION ON THE MEDIUM SET LINE
     public void slideRightMedium() {
         srvSlideRight.setPosition(dblSlideMediumPos);
@@ -180,45 +196,47 @@ public class SlideSubsystem extends SubsystemBase {
         intRightSlidePosition = 4;
     }
 
-    //PUTS THE RIGHT SLIDE IN THE POSITION ON THE HIGH SET LINE
+    //PUTS THE RIGHT SLIDE IN THE POSITION BETWEEN THE MIDDLE AND HIGHEST SET LINES
+    public void slideRightMediumHigh() {
+        srvSlideRight.setPosition(dblSlideMediumHighPos);
+        rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
+        intRightSlidePosition = 5;
+    }
+
+    //PUTS THE RIGHT SLIDE IN THE POSITION ON THE HIGHEST SET LINE
     public void slideRightHigh() {
         srvSlideRight.setPosition(dblSlideHighPos);
         rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
         intRightSlidePosition = 6;
     }
 
+    //PUTS THE RIGHT SLIDE IN THE POSITION ABOVE THE HIGHEST SET LINE
+    public void slideRightHighest() {
+        srvSlideRight.setPosition(dblSlideHighestPos);
+        intRightSlidePosition = 7;
+        rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
+    }
+
     //MOVES CURRENT RIGHT SLIDE POSITION DOWN BY ONE PRESET POSITION
     public void rightSlidePositionLower() {
         switch (intRightSlidePosition) {
             case 2:
-               srvSlideRight.setPosition(dblSlideLowestPos);
-               rightSlideHeight = RobotBase.RightSlideHeight.LOW;
-               intRightSlidePosition = 1;
+               slideRightLowest();
                break;
             case 3:
-                srvSlideRight.setPosition(dblSlideLowPos);
-                rightSlideHeight = RobotBase.RightSlideHeight.LOW;
-                intRightSlidePosition = 2;
+                slideRightLow();
                 break;
             case 4:
-                srvSlideRight.setPosition(dblSlideLowMediumPos);
-                rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
-                intRightSlidePosition = 3;
+                slideRightLowMedium();
                 break;
             case 5:
-                srvSlideRight.setPosition(dblSlideMediumPos);
-                rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
-                intRightSlidePosition = 4;
+                slideRightMedium();
                 break;
             case 6:
-                srvSlideRight.setPosition(dblSlideMediumHighPos);
-                rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
-                intRightSlidePosition = 5;
+                slideRightMediumHigh();
                 break;
             case 7:
-                srvSlideRight.setPosition(dblSlideHighPos);
-                rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
-                intRightSlidePosition = 6;
+                slideRightHigh();
                 break;
         }
     }
@@ -227,39 +245,25 @@ public class SlideSubsystem extends SubsystemBase {
     public void rightSlidePositionRaise() {
         switch (intRightSlidePosition) {
             case 0:
-                srvSlideRight.setPosition(dblSlideLowestPos);
-                intRightSlidePosition = 1;
-                rightSlideHeight = RobotBase.RightSlideHeight.LOW;
+                slideRightLowest();
                 break;
             case 1:
-                srvSlideRight.setPosition(dblSlideLowPos);
-                intRightSlidePosition = 2;
-                rightSlideHeight = RobotBase.RightSlideHeight.LOW;
+                slideRightLow();
                 break;
             case 2:
-                srvSlideRight.setPosition(dblSlideLowMediumPos);
-                intRightSlidePosition = 3;
-                rightSlideHeight = RobotBase.RightSlideHeight.LOW;
+                slideRightLowMedium();
                 break;
             case 3:
-                srvSlideRight.setPosition(dblSlideMediumPos);
-                intRightSlidePosition = 4;
-                rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
+                slideRightMedium();
                 break;
             case 4:
-                srvSlideRight.setPosition(dblSlideMediumHighPos);
-                intRightSlidePosition = 5;
-                rightSlideHeight = RobotBase.RightSlideHeight.MEDIUM;
+                slideRightMediumHigh();
                 break;
             case 5:
-                srvSlideRight.setPosition(dblSlideHighPos);
-                intRightSlidePosition = 6;
-                rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
+                slideRightHigh();
                 break;
             case 6:
-                srvSlideRight.setPosition(dblSlideHighestPos);
-                intRightSlidePosition = 7;
-                rightSlideHeight = RobotBase.RightSlideHeight.HIGH;
+                slideRightHighest();
                 break;
         }
     }
@@ -289,5 +293,64 @@ public class SlideSubsystem extends SubsystemBase {
         } else {
             slideRightHigh();
         }
+    }
+    //SYNC SLIDES MODE VERSIONS
+
+    //THIS IS THE INITIAL OPERATION FOR SYNCING THE SLIDES
+    public void syncSlides() {
+        switch(intRightSlidePosition) {
+            case 0:
+                slideLeftGrabbingPos();
+            case 1:
+
+        }
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION FOR GRABBING PIXELS
+    public void slideGrabbingPos() {
+        slideLeftGrabbingPos();
+        slideRightGrabbingPos();
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION BELOW THE LOWEST SET LINE
+    public void slideLowestPos() {
+        slideLeftLowest();
+        slideRightLowest();
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION ON THE LOWEST SET LINE
+    public void slideLowPos() {
+        slideLeftLow();
+        slideRightLow();
+    }
+
+    //PUTS BOTH SLIDE IN THE POSITION BETWEEN THE LOWEST AND MIDDLE SET LINES
+    public void slideLowMediumPos() {
+        slideLeftLowMedium();
+        slideRightLowMedium();
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION ON THE MEDIUM SET LINE
+    public void slideMediumPos() {
+        slideLeftMedium();
+        slideRightMedium();
+    }
+
+    //PUTS BOTH SLIDE IN THE POSITION BETWEEN THE MIDDLE AND HIGHEST SET LINES
+    public void slideMediumHighPos() {
+        slideLeftMediumHigh();
+        slideRightMediumHigh();
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION ON THE HIGHEST SET LINE
+    public void slideHighPos() {
+        slideLeftHigh();
+        slideRightHigh();
+    }
+
+    //PUTS BOTH SLIDES IN THE POSITION ABOVE THE HIGHEST SET LINE
+    public void slideHighestPos() {
+        slideLeftHighest();
+        slideRightHighest();
     }
 }

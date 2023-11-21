@@ -22,6 +22,7 @@ public class TeleDriverRobotControl extends OpMode {
 
     public RobotBase robotBase;
     private RobotBase.SyncSlidesMode syncSlidesMode;
+    private RobotBase.HangingState hangingState;
     private GamepadEx chassisController;
     private GamepadEx armController;
     private double dblCurrentHeading = 0;
@@ -85,18 +86,18 @@ public class TeleDriverRobotControl extends OpMode {
         //CHASSIS CONTROLLER BINDS
         if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
             robotBase.hangingMechanismSubsystem.lower();
-            strLastButtonPressed = "B";
         }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.hangingMechanismSubsystem.raisePosition();
-            strLastButtonPressed = "Y/LB";
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.airplaneLauncherSubsystem.raiseAndLaunch();
-            strLastButtonPressed = "X/LB";
-        } else if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
-            robotBase.airplaneLauncherSubsystem.lower();
-            strLastButtonPressed = "X";
+        if (hangingState == RobotBase.HangingState.DOWN) {
+            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP) && chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
+                robotBase.hangingMechanismSubsystem.raisePosition();
+            }
+        } else {
+            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                robotBase.hangingMechanismSubsystem.raise();
+            }
+            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                robotBase.hangingMechanismSubsystem.lower();
+            }
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
             if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
@@ -108,6 +109,22 @@ public class TeleDriverRobotControl extends OpMode {
         if (chassisController.wasJustPressed(GamepadKeys.Button.BACK)) {
             DataStorageSubsystem.dblIMUFinalHeading = 0;
             robotBase.navxMicro.initialize();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
+            robotBase.clawSubsystem.leftClosed();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
+            robotBase.clawSubsystem.rightClosed();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.A)) {
+            robotBase.clawSubsystem.leftClosed();
+            robotBase.clawSubsystem.rightClosed();
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
+            //chassis backdrop position
+        }
+        if (chassisController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
+            //chassis wing position
         }
         robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
         robotBase.intakeSubsystem.outake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
@@ -123,7 +140,7 @@ public class TeleDriverRobotControl extends OpMode {
         //ARM CONTROLLER BINDS
 
         if (syncSlidesMode == RobotBase.SyncSlidesMode.Off) {
-            //OPERATING THE RIGHT SLIDE AND GRABBER
+            //OPERATING THE RIGHT SLIDE AND CLAW
             if (armController.wasJustPressed(GamepadKeys.Button.A)) {
                 robotBase.slideSubsystem.rightLowToggle();
             }
@@ -137,9 +154,12 @@ public class TeleDriverRobotControl extends OpMode {
                 robotBase.slideSubsystem.rightSlidePositionRaise();
             }
            // if (armController.wasJustPressed(GamepadKeys.Trigger.RIGHT_TRIGGER)) {
-
+           //     robotBase.slideSubsystem.rightSlidePositionLower();
            // }
-            //OPERATING THE LEFT SLIDE AND GRABBER
+            if (armController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
+                robotBase.clawSubsystem.rightOpen();
+            }
+            //OPERATING THE LEFT SLIDE AND CLAW
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 robotBase.slideSubsystem.leftLowToggle();
             }
@@ -149,6 +169,32 @@ public class TeleDriverRobotControl extends OpMode {
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 robotBase.slideSubsystem.leftHighToggle();
             }
+            if (armController.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                robotBase.slideSubsystem.leftSlidePositionRaise();
+            }
+            // if (armController.wasJustPressed(GamepadKeys.Trigger.LEFT_TRIGGER)) {
+            //     robotBase.slideSubsystem.leftSlidePositionLower();
+            // }
+            if (armController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
+                robotBase.clawSubsystem.leftOpen();
+            }
+        } else {
+            if (armController.wasJustPressed(GamepadKeys.Button.A) || armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                robotBase.slideSubsystem.rightLowToggle();
+                robotBase.slideSubsystem.leftLowToggle();
+            }
+            if (armController.wasJustPressed(GamepadKeys.Button.B)) {
+                robotBase.slideSubsystem.rightMediumToggle();
+            }
+            if (armController.wasJustPressed(GamepadKeys.Button.Y) && !armController.getButton(GamepadKeys.Button.START)) {
+                robotBase.slideSubsystem.rightHighToggle();
+            }
+            if (armController.wasJustPressed(GamepadKeys.Button.X)) {
+                robotBase.slideSubsystem.rightSlidePositionRaise();
+            }
+            // if (armController.wasJustPressed(GamepadKeys.Trigger.RIGHT_TRIGGER)) {
+            //     robotBase.slideSubsystem.rightSlidePositionLower();
+            // }
         }
             robotBase.mecanumDriveSubsystem.update();
 
