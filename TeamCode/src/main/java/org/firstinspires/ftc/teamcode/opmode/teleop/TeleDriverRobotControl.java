@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,6 +21,7 @@ public class TeleDriverRobotControl extends OpMode {
 
 
     public RobotBase robotBase;
+    private RobotBase.SyncSlidesMode syncSlidesMode;
     private GamepadEx chassisController;
     private GamepadEx armController;
     private double dblCurrentHeading = 0;
@@ -33,6 +35,13 @@ public class TeleDriverRobotControl extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
+
+        TriggerReader triggerReader = new TriggerReader(
+                armController, GamepadKeys.Trigger.LEFT_TRIGGER
+        );
+        TriggerReader triggerReader1 = new TriggerReader(
+                armController, GamepadKeys.Trigger.RIGHT_TRIGGER
+        );
     }
 
     public void loop() {
@@ -113,15 +122,34 @@ public class TeleDriverRobotControl extends OpMode {
 
         //ARM CONTROLLER BINDS
 
-            if(armController.wasJustPressed(GamepadKeys.Button.A)) {
+        if (syncSlidesMode == RobotBase.SyncSlidesMode.Off) {
+            //OPERATING THE RIGHT SLIDE AND GRABBER
+            if (armController.wasJustPressed(GamepadKeys.Button.A)) {
                 robotBase.slideSubsystem.rightLowToggle();
             }
-            if(armController.wasJustPressed(GamepadKeys.Button.B)) {
+            if (armController.wasJustPressed(GamepadKeys.Button.B)) {
                 robotBase.slideSubsystem.rightMediumToggle();
             }
-            if(armController.wasJustPressed(GamepadKeys.Button.Y)) {
+            if (armController.wasJustPressed(GamepadKeys.Button.Y) && !armController.getButton(GamepadKeys.Button.START)) {
                 robotBase.slideSubsystem.rightHighToggle();
             }
+            if (armController.wasJustPressed(GamepadKeys.Button.X)) {
+                robotBase.slideSubsystem.rightSlidePositionRaise();
+            }
+           // if (armController.wasJustPressed(GamepadKeys.Trigger.RIGHT_TRIGGER)) {
+
+           // }
+            //OPERATING THE LEFT SLIDE AND GRABBER
+            if (armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                robotBase.slideSubsystem.leftLowToggle();
+            }
+            if (armController.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                robotBase.slideSubsystem.leftMediumToggle();
+            }
+            if (armController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                robotBase.slideSubsystem.leftHighToggle();
+            }
+        }
             robotBase.mecanumDriveSubsystem.update();
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());

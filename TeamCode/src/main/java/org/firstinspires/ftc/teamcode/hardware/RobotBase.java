@@ -61,6 +61,10 @@ public class RobotBase extends Object{
         MEDIUM,
         HIGH
     }
+    public enum SyncSlidesMode {
+        On,
+        Off
+    }
 
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor leftDistanceSensor;
@@ -107,6 +111,7 @@ public class RobotBase extends Object{
     public RightClawState rightClawState;
     public LeftSlideHeight leftSlideHeight;
     public RightSlideHeight rightSlideHeight;
+    public SyncSlidesMode syncSlidesMode;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -142,13 +147,15 @@ public class RobotBase extends Object{
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
 
-        //default value for alliance side
+        //default value for the alliance side
         alliance = Alliance.RED;
-        //default value for chassis control type
+        //default value for the chassis control type
         controlScheme = ChassisControlType.FIELDCENTRIC;
-        //default value for start position side
+        //default value for the start position side
         startPosition = StartPosition.LEFT;
         //default value for the prop position
         propPosition = PropPosition.NONE;
+        //default value for the sync slides mode
+        syncSlidesMode = SyncSlidesMode.On;
     }
 }
