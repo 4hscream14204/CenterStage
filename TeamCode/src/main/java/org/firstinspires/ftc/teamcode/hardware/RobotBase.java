@@ -94,7 +94,6 @@ public class RobotBase extends Object{
     public SlideSubsystem slideSubsystem;
     public AirplaneLauncherSubsystem airplaneLauncherSubsystem;
     public HangingMechanismSubsystem hangingMechanismSubsystem;
-    public OdometrySubsystem odometryServosSubsystem;
     public HuskyLensSubsystem huskyLensSubsystem;
     public SampleMecanumDrive mecanumDriveSubsystem;
     public IntakeSubsystem intakeSubsystem;
@@ -139,7 +138,6 @@ public class RobotBase extends Object{
         clawSubsystem = new ClawSubsystem(srvLeftClaw, srvRightClaw);
         airplaneLauncherSubsystem = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         hangingMechanismSubsystem = new HangingMechanismSubsystem(dcmHangingMechanism);
-        odometryServosSubsystem = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         mecanumDriveSubsystem = new SampleMecanumDrive(hwMap);
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
