@@ -28,19 +28,20 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerRightX = 0;
     private double dblChassisControllerRightY = 0;
     private double dblChassisControllerLeftX = 0;
-    TriggerReader LeftTriggerArmReader = new TriggerReader(
-            armController, GamepadKeys.Trigger.LEFT_TRIGGER
-    );
-    TriggerReader RightTriggerArmReader = new TriggerReader(
-            armController, GamepadKeys.Trigger.RIGHT_TRIGGER
-    );
+    private TriggerReader leftTriggerArmReader;
+    private TriggerReader rightTriggerArmReader;
 
     public void init() {
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
 
-
+        TriggerReader leftTriggerArmReader = new TriggerReader(
+                armController, GamepadKeys.Trigger.LEFT_TRIGGER
+        );
+        TriggerReader lightTriggerArmReader = new TriggerReader(
+                armController, GamepadKeys.Trigger.RIGHT_TRIGGER
+        );
     }
 
     public void loop() {
@@ -143,9 +144,9 @@ public class TeleDriverRobotControl extends OpMode {
             if (armController.wasJustPressed(GamepadKeys.Button.X)) {
                 robotBase.slideSubsystem.rightSlidePositionRaise();
             }
-           // if (armController.wasJustPressed(GamepadKeys.Trigger.RIGHT_TRIGGER)) {
-           //     robotBase.slideSubsystem.rightSlidePositionLower();
-           // }
+           if (rightTriggerArmReader.wasJustPressed()) {
+                robotBase.slideSubsystem.rightSlidePositionLower();
+            }
             if (armController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
                 robotBase.clawSubsystem.rightOpen();
             }
@@ -162,7 +163,7 @@ public class TeleDriverRobotControl extends OpMode {
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 robotBase.slideSubsystem.leftSlidePositionRaise();
             }
-             if (LeftTriggerArmReader.wasJustPressed()) {
+             if (leftTriggerArmReader.wasJustPressed()) {
                  robotBase.slideSubsystem.leftSlidePositionLower();
              }
             if (armController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
@@ -170,22 +171,19 @@ public class TeleDriverRobotControl extends OpMode {
             }
         } else {
             if (armController.wasJustPressed(GamepadKeys.Button.A) || armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                robotBase.slideSubsystem.rightLowToggle();
-                robotBase.slideSubsystem.leftLowToggle();
+                robotBase.slideSubsystem.dualLowToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.B) || armController.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                robotBase.slideSubsystem.rightMediumToggle();
-                robotBase.slideSubsystem.leftMediumToggle();
+                robotBase.slideSubsystem.dualMediumToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.Y) && !armController.getButton(GamepadKeys.Button.START) || armController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                robotBase.slideSubsystem.rightHighToggle();
-                robotBase.slideSubsystem.rightHighToggle();
+                robotBase.slideSubsystem.dualHighToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.X) || armController.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                robotBase.slideSubsystem.rightSlidePositionRaise();
+                robotBase.slideSubsystem.dualSlidePositionRaise();
             }
-            if (RightTriggerArmReader.wasJustPressed()) {
-                robotBase.slideSubsystem.rightSlidePositionLower();
+            if (rightTriggerArmReader.wasJustPressed() || leftTriggerArmReader.wasJustPressed()) {
+                robotBase.slideSubsystem.dualSlidePositionLower();
             }
         }
         //OTHER ARM BINDS

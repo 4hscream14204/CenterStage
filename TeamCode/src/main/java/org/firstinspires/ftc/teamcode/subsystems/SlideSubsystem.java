@@ -389,4 +389,82 @@ public class SlideSubsystem extends SubsystemBase {
         slideLeftHighest();
         slideRightHighest();
     }
+
+    //TOGGLES BOTH SLIDES BETWEEN THE GRABBING POSITION AND THE LOW POSITION
+    public void dualLowToggle() {
+        if(rightSlideHeight == RobotBase.RightSlideHeight.LOW) {
+            slideGrabbingPos();
+        } else {
+            slideLowPos();
+        }
+    }
+
+    //TOGGLES THE RIGHT SLIDE BETWEEN GRABBING POSITION AND THE MEDIUM POSITION
+    public void dualMediumToggle() {
+        if(rightSlideHeight == RobotBase.RightSlideHeight.MEDIUM) {
+            slideGrabbingPos();
+        } else {
+            slideMediumPos();
+        }
+    }
+
+    //TOGGLES THE RIGHT SLIDE BETWEEN GRABBING POSITION AND THE HIGH POSITION
+    public void dualHighToggle() {
+        if(rightSlideHeight == RobotBase.RightSlideHeight.HIGH) {
+            slideGrabbingPos();
+        } else {
+            slideHighPos();
+        }
+    }
+
+    //MOVES CURRENT SLIDES POSITION DOWN BY ONE PRESET POSITION
+    public void dualSlidePositionLower() {
+        switch (intRightSlidePosition) {
+            case 2:
+                slideLowestPos();
+                break;
+            case 3:
+                slideRightLow();
+                break;
+            case 4:
+                slideLowMediumPos();
+                break;
+            case 5:
+                slideMediumPos();
+                break;
+            case 6:
+                slideMediumHighPos();
+                break;
+            case 7:
+                slideHighPos();
+                break;
+        }
+    }
+
+    //MOVES CURRENT SLIDES POSITION UP BY ONE PRESET POSITION
+    public void dualSlidePositionRaise() {
+        switch (intRightSlidePosition) {
+            case 0:
+                slideLowestPos();
+                break;
+            case 1:
+                slideLowPos();
+                break;
+            case 2:
+                slideLowMediumPos();
+                break;
+            case 3:
+                slideMediumPos();
+                break;
+            case 4:
+                slideMediumHighPos();
+                break;
+            case 5:
+                slideHighPos();
+                break;
+            case 6:
+                slideHighestPos();
+                break;
+        }
+    }
 }
