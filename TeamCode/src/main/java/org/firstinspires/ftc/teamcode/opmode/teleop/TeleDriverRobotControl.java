@@ -79,7 +79,7 @@ public class TeleDriverRobotControl extends OpMode {
             strLastButtonPressed = "B";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.Y) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
-            robotBase.hangingMechanismSubsystem.raise();
+            robotBase.hangingMechanismSubsystem.raisePosition();
             strLastButtonPressed = "Y/LB";
         }
         if (chassisController.wasJustPressed(GamepadKeys.Button.X) && chassisController.getButton(GamepadKeys.Button.LEFT_BUMPER)) {
@@ -112,12 +112,7 @@ public class TeleDriverRobotControl extends OpMode {
         */
 
         //ARM CONTROLLER BINDS
-            if (armController.isDown(GamepadKeys.Button.A)) {
-                robotBase.odometryServosSubsystem.odometryToggle();
-            }
-            if(armController.wasJustReleased(GamepadKeys.Button.A)) {
-                robotBase.odometryServosSubsystem.odometryStop();
-            }
+
             if(armController.wasJustPressed(GamepadKeys.Button.A)) {
                 robotBase.slideSubsystem.rightLowToggle();
             }

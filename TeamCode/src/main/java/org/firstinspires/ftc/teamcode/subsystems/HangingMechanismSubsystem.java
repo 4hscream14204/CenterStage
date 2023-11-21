@@ -2,30 +2,30 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class HangingMechanismSubsystem extends SubsystemBase {
 
-    Servo srvHangingMechanism1;
-    Servo srvHangingMechanism2;
-    private final double dblHangingReleasePosition = 0.5;
-    private final double dblHangingClosePosition1 = 0;
-    private final double dblHangingClosePosition2 = 1;
+    DcMotor dcmHangingMechanism;
+    private final int intHangingReleasePosition = 1;
+    private final int intHangingLowerPosition = -1;
+    private final int intHangingRaisePosition= 2;
 
 
 
-    public HangingMechanismSubsystem(Servo hangingMechanism1Constructor, Servo hangingMechanism2Constructor) {
-        srvHangingMechanism1 = hangingMechanism1Constructor;
-        srvHangingMechanism2 = hangingMechanism2Constructor;
+    public HangingMechanismSubsystem(DcMotor hangingMechanismConstructor) {
+        dcmHangingMechanism = hangingMechanismConstructor;
         lower();
     }
 
-    public void raise() {
-        srvHangingMechanism1.setPosition(dblHangingReleasePosition);
-        srvHangingMechanism2.setPosition(dblHangingReleasePosition);
+    public void raisePosition() {
+        dcmHangingMechanism.setTargetPosition(intHangingReleasePosition);
     }
     public void lower() {
-        srvHangingMechanism1.setPosition(dblHangingClosePosition1);
-        srvHangingMechanism2.setPosition(dblHangingClosePosition2);
+        dcmHangingMechanism.setTargetPosition(intHangingLowerPosition);
+    }
+
+    public void raise() {
+        dcmHangingMechanism.setTargetPosition(intHangingRaisePosition);
     }
 }

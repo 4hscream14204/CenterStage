@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 
 
@@ -72,11 +71,10 @@ public class RobotBase extends Object{
     public DcMotor rightRear;
     public DcMotor rightFront;
     public DcMotor dcmIntake;
+    public DcMotor dcmArm;
+    public DcMotor dcmHangingMechanism;
     public Servo srvLeftClaw;
     public Servo srvRightClaw;
-    public Servo srvArm;
-    public Servo srvHangingMechanism1;
-    public Servo srvHangingMechanism2;
     public Servo srvAirplaneLauncher;
     public Servo srvAirplaneLauncherEv;
     public Servo srvOdometryLeft;
@@ -123,9 +121,8 @@ public class RobotBase extends Object{
         dcmIntake = hwMap.get(DcMotor.class, "Intake");
         srvLeftClaw = hwMap.get(Servo.class,"srvLeftClaw");
         srvRightClaw = hwMap.get(Servo.class,"srvRightClaw");
-        srvArm = hwMap.get(Servo.class,"srvArm");
-        srvHangingMechanism1 = hwMap.get(Servo.class,"hangingMechanism1");
-        srvHangingMechanism2 = hwMap.get(Servo.class,"hangingMechanism2");
+        dcmArm = hwMap.get(DcMotor.class,"dcmArm");
+        dcmHangingMechanism = hwMap.get(DcMotor.class,"hangingMechanism");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         srvAirplaneLauncherEv = hwMap.get(Servo.class, "airplaneLauncherEv");
         srvOdometryLeft = hwMap.get(Servo.class, "odometryLeft");
@@ -141,7 +138,7 @@ public class RobotBase extends Object{
 
         clawSubsystem = new ClawSubsystem(srvLeftClaw, srvRightClaw);
         airplaneLauncherSubsystem = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
-        hangingMechanismSubsystem = new HangingMechanismSubsystem(srvHangingMechanism1, srvHangingMechanism2);
+        hangingMechanismSubsystem = new HangingMechanismSubsystem(dcmHangingMechanism);
         odometryServosSubsystem = new OdometrySubsystem(srvOdometryLeft, srvOdometryRight, srvOdometryMiddle);
         mecanumDriveSubsystem = new SampleMecanumDrive(hwMap);
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
