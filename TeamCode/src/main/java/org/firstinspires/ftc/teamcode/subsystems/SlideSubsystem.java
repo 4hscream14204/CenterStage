@@ -11,6 +11,7 @@ public class SlideSubsystem extends SubsystemBase {
     Servo srvSlideLeft;
     private RobotBase.LeftSlideHeight leftSlideHeight;
     private RobotBase.RightSlideHeight rightSlideHeight;
+    private RobotBase.SyncSlidesMode syncSlides;
     private final double dblSlideGrabbingPos = 0;
     private final double dblSlideLowestPos = 0.1;
     private final double dblSlideLowPos = 0.3;
@@ -296,13 +297,48 @@ public class SlideSubsystem extends SubsystemBase {
     }
     //SYNC SLIDES MODE VERSIONS
 
-    //THIS IS THE INITIAL OPERATION FOR SYNCING THE SLIDES
-    public void syncSlides() {
-        switch(intRightSlidePosition) {
-            case 0:
-                slideLeftGrabbingPos();
-            case 1:
-
+    //THIS IS THE OPERATION FOR SYNCING THE SLIDES AND UNSYNCING THE SLIDES
+    public void syncSlidesToggle() {
+        switch(syncSlides) {
+            case OFF:
+            switch (intRightSlidePosition) {
+                case 0:
+                    slideLeftGrabbingPos();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 1:
+                    slideLeftLowest();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 2:
+                    slideLeftLow();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 3:
+                    slideLeftLowMedium();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 4:
+                    slideLeftMedium();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 5:
+                    slideLeftMediumHigh();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 6:
+                    slideLeftHigh();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+                case 7:
+                    slideLeftHighest();
+                    syncSlides = RobotBase.SyncSlidesMode.ON;
+                    break;
+            }
+            break;
+            case ON:
+                syncSlides = RobotBase.SyncSlidesMode.OFF;
+                break;
         }
     }
 

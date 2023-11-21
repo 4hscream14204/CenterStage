@@ -26,6 +26,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         hangingState = RobotBase.HangingState.RELEASED;
 
     }
+
     public void lower() {
         dcmHangingMechanism.setTargetPosition(intHangingLowerPosition);
     }

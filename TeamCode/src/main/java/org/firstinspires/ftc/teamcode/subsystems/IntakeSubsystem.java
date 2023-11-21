@@ -15,7 +15,4 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intake (double dblIntakePower) {
         dcmIntake.setPower(dblIntakePower);
     }
-    public void outake (double dblOutakePower) {
-        dcmIntake.setPower(dblOutakePower);
-    }
 }

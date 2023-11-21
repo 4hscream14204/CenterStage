@@ -62,12 +62,17 @@ public class RobotBase extends Object{
         HIGH
     }
     public enum SyncSlidesMode {
-        On,
-        Off
+        ON,
+        OFF
     }
     public enum HangingState {
         RELEASED,
         DOWN
+    }
+    public enum AirplaneState {
+        LOWER,
+        RAISE,
+        RELEASE
     }
 
     public DistanceSensor frontDistanceSensor;
@@ -117,6 +122,7 @@ public class RobotBase extends Object{
     public RightSlideHeight rightSlideHeight;
     public SyncSlidesMode syncSlidesMode;
     public HangingState hangingState;
+    public AirplaneState airplaneState;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -161,8 +167,10 @@ public class RobotBase extends Object{
         //default value for the prop position
         propPosition = PropPosition.NONE;
         //default value for the sync slides mode
-        syncSlidesMode = SyncSlidesMode.On;
-        //default value for hanging stat
+        syncSlidesMode = SyncSlidesMode.ON;
+        //default value for hanging state
         hangingState = HangingState.DOWN;
+        //default value for airplane state
+        airplaneState = AirplaneState.LOWER;
     }
 }
