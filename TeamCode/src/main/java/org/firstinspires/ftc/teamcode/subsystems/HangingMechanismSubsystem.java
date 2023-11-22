@@ -13,6 +13,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     private final int intHangingReleasePosition = 1;
     private final int intHangingLowerPosition = -1;
     private final int intHangingRaisePosition= 2;
+    //At the output - 288 counts/revolution (core hex motor)
 
 
 

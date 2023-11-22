@@ -8,6 +8,7 @@ public class ArmSubsystem extends SubsystemBase {
     DcMotor dcmArm;
     private int intArmGrabbingPos = 0;
     private int intArmDropOffPos = 1;
+    //537.7 PPR at the Output Shaft (312 RPM motor)
 
     public ArmSubsystem(DcMotor armConstructor) {
         dcmArm = armConstructor;
