@@ -91,32 +91,43 @@ public class AutoSuperClass extends OpMode {
 //Red alliance on the left starting side and team prop on left spike tape position
         TrajectorySequence redRsLp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedRsLp)
                 .splineToSplineHeading(new Pose2d(6.00, -36.00, Math.toRadians(135.00)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(17.00, -46.00, Math.toRadians(90.00)), Math.toRadians(0))
+                .build();
+
+
+        Pose2d startRedRsMp = new Pose2d(15.00, -63.00, Math.toRadians(90));
+
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedRsMp);
+
+//Red alliance on the left starting side and team prop on left spike tape position
+        TrajectorySequence redRsMp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedRsMp)
+                .splineToSplineHeading(new Pose2d(12.00, -34.00, Math.toRadians(90)), Math.toRadians(90))
+
 
                 .build();
 
-        TrajectorySequence redLsDrop = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedRsLp)
-                .splineToLinearHeading(new Pose2d(40.00, -31.70, Math.toRadians(180.00)), Math.toRadians(0.00))
-                .build();
-        /*
-//Trajectory for if the Prop is located on the middle spike tape on the redside
-        TrajectorySequence middleRed = robotBase.MecanumDrive.trajectorySequenceBuilder(s.end())
 
-                .build();
-//Trajectory for if the Prop is located on left or right spike tape on the red side
-        TrajectorySequence sidesRed = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
+        Pose2d startRedRsRp = new Pose2d(15.00, -63.00, Math.toRadians(90));
 
-                .build();
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedRsRp);
 
-        TrajectorySequence middleBlue = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
+//Red alliance on the left starting side and team prop on left spike tape position
+        TrajectorySequence redRsRp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedRsRp)
+                .splineToSplineHeading(new Pose2d(20.00, -37.00, Math.toRadians(60.00)), Math.toRadians(60.00))
 
                 .build();
 
-        TrajectorySequence sidesBlue = robotBase.MecanumDrive.trajectorySequenceBuilder(redLeft1.end())
 
+//common spot for robot after spike tape drop off
+        TrajectorySequence redRsPrep = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedRsLp)
+                .splineToSplineHeading(new Pose2d(18, -49, Math.toRadians(0.00 )), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(36, -34, Math.toRadians(0.00)), Math.toRadians(180))
                 .build();
-                */
 
+        //Drop off position on the left april tag of the back board
+        TrajectorySequence redBackLeft = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(redRsPrep.end())
+                .splineToSplineHeading(new Pose2d(54, -29, Math.toRadians(0.00 )), Math.toRadians(0.00))
+                .lineToLinearHeading(new Pose2d(52, -29, Math.toRadians(0.00)))
+                .build();
     }
 
 @Override
