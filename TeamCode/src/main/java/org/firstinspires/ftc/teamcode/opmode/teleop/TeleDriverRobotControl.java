@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.TriggerReader;
@@ -17,7 +18,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
-
 
     public RobotBase robotBase;
     private RobotBase.SyncSlidesMode syncSlidesMode;
@@ -42,6 +42,8 @@ public class TeleDriverRobotControl extends OpMode {
         TriggerReader lightTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
+
+
     }
 
     public void loop() {
@@ -125,7 +127,8 @@ public class TeleDriverRobotControl extends OpMode {
         if (chassisController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
             //chassis wing position
         }
-        robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) - chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+        robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) -
+                chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
 
 
         //ARM CONTROLLER BINDS
@@ -197,5 +200,6 @@ public class TeleDriverRobotControl extends OpMode {
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);
+        CommandScheduler.getInstance().run();
     }
 }

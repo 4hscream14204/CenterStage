@@ -105,6 +105,8 @@ public class RobotBase extends Object{
     public NavxMicroNavigationSensor navxMicro;
     public ClawSubsystem clawSubsystem;
     public SlideSubsystem slideSubsystem;
+    //public SlideSubsystem rightSlideSubsystem;
+    //public SlideSubsystem leftSlideSubsystem;
     public AirplaneLauncherSubsystem airplaneLauncherSubsystem;
     public HangingMechanismSubsystem hangingMechanismSubsystem;
     public HuskyLensSubsystem huskyLensSubsystem;
