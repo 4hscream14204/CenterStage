@@ -33,12 +33,27 @@ public class AutoSuperClass extends OpMode {
         RIGHT,
     }
 
+    //enum for where to park at the end of autonomous
+    enum ParkSide {
+        INNER,
+        OUTER,
+    }
+
+    //enum for crossing from wing side of field to the backdrop side of the field
+    enum CrossSide {
+        STAGEDOOR,
+        TRUSS,
+    }
+
     //Making first instance of proplocation
     PropLocation propLocation;
 
     //making first instance of sides
     Sides side;
 
+    ParkSide parkSide;
+
+    CrossSide crossSide;
     @Override
     public void init() {
 
@@ -49,8 +64,13 @@ public class AutoSuperClass extends OpMode {
         // setting default starting side
         side = Sides.LEFT;
 
-        // START OF TRAJECTORIES
+        // setting parking position
+        parkSide = ParkSide.OUTER;
 
+        //setting what way to cross from wing-side to backdrop-side
+        crossSide = CrossSide.STAGEDOOR;
+
+        // START OF TRAJECTORIES
 
         Pose2d startRedLsLp = new Pose2d(-38.35, -63.3, Math.toRadians(90));
 
@@ -58,8 +78,6 @@ public class AutoSuperClass extends OpMode {
 
 //Red alliance on the left starting side and team prop on left spike tape position
         TrajectorySequence redLsLp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsLp)
-
-
 
                 .build();
 
@@ -78,7 +96,7 @@ public class AutoSuperClass extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsRp);
 
-//Red alliance on the left starting side and team prop on middle spike tape position
+//Red alliance on the left starting side and team prop on right spike tape position
         TrajectorySequence redLsRp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsRp)
 
                 .build();
