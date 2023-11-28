@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.TriggerReader;
@@ -15,6 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.button.GamepadButton;
 
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
@@ -32,6 +39,7 @@ public class TeleDriverRobotControl extends OpMode {
     private TriggerReader rightTriggerArmReader;
 
     public void init() {
+        CommandScheduler.getInstance().reset();
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
@@ -39,15 +47,29 @@ public class TeleDriverRobotControl extends OpMode {
         TriggerReader leftTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.LEFT_TRIGGER
         );
-        TriggerReader lightTriggerArmReader = new TriggerReader(
+        TriggerReader rightTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
 
 
         //CHASSIS CONTROLLER BINDS
-        chassisController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(() -> schedule(new robotBase.hangingMechanismSubsystem.hangingToggle()));
-    }
+        //HANGING MECHANISM OPERATION
+        switch (robotBase.hangingState) {
+            case DOWN:
+            chassisController.getGamepadButton(GamepadKeys.Button.Y)
+                    .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
+                    .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
+            break;
+            case RAISED:
+            case LOWERED:
+                chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                        .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
+                break;
+        }
+
+        //ROBOT SLASH FIELD CENTRIC SWAP
+
+        }
 
     public void loop() {
         chassisController.readButtons();
@@ -88,21 +110,6 @@ public class TeleDriverRobotControl extends OpMode {
         }
 
         //CHASSIS CONTROLLER BINDS
-        if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
-            robotBase.hangingMechanismSubsystem.lower();
-        }
-        if (hangingState == RobotBase.HangingState.DOWN) {
-            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP) && chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
-                robotBase.hangingMechanismSubsystem.initialRaisePosition();
-            }
-        } else {
-            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                robotBase.hangingMechanismSubsystem.raise();
-            }
-            if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                robotBase.hangingMechanismSubsystem.lower();
-            }
-        }
         if (chassisController.wasJustPressed(GamepadKeys.Button.START)) {
             if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
                 robotBase.controlScheme = RobotBase.ChassisControlType.ROBOTCENTRIC;
