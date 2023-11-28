@@ -21,17 +21,33 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         lower();
     }
 
-    public void raisePosition() {
+    public void initialRaisePosition() {
         dcmHangingMechanism.setTargetPosition(intHangingReleasePosition);
-        hangingState = RobotBase.HangingState.RELEASED;
+        hangingState = RobotBase.HangingState.RAISED;
 
     }
 
     public void lower() {
         dcmHangingMechanism.setTargetPosition(intHangingLowerPosition);
+        hangingState = RobotBase.HangingState.LOWERED;
     }
 
     public void raise() {
         dcmHangingMechanism.setTargetPosition(intHangingRaisePosition);
+        hangingState = RobotBase.HangingState.RAISED;
+    }
+
+    public void hangingToggle() {
+        switch (hangingState) {
+            case DOWN:
+                initialRaisePosition();
+                break;
+            case RAISED:
+                lower();
+                break;
+            case LOWERED:
+                raise();
+                break;
+        }
     }
 }

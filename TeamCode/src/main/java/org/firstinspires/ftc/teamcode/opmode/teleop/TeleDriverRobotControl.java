@@ -44,6 +44,9 @@ public class TeleDriverRobotControl extends OpMode {
         );
 
 
+        //CHASSIS CONTROLLER BINDS
+        chassisController.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(() -> schedule(new robotBase.hangingMechanismSubsystem.hangingToggle()));
     }
 
     public void loop() {
@@ -90,7 +93,7 @@ public class TeleDriverRobotControl extends OpMode {
         }
         if (hangingState == RobotBase.HangingState.DOWN) {
             if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP) && chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
-                robotBase.hangingMechanismSubsystem.raisePosition();
+                robotBase.hangingMechanismSubsystem.initialRaisePosition();
             }
         } else {
             if (chassisController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {

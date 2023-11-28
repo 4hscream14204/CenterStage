@@ -66,7 +66,8 @@ public class RobotBase extends Object{
         OFF
     }
     public enum HangingState {
-        RELEASED,
+        RAISED,
+        LOWERED,
         DOWN
     }
     public enum AirplaneState {
