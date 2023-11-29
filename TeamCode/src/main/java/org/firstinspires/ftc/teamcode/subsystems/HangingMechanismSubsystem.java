@@ -9,10 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class HangingMechanismSubsystem extends SubsystemBase {
 
     DcMotor dcmHangingMechanism;
-    private RobotBase.HangingState hangingState;
-    private final int intHangingReleasePosition = 1;
-    private final int intHangingLowerPosition = -1;
-    private final int intHangingRaisePosition= 2;
+    public RobotBase.HangingState hangingState;
 
 
 
@@ -22,19 +19,18 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     }
 
     public void initialRaisePosition() {
-        dcmHangingMechanism.setTargetPosition(intHangingReleasePosition);
         hangingState = RobotBase.HangingState.RAISED;
-
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
     public void lower() {
-        dcmHangingMechanism.setTargetPosition(intHangingLowerPosition);
         hangingState = RobotBase.HangingState.LOWERED;
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
     public void raise() {
-        dcmHangingMechanism.setTargetPosition(intHangingRaisePosition);
         hangingState = RobotBase.HangingState.RAISED;
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
     public void hangingToggle() {

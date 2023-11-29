@@ -66,9 +66,14 @@ public class RobotBase extends Object{
         OFF
     }
     public enum HangingState {
-        RAISED,
-        LOWERED,
-        DOWN
+        DOWN (0),
+        RAISED (1),
+        LOWERED (-1);
+        public final int intHangingPos;
+
+        HangingState(int hangingPosConstructor) {
+            this.intHangingPos = hangingPosConstructor;
+        }
     }
     public enum AirplaneState {
         LOWER,
@@ -87,6 +92,7 @@ public class RobotBase extends Object{
     public DcMotor dcmIntake;
     public DcMotor dcmArm;
     public DcMotor dcmHangingMechanism;
+    //core hex motor At the output - 288 counts/revolution
     public Servo srvLeftClaw;
     public Servo srvRightClaw;
     public Servo srvAirplaneLauncher;
@@ -120,8 +126,6 @@ public class RobotBase extends Object{
     public StartPosition startPosition;
     public PropPosition propPosition;
     public SyncSlidesMode syncSlidesMode;
-    public HangingState hangingState;
-    public AirplaneState airplaneState;
 
     public RobotBase (HardwareMap hwMap) {
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
@@ -170,9 +174,5 @@ public class RobotBase extends Object{
         propPosition = PropPosition.NONE;
         //default value for the sync slides mode
         syncSlidesMode = SyncSlidesMode.ON;
-        //default value for hanging state
-        hangingState = HangingState.DOWN;
-        //default value for airplane state
-        airplaneState = AirplaneState.LOWER;
     }
 }
