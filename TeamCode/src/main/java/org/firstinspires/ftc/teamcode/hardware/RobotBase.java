@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OldSlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 
 
@@ -41,25 +42,25 @@ public class RobotBase extends Object{
         MIDDLE,
         NONE
     }
-    public enum LeftClawState {
+    public enum ClawState {
         OPEN,
         CLOSED
     }
-    public enum RightClawState {
-        OPEN,
-        CLOSED
-    }
-    public enum LeftSlideHeight {
-        GRABBING,
-        LOW,
-        MEDIUM,
-        HIGH
-    }
-    public enum RightSlideHeight {
-        GRABBING,
-        LOW,
-        MEDIUM,
-        HIGH
+    public enum SlideHeight {
+        GRABBING (0),
+        ESCAPE (0.1),
+        LOWEST (0.2),
+        LOW (0.3),
+        LOWMEDIUM (0.4),
+        MEDIUM (0.5),
+        MEDIUMHIGH (0.6),
+        HIGH (0.7),
+        HIGHEST (0.8);
+        public final double dblSlidePos;
+
+        SlideHeight(double slidePosConstructor) {
+            this.dblSlidePos = slidePosConstructor;
+        }
     }
     public enum SyncSlidesMode {
         ON,
@@ -104,10 +105,10 @@ public class RobotBase extends Object{
     public IMU imu;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
-    public ClawSubsystem clawSubsystem;
-    public SlideSubsystem slideSubsystem;
-    //public SlideSubsystem rightSlideSubsystem;
-    //public SlideSubsystem leftSlideSubsystem;
+    public ClawSubsystem leftClawSubsystem;
+    public ClawSubsystem rightClawSubsystem;
+    public SlideSubsystem rightSlideSubsystem;
+    public SlideSubsystem leftSlideSubsystem;
     public AirplaneLauncherSubsystem airplaneLauncherSubsystem;
     public HangingMechanismSubsystem hangingMechanismSubsystem;
     public HuskyLensSubsystem huskyLensSubsystem;
@@ -119,10 +120,6 @@ public class RobotBase extends Object{
     public ChassisControlType controlScheme;
     public StartPosition startPosition;
     public PropPosition propPosition;
-    public LeftClawState leftClawState;
-    public RightClawState rightClawState;
-    public LeftSlideHeight leftSlideHeight;
-    public RightSlideHeight rightSlideHeight;
     public SyncSlidesMode syncSlidesMode;
     public HangingState hangingState;
     public AirplaneState airplaneState;
@@ -154,12 +151,15 @@ public class RobotBase extends Object{
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
-        clawSubsystem = new ClawSubsystem(srvLeftClaw, srvRightClaw);
+        leftClawSubsystem = new ClawSubsystem(srvLeftClaw, true);
+        rightClawSubsystem = new ClawSubsystem(srvRightClaw, false);
         airplaneLauncherSubsystem = new AirplaneLauncherSubsystem(srvAirplaneLauncher, srvAirplaneLauncherEv);
         hangingMechanismSubsystem = new HangingMechanismSubsystem(dcmHangingMechanism);
         mecanumDriveSubsystem = new SampleMecanumDrive(hwMap);
         huskyLensSubsystem = new HuskyLensSubsystem(huskyLens);
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
+        leftSlideSubsystem = new SlideSubsystem(srvLeftSlide);
+        rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
 
         //default value for the alliance side
         alliance = Alliance.RED;

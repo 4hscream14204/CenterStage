@@ -54,22 +54,47 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
-        switch (robotBase.hangingState) {
-            case DOWN:
-            chassisController.getGamepadButton(GamepadKeys.Button.Y)
-                    .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
-                    .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
-            break;
-            case RAISED:
-            case LOWERED:
-                chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
-                break;
-        }
+        chassisController.getGamepadButton(GamepadKeys.Button.Y)
+                .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
+                .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
+
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
 
         //ROBOT SLASH FIELD CENTRIC SWAP
 
-        }
+
+        //IMU RESET
+        chassisController.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new InstantCommand(() -> {
+                    DataStorageSubsystem.dblIMUFinalHeading = 0;
+                    robotBase.navxMicro.initialize();
+                }));
+
+        //LEFT CLAW CLOSING
+        chassisController.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(new InstantCommand(() -> robotBase.leftClawSubsystem.clawClose()));
+
+        //RIGHT CLAW CLOSING
+        chassisController.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(new InstantCommand(() -> robotBase.rightClawSubsystem.clawClose()));
+
+        //DUEL CLAW CLOSING
+        chassisController.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new InstantCommand(() -> {
+                    robotBase.leftClawSubsystem.clawClose();
+                    robotBase.rightClawSubsystem.clawClose();
+                }));
+
+        //CHASSIS BACKDROP POSITION
+        chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(new InstantCommand(/* chassis backdrop position */));
+
+        //CHASSIS WING POSITION
+        chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(new InstantCommand(/* chassis wing position */));
+
+    }
 
     public void loop() {
         chassisController.readButtons();
@@ -117,92 +142,56 @@ public class TeleDriverRobotControl extends OpMode {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
         }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.BACK)) {
-            DataStorageSubsystem.dblIMUFinalHeading = 0;
-            robotBase.navxMicro.initialize();
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.X)) {
-            robotBase.clawSubsystem.leftClosed();
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
-            robotBase.clawSubsystem.rightClosed();
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.A)) {
-            robotBase.clawSubsystem.leftClosed();
-            robotBase.clawSubsystem.rightClosed();
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-            //chassis backdrop position
-        }
-        if (chassisController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
-            //chassis wing position
-        }
-        robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) -
-                chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
 
+        //INTAKE OPERATION
+        if (chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1 || chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1) {
+            robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) -
+                    chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+        }
 
         //ARM CONTROLLER BINDS
 
         if (syncSlidesMode == RobotBase.SyncSlidesMode.OFF) {
             //OPERATING THE RIGHT SLIDE AND CLAW
             if (armController.wasJustPressed(GamepadKeys.Button.A)) {
-                robotBase.slideSubsystem.rightLowToggle();
+                robotBase.rightSlideSubsystem.slideLowToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.B)) {
-                robotBase.slideSubsystem.rightMediumToggle();
+                robotBase.rightSlideSubsystem.slideMediumToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.Y) && !armController.getButton(GamepadKeys.Button.START)) {
-                robotBase.slideSubsystem.rightHighToggle();
+                robotBase.rightSlideSubsystem.slideHighToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.X)) {
-                robotBase.slideSubsystem.rightSlidePositionRaise();
+                robotBase.rightSlideSubsystem.slideTuningDown();
             }
            if (rightTriggerArmReader.wasJustPressed()) {
-                robotBase.slideSubsystem.rightSlidePositionLower();
+                robotBase.rightSlideSubsystem.slideTuningUp();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
-                robotBase.clawSubsystem.rightOpen();
+                robotBase.rightClawSubsystem.clawOpen();
             }
             //OPERATING THE LEFT SLIDE AND CLAW
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                robotBase.slideSubsystem.leftLowToggle();
+                robotBase.leftSlideSubsystem.slideLowToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                robotBase.slideSubsystem.leftMediumToggle();
+                robotBase.leftSlideSubsystem.slideMediumToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                robotBase.slideSubsystem.leftHighToggle();
+                robotBase.leftSlideSubsystem.slideHighToggle();
             }
             if (armController.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                robotBase.slideSubsystem.leftSlidePositionRaise();
+                robotBase.leftSlideSubsystem.slideTuningDown();
             }
              if (leftTriggerArmReader.wasJustPressed()) {
-                 robotBase.slideSubsystem.leftSlidePositionLower();
+                 robotBase.leftSlideSubsystem.slideTuningUp();
              }
             if (armController.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-                robotBase.clawSubsystem.leftOpen();
-            }
-        } else {
-            if (armController.wasJustPressed(GamepadKeys.Button.A) || armController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                robotBase.slideSubsystem.dualLowToggle();
-            }
-            if (armController.wasJustPressed(GamepadKeys.Button.B) || armController.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                robotBase.slideSubsystem.dualMediumToggle();
-            }
-            if (armController.wasJustPressed(GamepadKeys.Button.Y) && !armController.getButton(GamepadKeys.Button.START) || armController.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                robotBase.slideSubsystem.dualHighToggle();
-            }
-            if (armController.wasJustPressed(GamepadKeys.Button.X) || armController.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                robotBase.slideSubsystem.dualSlidePositionRaise();
-            }
-            if (rightTriggerArmReader.wasJustPressed() || leftTriggerArmReader.wasJustPressed()) {
-                robotBase.slideSubsystem.dualSlidePositionLower();
+                robotBase.leftClawSubsystem.clawOpen();
             }
         }
         //OTHER ARM BINDS
-        if (armController.wasJustPressed(GamepadKeys.Button.BACK)) {
-            robotBase.slideSubsystem.syncSlidesToggle();
-        }
         if (armController.wasJustPressed(GamepadKeys.Button.Y) && armController.getButton(GamepadKeys.Button.START)) {
             robotBase.airplaneLauncherSubsystem.raiseAndLaunch();
         }

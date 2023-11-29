@@ -50,4 +50,10 @@ public class HangingMechanismSubsystem extends SubsystemBase {
                 break;
         }
     }
+
+    public void hangingToggleCheck() {
+        if (hangingState != RobotBase.HangingState.DOWN) {
+            hangingToggle();
+        }
+    }
 }

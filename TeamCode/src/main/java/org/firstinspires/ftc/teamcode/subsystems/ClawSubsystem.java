@@ -7,55 +7,36 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 public class ClawSubsystem extends SubsystemBase {
 
-    private Servo srvLeftClaw;
-    private Servo srvRightClaw;
-    private final double dblClawOpen = 1;
-    private final double dblClawClose = 0;
-    private RobotBase.LeftClawState leftClawState;
-    private RobotBase.RightClawState rightClawState;
+    private Servo srvClaw;
+    private double dblClawOpen = 1;
+    private double dblClawClose = 0;
+    public RobotBase.ClawState clawState;
 
-    public ClawSubsystem(Servo leftClawConstructor, Servo rightClawConstructor) {
-        srvLeftClaw = leftClawConstructor;
-        srvRightClaw = rightClawConstructor;
+    public ClawSubsystem(Servo clawConstructor, boolean bolLeftSide) {
+        srvClaw = clawConstructor;
+        if (bolLeftSide != true) {
+            dblClawOpen = 0;
+            dblClawClose = 1;
+        }
     }
 
-    public void leftOpen() {
-        srvLeftClaw.setPosition(dblClawOpen);
-        leftClawState = RobotBase.LeftClawState.OPEN;
+    public void clawOpen() {
+        srvClaw.setPosition(dblClawOpen);
+        clawState = RobotBase.ClawState.OPEN;
     }
 
-    public void leftClosed() {
-        srvLeftClaw.setPosition(dblClawClose);
-        leftClawState = RobotBase.LeftClawState.CLOSED;
+    public void clawClose() {
+        srvClaw.setPosition(dblClawClose);
+        clawState = RobotBase.ClawState.CLOSED;
     }
 
-    public void rightOpen() {
-        srvRightClaw.setPosition(dblClawOpen);
-        rightClawState = RobotBase.RightClawState.OPEN;
-    }
-
-    public void rightClosed() {
-        srvRightClaw.setPosition(dblClawClose);
-        rightClawState = RobotBase.RightClawState.CLOSED;
-    }
-
-    public void leftClawToggle() {
-        switch (leftClawState) {
+    public void clawToggle() {
+        switch (clawState) {
             case OPEN:
-                leftClosed();
+                clawClose();
                 break;
             case CLOSED:
-                leftOpen();
-                break;
-        }
-        }
-        public void rightClawToggle() {
-        switch (rightClawState) {
-            case OPEN:
-                rightClosed();
-                break;
-            case CLOSED:
-                rightOpen();
+                clawOpen();
                 break;
         }
         }
