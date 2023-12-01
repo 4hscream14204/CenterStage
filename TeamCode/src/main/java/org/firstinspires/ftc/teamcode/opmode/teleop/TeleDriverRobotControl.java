@@ -94,6 +94,9 @@ public class TeleDriverRobotControl extends OpMode {
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new InstantCommand(/* chassis wing position */));
 
+        //ARM CONTROLLER BINDS
+
+
     }
 
     public void loop() {

@@ -3,28 +3,29 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+
 public class WristSubsystem extends SubsystemBase {
 
-    Servo leftWrist;
-    Servo rightWrist;
-    private double dblPickup = 0;
-    private double dblDropOff = 1;
+    Servo srvWrist;
+    public RobotBase.WristState wristState;
 
-    public WristSubsystem(Servo leftWristConstructor, Servo rightWristConstructor) {
-        leftWrist = leftWristConstructor;
-        rightWrist = rightWristConstructor;
+    public WristSubsystem(Servo wristConstructor) {
+        srvWrist = wristConstructor;
     }
 
-    public void leftPickup() {
-        leftWrist.setPosition(dblPickup);
+    public void wristPickup() {
+        wristState = RobotBase.WristState.GRABBING;
+        srvWrist.setPosition(wristState.dblWristState);
     }
-    public void leftDropOff() {
-        leftWrist.setPosition(dblDropOff);
+
+    public void wristEscape() {
+        wristState = RobotBase.WristState.ESCAPE;
+        srvWrist.setPosition(wristState.dblWristState);
     }
-    public void rightPickup() {
-        rightWrist.setPosition(dblPickup);
-    }
-    public void rightDropOff() {
-        rightWrist.setPosition(dblDropOff);
+
+    public void wristDropOff() {
+        wristState = RobotBase.WristState.DROPOFF;
+        srvWrist.setPosition(wristState.dblWristState);
     }
 }
