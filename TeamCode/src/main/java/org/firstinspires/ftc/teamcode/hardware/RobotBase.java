@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 
 public class RobotBase extends Object{
@@ -67,8 +68,8 @@ public class RobotBase extends Object{
     }
     public enum HangingState {
         DOWN (0),
-        RAISED (1),
-        LOWERED (-1);
+        RAISED (456),
+        LOWERED (-1539);
         public final int intHangingPos;
 
         HangingState(int hangingPosConstructor) {
@@ -79,6 +80,27 @@ public class RobotBase extends Object{
         LOWER,
         RAISE,
         RELEASE
+    }
+    public enum ArmState {
+        GRABBING (0),
+        DROPOFF (1);
+
+        public final int intArmPosition;
+
+        ArmState(int armPositionConstructor) {
+            this.intArmPosition = armPositionConstructor;
+        }
+    }
+    public enum WristState {
+        GRABBING (0.5),
+        ESCAPE (0),
+        DROPOFF (1);
+
+        public final double dblWristState;
+
+        WristState(double wristStateConstructor) {
+            this.dblWristState = wristStateConstructor;
+        }
     }
 
     public DistanceSensor frontDistanceSensor;
@@ -91,6 +113,7 @@ public class RobotBase extends Object{
     public DcMotor rightFront;
     public DcMotor dcmIntake;
     public DcMotor dcmArm;
+    //goBilda 312 yellow jacket motor 537.7 PPR at the Output Shaft
     public DcMotor dcmHangingMechanism;
     //core hex motor At the output - 288 counts/revolution
     public Servo srvLeftClaw;
@@ -102,6 +125,8 @@ public class RobotBase extends Object{
     public Servo srvOdometryMiddle;
     public Servo srvLeftSlide;
     public Servo srvRightSlide;
+    public Servo srvLeftWrist;
+    public Servo srvRightWrist;
     public TouchSensor redSwitch;
     public TouchSensor greenSwitch;
     public TouchSensor blackSwitch;
@@ -119,6 +144,8 @@ public class RobotBase extends Object{
     public HuskyLensSubsystem huskyLensSubsystem;
     public SampleMecanumDrive mecanumDriveSubsystem;
     public IntakeSubsystem intakeSubsystem;
+    public WristSubsystem leftWristSubsystem;
+    public WristSubsystem rightWristSubsystem;
 
     // first instance of alliance
     public Alliance alliance;
@@ -163,6 +190,8 @@ public class RobotBase extends Object{
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
         leftSlideSubsystem = new SlideSubsystem(srvLeftSlide);
         rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
+        leftWristSubsystem = new WristSubsystem(srvLeftWrist);
+        rightWristSubsystem = new WristSubsystem(srvRightWrist);
 
         //default value for the alliance side
         alliance = Alliance.RED;
