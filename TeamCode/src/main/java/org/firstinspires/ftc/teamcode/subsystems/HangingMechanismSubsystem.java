@@ -9,11 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class HangingMechanismSubsystem extends SubsystemBase {
 
     DcMotor dcmHangingMechanism;
-    private RobotBase.HangingState hangingState;
-    private final int intHangingReleasePosition = 1;
-    private final int intHangingLowerPosition = -1;
-    private final int intHangingRaisePosition= 2;
-    //At the output - 288 counts/revolution (core hex motor)
+    public RobotBase.HangingState hangingState;
 
 
 
@@ -22,17 +18,38 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         lower();
     }
 
-    public void raisePosition() {
-        dcmHangingMechanism.setTargetPosition(intHangingReleasePosition);
-        hangingState = RobotBase.HangingState.RELEASED;
-
+    public void initialRaisePosition() {
+        hangingState = RobotBase.HangingState.RAISED;
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
     public void lower() {
-        dcmHangingMechanism.setTargetPosition(intHangingLowerPosition);
+        hangingState = RobotBase.HangingState.LOWERED;
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
     public void raise() {
-        dcmHangingMechanism.setTargetPosition(intHangingRaisePosition);
+        hangingState = RobotBase.HangingState.RAISED;
+        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
+    }
+
+    public void hangingToggle() {
+        switch (hangingState) {
+            case DOWN:
+                initialRaisePosition();
+                break;
+            case RAISED:
+                lower();
+                break;
+            case LOWERED:
+                raise();
+                break;
+        }
+    }
+
+    public void hangingToggleCheck() {
+        if (hangingState != RobotBase.HangingState.DOWN) {
+            hangingToggle();
+        }
     }
 }
