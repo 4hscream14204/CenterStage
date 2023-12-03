@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SwitchBoardSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 
@@ -127,10 +128,10 @@ public class RobotBase extends Object{
     public Servo srvRightSlide;
     public Servo srvLeftWrist;
     public Servo srvRightWrist;
-    public TouchSensor redSwitch;
-    public TouchSensor greenSwitch;
-    public TouchSensor blackSwitch;
-    public TouchSensor blueSwitch;
+    public TouchSensor tsRedSwitch;
+    public TouchSensor tsGreenSwitch;
+    public TouchSensor tsBlackSwitch;
+    public TouchSensor tsBlueSwitch;
     public HuskyLens huskyLens;
     public IMU imu;
     public IntegratingGyroscope gyro;
@@ -146,6 +147,10 @@ public class RobotBase extends Object{
     public IntakeSubsystem intakeSubsystem;
     public WristSubsystem leftWristSubsystem;
     public WristSubsystem rightWristSubsystem;
+    public SwitchBoardSubsystem redButtonSubsystem;
+    public SwitchBoardSubsystem blueButtonSubsystem;
+    public SwitchBoardSubsystem greenButtonSubsystem;
+    public SwitchBoardSubsystem blackButtonSubsystem;
 
     // first instance of alliance
     public Alliance alliance;
@@ -192,6 +197,10 @@ public class RobotBase extends Object{
         rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
         leftWristSubsystem = new WristSubsystem(srvLeftWrist);
         rightWristSubsystem = new WristSubsystem(srvRightWrist);
+        redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
+        blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);
+        greenButtonSubsystem = new SwitchBoardSubsystem(tsGreenSwitch);
+        blackButtonSubsystem = new SwitchBoardSubsystem(tsBlackSwitch);
 
         //default value for the alliance side
         alliance = Alliance.RED;
