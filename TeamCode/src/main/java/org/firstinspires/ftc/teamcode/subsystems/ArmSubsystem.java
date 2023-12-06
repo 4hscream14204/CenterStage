@@ -23,4 +23,16 @@ public class ArmSubsystem extends SubsystemBase {
         armState = RobotBase.ArmState.DROPOFF;
         dcmArm.setTargetPosition(armState.intArmPosition);
     }
+
+    public int getArmPosition() {
+        return dcmArm.getCurrentPosition();
+    }
+
+    public boolean armIsPassedSafeDrop() {
+        boolean bolArmIsPassedSafeDrop = false;
+        if(dcmArm.getCurrentPosition() > 50) {
+            bolArmIsPassedSafeDrop = true;
+        }
+        return bolArmIsPassedSafeDrop;
+    }
 }

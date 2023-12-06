@@ -39,11 +39,7 @@ public class AutoSuperClass extends OpMode {
         OUTER,
     }
 
-    //enum for crossing from wing side of field to the backdrop side of the field
-    enum CrossSide {
-        STAGEDOOR,
-        TRUSS,
-    }
+
 
     //Making first instance of proplocation
     PropLocation propLocation;
@@ -53,7 +49,7 @@ public class AutoSuperClass extends OpMode {
 
     ParkSide parkSide;
 
-    CrossSide crossSide;
+
     @Override
     public void init() {
 
@@ -67,19 +63,20 @@ public class AutoSuperClass extends OpMode {
         // setting parking position
         parkSide = ParkSide.OUTER;
 
-        //setting what way to cross from wing-side to backdrop-side
-        crossSide = CrossSide.STAGEDOOR;
-
         // START OF TRAJECTORIES
 
         Pose2d startRedLsLp = new Pose2d(-38.35, -63.3, Math.toRadians(90));
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsLp);
 
-//Red alliance on the left starting side and team prop on left spike tape position stage door crossing
+//Red alliance on the left starting side and team prop on left spike tape position
         TrajectorySequence redLsLp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsLp)
                 .splineToSplineHeading(new Pose2d(-43, -36.00, Math.toRadians(135.00)), Math.toRadians(135))
                 .splineToSplineHeading(new Pose2d(-36.00, -36.00, Math.toRadians(90.00)), Math.toRadians(180.00))
+                .waitSeconds(15)
+                .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
+                .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(90))
                 .build();
 
 
@@ -87,9 +84,14 @@ public class AutoSuperClass extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsMp);
 
-//Red alliance on the left starting side and team prop on middle spike tape position stage door crossing
+//Red alliance on the left starting side and team prop on middle spike tape position
         TrajectorySequence redLsMp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsMp)
-
+                .splineToSplineHeading(new Pose2d(-36, -29.00, Math.toRadians(135.00)), Math.toRadians(135))
+                .splineToSplineHeading(new Pose2d(-36.00, -36.00, Math.toRadians(90.00)), Math.toRadians(180.00))
+                .waitSeconds(15)
+                .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
+                .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(90))
                 .build();
 
 
@@ -97,15 +99,15 @@ public class AutoSuperClass extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startRedLsRp);
 
-//Red alliance on the left starting side and team prop on right spike tape position stage door crossing
+//Red alliance on the left starting side and team prop on right spike tape position
         TrajectorySequence redLsRp = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startRedLsRp)
-
+                .splineToSplineHeading(new Pose2d(-36, -29.00, Math.toRadians(135.00)), Math.toRadians(135))
+                .splineToSplineHeading(new Pose2d(-36.00, -36.00, Math.toRadians(90.00)), Math.toRadians(180.00))
+                .waitSeconds(15)
+                .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
+                .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(0)), Math.toRadians(90))
                 .build();
-
-        //Red alliance on the left starting side and team prop on right spike tape position stage door crossing
-      //  TrajectorySequence stageCrossing = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder()
-
-        //        .build();
 
 
         Pose2d startRedRsLp = new Pose2d(15.00, -63.00, Math.toRadians(90));
@@ -141,15 +143,9 @@ public class AutoSuperClass extends OpMode {
                 .build();
 
 
-//common spot for robot after spike tape drop off
-        TrajectorySequence redPrep = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(redRsLp.end())
-                .splineToSplineHeading(new Pose2d(36, -34, Math.toRadians(0.00)), Math.toRadians(180))
-                .build();
-
         //Drop off position on the left april tag of the back board
-        TrajectorySequence redBackLeft = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(redPrep.end())
+        TrajectorySequence redBackLeft = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(redLsLp.end())
                 .splineToSplineHeading(new Pose2d(54, -29, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                .lineToLinearHeading(new Pose2d(52, -29, Math.toRadians(0.00)))
                 //.addTemporalMarker()
                 .build();
     }
@@ -175,29 +171,29 @@ public class AutoSuperClass extends OpMode {
     }
          */
 //What trajectory to run if on Red alliance left side and prop on left tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT && crossSide == CrossSide.STAGEDOOR){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
        // robotBase.mecanumDriveSubsystem.followTrajectorySequence(startRedLsLp);
 
     }
 //What trajectory to run if on Red alliance left side and prop on middle tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE && crossSide == CrossSide.STAGEDOOR){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
 
     }
 //What trajectory to run if on Red alliance left side and prop on right tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT && crossSide == CrossSide.STAGEDOOR){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
 
     }
     //What trajectory to run if on Red alliance left side and prop on left tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT && crossSide == CrossSide.TRUSS){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
 
 
     }
 //What trajectory to run if on Red alliance left side and prop on middle tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE && crossSide == CrossSide.TRUSS){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
 
     }
 //What trajectory to run if on Red alliance left side and prop on right tape
-    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT && crossSide == CrossSide.TRUSS){
+    if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
 
     }
 //What trajectory to run if on Red alliance right side and prop on left tape
