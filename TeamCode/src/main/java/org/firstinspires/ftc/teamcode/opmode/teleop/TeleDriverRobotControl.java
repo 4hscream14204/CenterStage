@@ -27,7 +27,6 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerLeftX = 0;
     private String strLastButtonPressed = "";
 
-
     public void init() {
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);

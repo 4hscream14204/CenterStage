@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -90,10 +92,14 @@ public class AutoSuperClass extends OpMode {
 
     public TrajectorySequence blueParkInner;
 
+    public GamepadEx chassisController;
 
+    public GamepadEx ChassisControllerRightB;
 
     @Override
     public void init() {
+
+        chassisController = new GamepadEx(gamepad1);
 
         // setting default position of proplocation
         propLocation = PropLocation.LEFT;
@@ -352,6 +358,18 @@ public class AutoSuperClass extends OpMode {
         propLocation = PropLocation.MIDDLE;
     }
     }
+
+        if (chassisController.wasJustPressed(GamepadKeys.Button.B)) {
+            robotBase.startPosition = RobotBase.StartPosition.LEFT;
+            telemetry.addData(">>", "Left");
+        }
+
+        if (chassisController.wasJustPressed(GamepadKeys.Button.Y)) {
+            robotBase.startPosition = RobotBase.StartPosition.RIGHT;
+            telemetry.addData(">>", "Left");
+        }
+
+
 
 //What trajectory to run if on Red alliance left side and prop on left tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
