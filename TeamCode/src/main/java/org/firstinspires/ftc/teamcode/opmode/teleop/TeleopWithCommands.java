@@ -43,9 +43,9 @@ public class TeleopWithCommands extends OpMode {
                 .and(new GamepadButton(chassisController, GamepadKeys.Button.X))
                 .toggleWhenActive(new SequentialCommandGroup(
                         new InstantCommand(() -> robotBase.airplaneLauncher.raiseAndLaunch()),
-                        new WaitCommand(3000),
+                        new WaitCommand(1000),
                         new InstantCommand(() -> robotBase.airplaneLauncher.raiseAndLaunch()),
-                        new WaitCommand(6000),
+                        new WaitCommand(1000),
                         new InstantCommand(() -> robotBase.airplaneLauncher.lower())));
 
     }
