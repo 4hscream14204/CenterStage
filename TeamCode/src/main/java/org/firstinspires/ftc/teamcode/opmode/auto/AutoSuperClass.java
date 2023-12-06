@@ -53,9 +53,44 @@ public class AutoSuperClass extends OpMode {
     public TrajectorySequence redLsLp;
     public TrajectorySequence redLsMp;
     public TrajectorySequence redLsRp;
+
+    public TrajectorySequence redRsLp;
+
+    public TrajectorySequence redRsMp;
+
+    public TrajectorySequence redRsRp;
+
+    public TrajectorySequence blueLsLp;
+
+    public TrajectorySequence blueLsMp;
+
+    public TrajectorySequence blueLsRp;
+
     public TrajectorySequence blueRsLp;
     public TrajectorySequence blueRsMp;
     public TrajectorySequence blueRsRp;
+
+    public TrajectorySequence redBackLeft;
+
+    public TrajectorySequence redBackMiddle;
+
+    public TrajectorySequence redBackRight;
+
+    public TrajectorySequence blueBackLeft;
+
+    public TrajectorySequence blueBackMiddle;
+
+    public TrajectorySequence blueBackRight;
+
+    public TrajectorySequence redParkOuter;
+
+    public TrajectorySequence redParkInner;
+
+    public TrajectorySequence blueParkOuter;
+
+    public TrajectorySequence blueParkInner;
+
+
 
     @Override
     public void init() {
@@ -83,7 +118,7 @@ public class AutoSuperClass extends OpMode {
                 .waitSeconds(15)
                 .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
                 .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(45, 36, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(45, 36, Math.toRadians(180)), Math.toRadians(90))
                 .build();
 
 
@@ -98,7 +133,7 @@ public class AutoSuperClass extends OpMode {
                 .waitSeconds(15)
                 .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
                 .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(45, 36, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(45, 36, Math.toRadians(180)), Math.toRadians(90))
                 .build();
 
 
@@ -113,7 +148,7 @@ public class AutoSuperClass extends OpMode {
                 .waitSeconds(15)
                 .splineToSplineHeading(new Pose2d(-31, -56, Math. toRadians(-39)), Math .toRadians(-39))
                 .splineToSplineHeading(new Pose2d(-12, -60, Math.toRadians(0)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(180)), Math.toRadians(90))
                 .build();
 
 
@@ -125,7 +160,7 @@ public class AutoSuperClass extends OpMode {
         TrajectorySequence redRsLp = robotBase.mecanumDrive.trajectorySequenceBuilder(startRedRsLp)
                 .splineToSplineHeading(new Pose2d(6.00, -36.00, Math.toRadians(135.00)), Math.toRadians(180))
                 .splineToSplineHeading(new Pose2d(18, -49, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
 
@@ -137,7 +172,7 @@ public class AutoSuperClass extends OpMode {
         TrajectorySequence redRsMp = robotBase.mecanumDrive.trajectorySequenceBuilder(startRedRsMp)
                 .splineToSplineHeading(new Pose2d(12.00, -34.00, Math.toRadians(90)), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(18, -49, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
 
@@ -149,7 +184,7 @@ public class AutoSuperClass extends OpMode {
         TrajectorySequence redRsRp = robotBase.mecanumDrive.trajectorySequenceBuilder(startRedRsRp)
                 .splineToSplineHeading(new Pose2d(20.00, -37.00, Math.toRadians(60.00)), Math.toRadians(60.00))
                 .splineToSplineHeading(new Pose2d(18, -49, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(0)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(45, -36, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
 
@@ -236,51 +271,72 @@ public class AutoSuperClass extends OpMode {
 
         //Drop off position on the left april tag of the back board
         TrajectorySequence redBackLeft = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(45, -36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(54, -29, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
+                .splineToSplineHeading(new Pose2d(54, -29, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, -36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
         //Drop off position on the middle april tag of the back board
         TrajectorySequence redBackMiddle = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(45, -36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(50.00, -37.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
+                .splineToSplineHeading(new Pose2d(50.00, -37.00, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, -36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
         //Drop off position on the right april tag of the back board
         TrajectorySequence redBackRight = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(45, -36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(50.00, -37.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
+                .splineToSplineHeading(new Pose2d(50.00, -43.00, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, -36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
         //Drop off position on the left april tag of the back board BLUE
         TrajectorySequence blueBackLeft = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(50.00, 37.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
-                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(50.00, 43.00, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
         //Drop off position on the middle april tag of the back board BLUE
         TrajectorySequence blueBackMiddle = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(36, -36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(50.00, -37.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
-                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(50.00, 37.00, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
         //Drop off position on the right april tag of the back board BLUE
         TrajectorySequence blueBackRight = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(50.00, 52.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
-                //.addTemporalMarker()
-                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(0.00 )), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(50.00, 29.00, Math.toRadians(180 )), Math.toRadians(0.00))
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .splineToSplineHeading(new Pose2d(48, 36.00, Math.toRadians(180 )), Math.toRadians(180))
                 .build();
 
 
-       // TrajectorySequence blueParkOuter = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(0)))
+        TrajectorySequence blueParkOuter = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(48, 36, Math.toRadians(180)))
+                .splineToSplineHeading(new Pose2d(62, 57.00, Math.toRadians(180 )), Math.toRadians(180))
+
+                .build();
+
+        TrajectorySequence blueParkInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(48, 36, Math.toRadians(180)))
+                .splineToSplineHeading(new Pose2d(63, 14.00, Math.toRadians(180 )), Math.toRadians(180))
+
+                .build();
+
+        TrajectorySequence redParkOuter = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(48, -36, Math.toRadians(180)))
+                .splineToSplineHeading(new Pose2d(62, -57.00, Math.toRadians(180 )), Math.toRadians(180))
+
+                .build();
+
+        TrajectorySequence redParkInner = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(48, -36, Math.toRadians(180)))
+                .splineToSplineHeading(new Pose2d(63, -14.00, Math.toRadians(180 )), Math.toRadians(180))
+
+                .build();
     }
 
     @Override
     public void init_loop() {
 
-        /*
+
     HuskyLens.Block[] blocks = robotBase.huskyLens.blocks();
 
     for (int i = 0; i < blocks.length; i++){
@@ -296,55 +352,67 @@ public class AutoSuperClass extends OpMode {
         propLocation = PropLocation.MIDDLE;
     }
     }
-         */
+
 //What trajectory to run if on Red alliance left side and prop on left tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.LEFT){
              robotBase.mecanumDrive.followTrajectorySequence(redLsLp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackLeft);
 
         }
 //What trajectory to run if on Red alliance left side and prop on middle tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
             robotBase.mecanumDrive.followTrajectorySequence(redLsMp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackMiddle);
         }
 //What trajectory to run if on Red alliance left side and prop on right tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
             robotBase.mecanumDrive.followTrajectorySequence(redLsRp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackRight);
         }
 //What trajectory to run if on Red alliance right side and prop on left tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.LEFT){
-            //  robotBase.MecanumDrive.followTrajectorySequence(redRsLp);
+              robotBase.mecanumDrive.followTrajectorySequence(redRsLp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackLeft);
         }
 //What trajectory to run if on Red alliance right side and prop on middle tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.MIDDLE){
-
+            robotBase.mecanumDrive.followTrajectorySequence(redRsMp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackMiddle);
         }
 //What trajectory to run if on Red alliance right side and prop on right tape
         if(robotBase.alliance == RobotBase.Alliance.RED && side == Sides.RIGHT && propLocation == PropLocation.RIGHT){
-
+            robotBase.mecanumDrive.followTrajectorySequence(redRsRp);
+            robotBase.mecanumDrive.followTrajectorySequence(redBackRight);
         }
 //What trajectory to run if on Blue alliance left side and prop on left tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.LEFT){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsLp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackLeft);
         }
 //What trajectory to run if on Blue alliance left side and prop on middle tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.MIDDLE){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsMp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackMiddle);
         }
 //What trajectory to run if on Blue alliance left side and prop on right tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.LEFT && propLocation == PropLocation.RIGHT){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsRp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackRight);
         }
 //What trajectory to run if on Blue alliance right side and prop on left tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.LEFT){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsLp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackLeft);
         }
 //What trajectory to run if on Blue alliance right side and prop on middle tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.MIDDLE){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsMp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackMiddle);
         }
 //What trajectory to run if on Blue alliance right side and prop on right tape
         if(robotBase.alliance == RobotBase.Alliance.BLUE && side == Sides.RIGHT && propLocation == PropLocation.RIGHT){
-
+            robotBase.mecanumDrive.followTrajectorySequence(blueLsRp);
+            robotBase.mecanumDrive.followTrajectorySequence(blueBackMiddle);
         }
 
     }
