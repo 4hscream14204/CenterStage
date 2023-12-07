@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 public class BlueRight extends OpMode {
     public RobotBase robotBase;
     private TrajectorySequence BlueRightPark;
+    private TrajectorySequence BaRsLsTcIp;
     public Pose2d startPose;
 
     @Override
@@ -25,8 +26,19 @@ public class BlueRight extends OpMode {
         robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
+  /*      BaRsLsTcIp = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.25, 63.30, Math.toRadians(270.00)))
+                .splineToSplineHeading(new Pose2d(-30.00, 36.00, Math.toRadians(315.00)), Math.toRadians(315.00))
+                //.lineToSplineHeading(new Pose2d(-36.00, 41.00, Math.toRadians(270.00)))
+                //.lineToSplineHeading(new Pose2d(-36.00, 64.00, Math.toRadians(360.00)))
+                //.splineToSplineHeading(new Pose2d(36.00, 64.00, Math.toRadians(360.00)), Math.toRadians(360.00))
+                //.splineToSplineHeading(new Pose2d(48.00, 42.00, Math.toRadians(180.00)), Math.toRadians(360.00))
+                //.splineToSplineHeading(new Pose2d(51.00, 42.00, Math.toRadians(180.00)), Math.toRadians(180.00))
+                //.splineToSplineHeading(new Pose2d(42.00, 42.00, Math.toRadians(180.00)), Math.toRadians(180.00))
+               //.splineToSplineHeading(new Pose2d(55.00, 13.00, Math.toRadians(360.00)), Math.toRadians(360.00))
+                .build();
+*/
         BlueRightPark = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
-                .lineToLinearHeading(new Pose2d(-38.35, 12.00, Math.toRadians(0.00)))
+                .lineToLinearHeading(new Pose2d(-38.35, 10.00, Math.toRadians(0.00)))
                 .waitSeconds(20)
                 .lineTo(new Vector2d(6.00, 12.00))
                 .lineTo(new Vector2d(50.00, 12.00))
@@ -36,11 +48,23 @@ public class BlueRight extends OpMode {
     }
     @Override
     public void init_loop(){
-
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+        telemetry.addData("InitLoop","true");
+        telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.update();
     }
     @Override
     public void start(){
         robotBase.mecanumDrive.followTrajectorySequence(BlueRightPark);
+     /*   if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.mecanumDrive.followTrajectorySequence(BaRsLsTcIp);
+            robotBase.grabber.drop();
+            robotBase.mecanumDrive.followTrajectorySequence(BaRsLsTcIp);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.mecanumDrive.followTrajectorySequence(BaRsLsTcIp);
+        } else {
+            robotBase.mecanumDrive.followTrajectorySequence(BaRsLsTcIp);
+        } */
     }
     @Override
     public void loop(){

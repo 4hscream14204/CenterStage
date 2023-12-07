@@ -115,6 +115,6 @@ public class RobotBase extends Object{
         //default value for start position side
         startPosition = StartPosition.LEFT;
         //default value for the prop position
-        propPosition = PropPosition.NONE;
+        propPosition = PropPosition.LEFT;
     }
 }

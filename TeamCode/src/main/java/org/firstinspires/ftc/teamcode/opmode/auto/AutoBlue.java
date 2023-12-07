@@ -8,14 +8,14 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 
 
-@Autonomous(name = "AutoRed")
-public class AutoRed extends AutoSuperClass {
+@Autonomous(name = "AutoBlue")
+public class AutoBlue extends AutoSuperClass {
 
     @Override
     public void init(){
 
         super.init();
-        this.robotBase.alliance = RobotBase.Alliance.RED;
+        this.robotBase.alliance = RobotBase.Alliance.BLUE;
 
     }
 }

@@ -24,7 +24,7 @@ public class OdometrySubsystem extends SubsystemBase {
         srvOdometryLeft = odometryLeftConstructor;
         srvOdometryMiddle = odometryMiddleConstructor;
         srvOdometryRight = odometryRightConstructor;
-        odometryStop();
+        //odometryStop();
         odometryState = OdometryState.DOWN;
     }
 
