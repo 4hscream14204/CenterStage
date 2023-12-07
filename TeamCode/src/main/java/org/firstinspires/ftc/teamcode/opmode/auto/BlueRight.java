@@ -38,7 +38,8 @@ public class BlueRight extends OpMode {
                 .build();
 */
         BlueRightPark = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
-                .lineToLinearHeading(new Pose2d(-38.35, 10.00, Math.toRadians(0.00)))
+                //.waitSeconds(20)
+                .splineTo(new Vector2d(-38.35, 13.50), Math.toRadians(0.00))
                 .waitSeconds(20)
                 .lineTo(new Vector2d(6.00, 12.00))
                 .lineTo(new Vector2d(50.00, 12.00))
