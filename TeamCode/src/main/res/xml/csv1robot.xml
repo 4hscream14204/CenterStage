@@ -20,9 +20,9 @@
             <Servo name="airplaneLauncher" port="3" />
             <Servo name="hangingMechanism2" port="4" />
             <Servo name="airplaneLauncherEv" port="5" />
-            <REV_VL53L0X_RANGE_SENSOR name="leftDistance" port="0" bus="2" />
+            <!--<REV_VL53L0X_RANGE_SENSOR name="leftDistance" port="0" bus="2" />-->
             <KauaiLabsNavxMicro name="navx" port="0" bus="3" />
-            <REV_VL53L0X_RANGE_SENSOR name="rightDistance" port="0" bus="1" />
+            <!--<REV_VL53L0X_RANGE_SENSOR name="rightDistance" port="0" bus="1" />-->
             <ControlHubImuBHI260AP name="imu" port="0" bus="0" />
         </LynxModule>
     </LynxUsbDevice>

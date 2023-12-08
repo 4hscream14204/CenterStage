@@ -17,6 +17,12 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 public class RedLeft extends OpMode {
     public RobotBase robotBase;
     private TrajectorySequence RedLeftPark;
+
+    private TrajectorySequence leftSpike;
+
+    private TrajectorySequence middleSpike;
+
+    private TrajectorySequence rightSpike;
     private TrajectorySequence RedLeftMiddleOuter;
     public Pose2d startPose;
 
@@ -26,12 +32,59 @@ public class RedLeft extends OpMode {
         robotBase.alliance = RobotBase.Alliance.RED;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
+
+        leftSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(-43.00, -35.00), Math.toRadians(135.00))
+                .lineToSplineHeading(new Pose2d(-34.50, -59.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(55.00, -58.00, Math.toRadians(180)))
+                        .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                        .waitSeconds(1)
+                        .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                        .waitSeconds(1)
+                        .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
+
+                /*
+                .lineToConstantHeading(new Vector2d(40.00, -29.50))
+                .splineToSplineHeading(new Pose2d(50.00, -29.50, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineTo(new Vector2d(45.00, -29.50), Math.toRadians(180.00))
+                .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
+
+                 */
+
+                .build();
+
+        middleSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+                .splineToLinearHeading(new Pose2d(-36.00, -34.00, Math.toRadians(90.61)), Math.toRadians(90.61))
+                .lineToSplineHeading(new Pose2d(-32.50, -60.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(12.00, -60.00, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
+
+                .build();
+
+        rightSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+                .splineToLinearHeading(new Pose2d(-30.00, -36.00, Math.toRadians(45.00)), Math.toRadians(45.00))
+                .lineToSplineHeading(new Pose2d(-32.50, -60.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(12.00, -60.00, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {robotBase.grabber.drop();})
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
+
+                .build();
+
+           /*
         RedLeftPark  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .lineToLinearHeading(new Pose2d(-38.35, -12.00, Math.toRadians(0.00)))
                 .waitSeconds(20)
                 .lineTo(new Vector2d(6.00, -12.00))
                 .lineTo(new Vector2d(50, -12.00))
                 .build();
+
 
         robotBase.mecanumDrive.setPoseEstimate(startPose);
 
@@ -44,6 +97,8 @@ public class RedLeft extends OpMode {
                 .lineToSplineHeading(new Pose2d(41.00, -37.00, Math.toRadians(180.00)))
                 .splineToConstantHeading(new Vector2d(61.00, -12.00), Math.toRadians(0.00))
                 .build();
+
+         */
     }
     @Override
     public void init_loop(){
@@ -51,8 +106,17 @@ public class RedLeft extends OpMode {
     }
     @Override
     public void start(){
+        robotBase.mecanumDrive.setPoseEstimate(startPose);
         //robotBase.mecanumDrive.followTrajectorySequence(RedLeftPark);
-        robotBase.mecanumDrive.followTrajectorySequence(RedLeftMiddleOuter);
+        /*  if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.mecanumDrive.followTrajectorySequence(centerSpike);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
+        } else {
+            robotBase.mecanumDrive.followTrajectorySequence(leftSpike);
+        } */
+        robotBase.mecanumDrive.followTrajectorySequence(leftSpike);
+       // robotBase.mecanumDrive.followTrajectorySequence(RedLeftMiddleOuter);
     }
     @Override
     public void loop(){

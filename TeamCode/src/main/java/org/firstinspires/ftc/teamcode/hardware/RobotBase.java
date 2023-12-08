@@ -41,10 +41,10 @@ public class RobotBase extends Object{
     }
 
 
-    public DistanceSensor frontDistanceSensor;
-    public DistanceSensor leftDistanceSensor;
-    public DistanceSensor rightDistanceSensor;
-    public DistanceSensor backDistanceSensor;
+    //public DistanceSensor frontDistanceSensor;
+    //public DistanceSensor leftDistanceSensor;
+    //public DistanceSensor rightDistanceSensor;
+    //public DistanceSensor backDistanceSensor;
     public DcMotor leftFront;
     public DcMotor leftRear;
     public DcMotor rightRear;
@@ -76,10 +76,10 @@ public class RobotBase extends Object{
     public PropPosition propPosition;
 
     public RobotBase (HardwareMap hwMap) {
-        frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
-        leftDistanceSensor = hwMap.get(DistanceSensor.class, "leftDistance");
-        rightDistanceSensor = hwMap.get(DistanceSensor.class, "rightDistance");
-        backDistanceSensor = hwMap.get(DistanceSensor.class, "backDistance");
+        //frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
+        //leftDistanceSensor = hwMap.get(DistanceSensor.class, "leftDistance");
+        //rightDistanceSensor = hwMap.get(DistanceSensor.class, "rightDistance");
+        //backDistanceSensor = hwMap.get(DistanceSensor.class, "backDistance");
         rightFront = hwMap.get(DcMotor.class, "rightFront");
         leftFront = hwMap.get(DcMotor.class, "leftFront");
         rightRear = hwMap.get(DcMotor.class, "rightRear");
