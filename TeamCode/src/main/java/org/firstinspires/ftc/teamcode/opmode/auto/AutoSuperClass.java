@@ -27,10 +27,7 @@ public class AutoSuperClass extends OpMode {
     }
 
     //enum for where to park at the end of autonomous
-    enum ParkSide {
-        INNER,
-        OUTER,
-    }
+
 
 
 
@@ -39,7 +36,7 @@ public class AutoSuperClass extends OpMode {
     //making first instance of sides
     Sides side;
 
-    ParkSide parkSide;
+
 
     public TrajectorySequence redLsLp;
     public TrajectorySequence redLsMp;
@@ -98,7 +95,7 @@ public class AutoSuperClass extends OpMode {
         side = Sides.LEFT;
 
         // setting parking position
-        parkSide = ParkSide.OUTER;
+        robotBase.parkSide = RobotBase.ParkSide.OUTER;
 
         // START OF TRAJECTORIES
 
@@ -339,17 +336,17 @@ public class AutoSuperClass extends OpMode {
             robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         }
         if (chassisController.wasJustPressed((GamepadKeys.Button.Y))) {
-            if (parkSide == ParkSide.INNER) {
-                parkSide = ParkSide.OUTER;
+            if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
+                robotBase.parkSide = RobotBase.ParkSide.OUTER;
             } else {
-                parkSide =ParkSide.INNER;
+                robotBase.parkSide =RobotBase.ParkSide.INNER;
             }
         }
         robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
 
         telemetry.addData("Start Position", robotBase.startPosition);
         telemetry.addData("Prop Location", robotBase.propPosition);
-        telemetry.addData("Park Side", parkSide);
+        telemetry.addData("Park Side", robotBase.parkSide);
         telemetry.addData("Alliance Color", robotBase.alliance);
     }
     @Override

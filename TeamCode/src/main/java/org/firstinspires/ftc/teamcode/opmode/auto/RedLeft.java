@@ -20,7 +20,7 @@ public class RedLeft extends OpMode {
 
     private TrajectorySequence leftSpike;
 
-    private TrajectorySequence middleSpike;
+    private TrajectorySequence centerSpike;
 
     private TrajectorySequence rightSpike;
     private TrajectorySequence RedLeftMiddleOuter;
@@ -35,9 +35,9 @@ public class RedLeft extends OpMode {
 
         leftSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(-43.00, -35.00), Math.toRadians(135.00))
-                .lineToSplineHeading(new Pose2d(-34.50, -59.00, Math.toRadians(180.00)))
-                .lineToLinearHeading(new Pose2d(55.00, -58.00, Math.toRadians(180)))
-                        .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .lineToSplineHeading(new Pose2d(-36.0, -59.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(54.00, -58.00, Math.toRadians(180)))
+                        .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {robotBase.grabber.drop();})
                         .waitSeconds(1)
@@ -53,11 +53,11 @@ public class RedLeft extends OpMode {
 
                 .build();
 
-        middleSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+        centerSpike = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-36.00, -34.00, Math.toRadians(90.61)), Math.toRadians(90.61))
-                .lineToSplineHeading(new Pose2d(-32.50, -60.00, Math.toRadians(180.00)))
-                .lineToLinearHeading(new Pose2d(12.00, -60.00, Math.toRadians(180)))
-                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .lineToSplineHeading(new Pose2d(-35.50, -60.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(54.00, -58.00, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.drop();})
                 .waitSeconds(1)
@@ -67,9 +67,9 @@ public class RedLeft extends OpMode {
 
         rightSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-30.00, -36.00, Math.toRadians(45.00)), Math.toRadians(45.00))
-                .lineToSplineHeading(new Pose2d(-32.50, -60.00, Math.toRadians(180.00)))
-                .lineToLinearHeading(new Pose2d(12.00, -60.00, Math.toRadians(180)))
-                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .lineToSplineHeading(new Pose2d(-40.00, -59.00, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(55.00, -58.00, Math.toRadians(180)))
+                .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.drop();})
                 .waitSeconds(1)
@@ -102,20 +102,23 @@ public class RedLeft extends OpMode {
     }
     @Override
     public void init_loop(){
-
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+        telemetry.addData("InitLoop","true");
+        telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.update();
     }
     @Override
     public void start(){
         robotBase.mecanumDrive.setPoseEstimate(startPose);
         //robotBase.mecanumDrive.followTrajectorySequence(RedLeftPark);
-        /*  if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+          if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDrive.followTrajectorySequence(centerSpike);
-        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
-        } else {
+        } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {
             robotBase.mecanumDrive.followTrajectorySequence(leftSpike);
-        } */
-        robotBase.mecanumDrive.followTrajectorySequence(leftSpike);
+        } else {
+            robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
+        }
+       // robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
        // robotBase.mecanumDrive.followTrajectorySequence(RedLeftMiddleOuter);
     }
     @Override

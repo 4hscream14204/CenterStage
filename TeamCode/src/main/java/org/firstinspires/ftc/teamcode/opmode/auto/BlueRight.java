@@ -35,7 +35,7 @@ public class BlueRight extends OpMode {
                .splineToLinearHeading(new Pose2d(-38.00, 59.00, Math.toRadians(180.00)),Math.toRadians(90.00))
                .lineTo(new Vector2d(55.00, 60.00))
               // .splineToLinearHeading(new Pose2d(55, 60, Math.toRadians(180.00)), Math.toRadians(0.00))
-               .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+               .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                .waitSeconds(1)
                .addTemporalMarker(() -> {robotBase.grabber.drop();})
                .waitSeconds(1)
@@ -52,8 +52,8 @@ public class BlueRight extends OpMode {
         centerSpike = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-37.42, 63.30, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(-36.00, 34.00, Math.toRadians(269.39)), Math.toRadians(269.39))
                 .lineToSplineHeading(new Pose2d(-38.00, 59.00, Math.toRadians(180.00)))
-                .lineTo(new Vector2d(55.00, 59.00))
-                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .lineTo(new Vector2d(54.00, 61.50))
+                .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.drop();})
                 .waitSeconds(1)
@@ -69,9 +69,9 @@ public class BlueRight extends OpMode {
         rightSpike = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, 63.30, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(-43.00, 35.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .lineToSplineHeading(new Pose2d(-32.50, 59.00, Math.toRadians(180.00)))
-                .lineToLinearHeading(new Pose2d(55.00, 59.00, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(55.00, 58.00, Math.toRadians(180)))
                 //.lineTo(new Vector2d(55.00, 59.00))
-                .addTemporalMarker(() -> {robotBase.grabber.dropPosition();})
+                .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.drop();})
                 .waitSeconds(1)
@@ -108,14 +108,14 @@ public class BlueRight extends OpMode {
     @Override
     public void start(){
         //robotBase.mecanumDrive.followTrajectorySequence(BlueRightPark);
-      /*  if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDrive.followTrajectorySequence(centerSpike);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
             robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
         } else {
             robotBase.mecanumDrive.followTrajectorySequence(leftSpike);
-        } */
-        robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
+        }
+        //robotBase.mecanumDrive.followTrajectorySequence(rightSpike);
     }
     @Override
     public void loop(){

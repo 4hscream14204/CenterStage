@@ -40,6 +40,11 @@ public class RobotBase extends Object{
         NONE
     }
 
+   public enum ParkSide {
+        INNER,
+        OUTER,
+    }
+
 
     //public DistanceSensor frontDistanceSensor;
     //public DistanceSensor leftDistanceSensor;
@@ -74,6 +79,8 @@ public class RobotBase extends Object{
     public ChassisControlType controlScheme;
     public StartPosition startPosition;
     public PropPosition propPosition;
+
+    public ParkSide parkSide;
 
     public RobotBase (HardwareMap hwMap) {
         //frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
