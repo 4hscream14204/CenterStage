@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
@@ -115,6 +117,7 @@ public class RobotBase extends Object{
     public DcMotor dcmIntake;
     public DcMotor dcmArm;
     //goBilda 312 yellow jacket motor 537.7 PPR at the Output Shaft
+    //goBilda 312 yellow jacket motor positive power is counterclockwise rotation
     public DcMotor dcmHangingMechanism;
     //core hex motor At the output - 288 counts/revolution
     public Servo srvLeftClaw;
@@ -151,6 +154,7 @@ public class RobotBase extends Object{
     public SwitchBoardSubsystem blueButtonSubsystem;
     public SwitchBoardSubsystem greenButtonSubsystem;
     public SwitchBoardSubsystem blackButtonSubsystem;
+    public ArmSubsystem armSubsystem;
 
     // first instance of alliance
     public Alliance alliance;
@@ -201,6 +205,7 @@ public class RobotBase extends Object{
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);
         greenButtonSubsystem = new SwitchBoardSubsystem(tsGreenSwitch);
         blackButtonSubsystem = new SwitchBoardSubsystem(tsBlackSwitch);
+        armSubsystem = new ArmSubsystem(dcmArm);
 
         //default value for the alliance side
         alliance = Alliance.RED;

@@ -28,7 +28,6 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
 
          public void lower(){
         srvAirplaneLauncherEv.setPosition(dblEVPosLower);
-        srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
         airplaneState = RobotBase.AirplaneState.LOWER;
     }
     public void raise(){
