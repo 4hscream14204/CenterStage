@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class LowDropOffToggleCommand extends SequentialCommandGroup {
 
+    //TO DO COMBINE DROPOFFTOGGLE'S AND REMOVE IF STATEMENT
+    //CLOSE GRABBERS WHEN METHOD CALLED
+
     public LowDropOffToggleCommand(SlideSubsystem slideSubsystemCon, ArmSubsystem armSubsystemCon, WristSubsystem wristSubsystemCon) {
 
         if(armSubsystemCon.getArmPosition() > 10/*Grabbing*/ || (slideSubsystemCon.slideHeight != RobotBase.SlideHeight.LOWEST && slideSubsystemCon.slideHeight !=RobotBase.SlideHeight.LOW)) {

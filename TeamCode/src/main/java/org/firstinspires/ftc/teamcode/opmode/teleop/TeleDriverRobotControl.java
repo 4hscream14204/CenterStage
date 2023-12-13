@@ -72,14 +72,6 @@ public class TeleDriverRobotControl extends OpMode {
                     robotBase.navxMicro.initialize();
                 }));
 
-        //LEFT CLAW CLOSING
-        chassisController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new InstantCommand(() -> robotBase.leftClawSubsystem.clawClose()));
-
-        //RIGHT CLAW CLOSING
-        chassisController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(() -> robotBase.rightClawSubsystem.clawClose()));
-
         //DUEL CLAW CLOSING
         chassisController.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new InstantCommand(() -> {

@@ -16,6 +16,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     public HangingMechanismSubsystem(DcMotor hangingMechanismConstructor) {
         dcmHangingMechanism = hangingMechanismConstructor;
         lower();
+        //CHANGE TO INITIALIZE DOWN
     }
 
     public void initialRaisePosition() {
