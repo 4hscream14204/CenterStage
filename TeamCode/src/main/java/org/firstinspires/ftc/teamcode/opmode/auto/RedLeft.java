@@ -35,6 +35,7 @@ public class RedLeft extends OpMode {
 
         leftSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(-43.00, -35.00), Math.toRadians(135.00))
+
                 .lineToSplineHeading(new Pose2d(-36.0, -59.00, Math.toRadians(180.00)))
                 .lineToLinearHeading(new Pose2d(54.00, -58.00, Math.toRadians(180)))
                         .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
@@ -43,18 +44,21 @@ public class RedLeft extends OpMode {
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
 
-                /*
+
+
+
                 .lineToConstantHeading(new Vector2d(40.00, -29.50))
                 .splineToSplineHeading(new Pose2d(50.00, -29.50, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .splineTo(new Vector2d(45.00, -29.50), Math.toRadians(180.00))
                 .splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
 
-                 */
+
 
                 .build();
 
         centerSpike = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-36.00, -34.00, Math.toRadians(90.61)), Math.toRadians(90.61))
+
                 .lineToSplineHeading(new Pose2d(-35.50, -60.00, Math.toRadians(180.00)))
                 .lineToLinearHeading(new Pose2d(54.00, -58.00, Math.toRadians(180)))
                 .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
@@ -63,10 +67,13 @@ public class RedLeft extends OpMode {
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
 
+
+
                 .build();
 
         rightSpike  = robotBase.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-30.00, -36.00, Math.toRadians(45.00)), Math.toRadians(45.00))
+
                 .lineToSplineHeading(new Pose2d(-40.00, -59.00, Math.toRadians(180.00)))
                 .lineToLinearHeading(new Pose2d(55.00, -58.00, Math.toRadians(180)))
                 .addTemporalMarker(() -> {robotBase.grabber.backDropDrop();})
@@ -74,6 +81,8 @@ public class RedLeft extends OpMode {
                 .addTemporalMarker(() -> {robotBase.grabber.drop();})
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {robotBase.grabber.downPosition();})
+
+
 
                 .build();
 

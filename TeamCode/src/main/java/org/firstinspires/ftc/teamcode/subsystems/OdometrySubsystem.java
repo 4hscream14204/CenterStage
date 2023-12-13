@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class OdometrySubsystem extends SubsystemBase {
+public class  OdometrySubsystem extends SubsystemBase {
 
     private Servo srvOdometryLeft;
     private Servo srvOdometryRight;
