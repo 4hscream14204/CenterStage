@@ -7,23 +7,25 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-public class LowDropOffToggleCommand extends SequentialCommandGroup {
+public class DropOffPositionCommand extends SequentialCommandGroup {
 
     //TO DO COMBINE DROPOFFTOGGLE'S AND REMOVE IF STATEMENT
     //CLOSE GRABBERS WHEN METHOD CALLED
 
-    public LowDropOffToggleCommand(SlideSubsystem slideSubsystemCon, ArmSubsystem armSubsystemCon, WristSubsystem wristSubsystemCon) {
+    public DropOffPositionCommand(SlideSubsystem slideSubsystemCon, ArmSubsystem armSubsystemCon, WristSubsystem wristSubsystemCon, ClawSubsystem leftClawSubsystemCon, ClawSubsystem rightClawSubsystemCon, RobotBase.SlideHeight slideHeightCon) {
 
-        if(armSubsystemCon.getArmPosition() > 10/*Grabbing*/ || (slideSubsystemCon.slideHeight != RobotBase.SlideHeight.LOWEST && slideSubsystemCon.slideHeight !=RobotBase.SlideHeight.LOW)) {
+        if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN || rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
+            new InstantCommand(()->leftClawSubsystemCon.clawClose());
+            new InstantCommand(()->rightClawSubsystemCon.clawClose());
+            new WaitCommand(500);
+        }
             new InstantCommand(()->armSubsystemCon.armDropOffPos());
             new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-            new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.LOW));
+            new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon));
             new InstantCommand(()->wristSubsystemCon.wristDropOff());
-        } else {
-            new UniversalGrabbingPosCommand();
-        }
     }
 }
