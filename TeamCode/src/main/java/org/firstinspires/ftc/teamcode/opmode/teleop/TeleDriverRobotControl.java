@@ -105,8 +105,18 @@ public class TeleDriverRobotControl extends OpMode {
         //DUAL SLIDE LOW
         armController.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new SequentialCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem, robotBase.armSubsystem, robotBase.leftWristSubsystem, robotBase.leftClawSubsystem, robotBase.rightClawSubsystem, robotBase.leftSlideSubsystem.slideHeight),
-                new DropOffPositionCommand(robotBase.rightSlideSubsystem, robotBase.armSubsystem, robotBase.rightWristSubsystem, robotBase.leftClawSubsystem, robotBase.rightClawSubsystem, robotBase.rightSlideSubsystem.slideHeight)));
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                robotBase.leftSlideSubsystem.slideHeight),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                robotBase.rightSlideSubsystem.slideHeight)));
 
         //LEFT SLIDE MEDIUM
 
@@ -143,9 +153,11 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL BACKDROP POSITION LOWER
 
+
         //AIRPLANE LAUNCHER OPERATION
 
 
+        //CommandScheduler.getInstance().setDefaultCommand(UniversalGrabbingPosCommand());
     }
 
     public void loop() {
@@ -157,8 +169,6 @@ public class TeleDriverRobotControl extends OpMode {
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
-
-        new UniversalGrabbingPosCommand();
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
