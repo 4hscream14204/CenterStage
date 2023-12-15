@@ -11,8 +11,10 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class BackdropPositionLowerCommand extends SequentialCommandGroup {
 
+    RobotBase.SlideHeight slideHeight;
+    //PROBABLY NOT CORRECT WAY TO DO THIS. ASK JEREMY FOR ADVICE LATER!!!
+
     public BackdropPositionLowerCommand(SlideSubsystem slideSubsystemCon, WristSubsystem wristSubsystemCon, ArmSubsystem armSubsystemCon) {
-        RobotBase.SlideHeight slideHeight;
         switch (slideSubsystemCon.slideHeight) {
             case LOW:
                 slideHeight = RobotBase.SlideHeight.LOWEST;
@@ -35,7 +37,7 @@ public class BackdropPositionLowerCommand extends SequentialCommandGroup {
         }
         new InstantCommand(()->armSubsystemCon.armDropOffPos());
         new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-        new InstantCommand(()->slideSubsystemCon.slideGoToPos());
+        new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeight));
         new InstantCommand(()->wristSubsystemCon.wristDropOff());
     }
 }
