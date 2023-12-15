@@ -83,6 +83,47 @@ public class TeleDriverRobotControl extends OpMode {
                 .whenPressed(new InstantCommand(/* chassis wing position */));
 
         //ARM CONTROLLER BINDS
+        //LEFT CLAW DROPOFF
+
+
+        //RIGHT CLAW DROPOFF
+
+
+        //SLIDE MOVEMENTS
+        //LEFT SLIDE LOW
+
+
+        //RIGHT SLIDE LOW
+
+
+        //DUAL SLIDE LOW
+
+
+        //LEFT SLIDE MEDIUM
+
+
+        //RIGHT SLIDE MEDIUM
+
+
+        //DUAL SLIDE MEDIUM
+
+
+        //LEFT SLIDE HIGH
+
+
+        //RIGHT SLIDE HIGH
+
+
+        //DUAL SLIDE HIGH
+
+
+        //BACKDROP POSITION RAISE
+
+
+        //BACKDROP POSITION LOWER
+
+
+        //AIRPLANE LAUNCHER OPERATION
 
 
     }
