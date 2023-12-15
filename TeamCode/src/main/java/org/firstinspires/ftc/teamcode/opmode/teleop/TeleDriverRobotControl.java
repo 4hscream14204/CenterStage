@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
@@ -87,10 +88,12 @@ public class TeleDriverRobotControl extends OpMode {
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
-
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                        .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem));
 
         //RIGHT CLAW DROPOFF
-
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem));
 
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOW
@@ -123,11 +126,22 @@ public class TeleDriverRobotControl extends OpMode {
         //DUAL SLIDE HIGH
 
 
-        //BACKDROP POSITION RAISE
+        //LEFT BACKDROP POSITION RAISE
 
 
-        //BACKDROP POSITION LOWER
+        //LEFT BACKDROP POSITION LOWER
 
+
+        //RIGHT BACKDROP POSITION RAISE
+
+
+        //RIGHT BACKDROP POSITION LOWER
+
+
+        //DUAL BACKDROP POSITION RAISE
+
+
+        //DUAL BACKDROP POSITION LOWER
 
         //AIRPLANE LAUNCHER OPERATION
 
