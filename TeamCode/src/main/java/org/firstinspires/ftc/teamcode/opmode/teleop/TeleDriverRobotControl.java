@@ -110,13 +110,13 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.leftWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                robotBase.leftSlideSubsystem.slideHeight),
+                                RobotBase.SlideHeight.LOW),
                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                robotBase.rightSlideSubsystem.slideHeight)));
+                                RobotBase.SlideHeight.LOW)));
 
         //LEFT SLIDE MEDIUM
 
@@ -125,7 +125,20 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //DUAL SLIDE MEDIUM
-
+        armController.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new SequentialCommandGroup(
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.MEDIUM),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.MEDIUM)));
 
         //LEFT SLIDE HIGH
 
@@ -158,6 +171,12 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //CommandScheduler.getInstance().setDefaultCommand(UniversalGrabbingPosCommand());
+
+        armController.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(new InstantCommand(()->{
+                    telemetry.addLine("X Button Pressed");
+                    robotBase.armSubsystem.armDropOffPos();
+                }));
     }
 
     public void loop() {
@@ -208,8 +227,10 @@ public class TeleDriverRobotControl extends OpMode {
 
         //INTAKE OPERATION
         if (chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1 || chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1) {
-            robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) -
-                    chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER));
+            robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) -
+                    chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        } else if (chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 || chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2) {
+            robotBase.intakeSubsystem.intakeStop();
         }
             robotBase.mecanumDriveSubsystem.update();
 

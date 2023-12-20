@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 public class ClawOpenCommand extends SequentialCommandGroup {
 
     public ClawOpenCommand(ArmSubsystem armSubsystemCon, ClawSubsystem clawSubsystemCon) {
-        if(armSubsystemCon.getArmPosition() < -200) {
+        if(armSubsystemCon.getArmPosition() > 169) {
             clawSubsystemCon.clawOpen();
         }
     }
