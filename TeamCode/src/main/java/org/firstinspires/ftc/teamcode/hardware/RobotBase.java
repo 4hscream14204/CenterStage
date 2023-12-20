@@ -86,7 +86,7 @@ public class RobotBase extends Object{
     }
     public enum ArmState {
         GRABBING (0),
-        DROPOFF (1);
+        DROPOFF (-179);
 
         public final int intArmPosition;
 
@@ -106,10 +106,12 @@ public class RobotBase extends Object{
         }
     }
 
+    /*
     public DistanceSensor frontDistanceSensor;
     public DistanceSensor leftDistanceSensor;
     public DistanceSensor rightDistanceSensor;
     public DistanceSensor backDistanceSensor;
+    */
     public DcMotor leftFront;
     public DcMotor leftRear;
     public DcMotor rightRear;
@@ -124,17 +126,21 @@ public class RobotBase extends Object{
     public Servo srvRightClaw;
     public Servo srvAirplaneLauncher;
     public Servo srvAirplaneLauncherEv;
+    /*
     public Servo srvOdometryLeft;
     public Servo srvOdometryRight;
     public Servo srvOdometryMiddle;
+    */
     public Servo srvLeftSlide;
     public Servo srvRightSlide;
     public Servo srvLeftWrist;
     public Servo srvRightWrist;
+    /*
     public TouchSensor tsRedSwitch;
     public TouchSensor tsGreenSwitch;
     public TouchSensor tsBlackSwitch;
     public TouchSensor tsBlueSwitch;
+    */
     public HuskyLens huskyLens;
     public IMU imu;
     public IntegratingGyroscope gyro;
@@ -164,29 +170,31 @@ public class RobotBase extends Object{
     public SyncSlidesMode syncSlidesMode;
 
     public RobotBase (HardwareMap hwMap) {
+        /*
         frontDistanceSensor = hwMap.get(DistanceSensor.class, "frontDistance");
         leftDistanceSensor = hwMap.get(DistanceSensor.class, "leftDistance");
         rightDistanceSensor = hwMap.get(DistanceSensor.class, "rightDistance");
         backDistanceSensor = hwMap.get(DistanceSensor.class, "backDistance");
+        */
         rightFront = hwMap.get(DcMotor.class, "rightFront");
         leftFront = hwMap.get(DcMotor.class, "leftFront");
         rightRear = hwMap.get(DcMotor.class, "rightRear");
         leftRear = hwMap.get(DcMotor.class, "leftRear");
-        dcmIntake = hwMap.get(DcMotor.class, "Intake");
         srvLeftClaw = hwMap.get(Servo.class,"srvLeftClaw");
         srvRightClaw = hwMap.get(Servo.class,"srvRightClaw");
+        srvLeftSlide = hwMap.get(Servo.class,"srvLeftSlide");
+        srvRightSlide = hwMap.get(Servo.class,"srvRightSlide");
+        srvLeftWrist = hwMap.get(Servo.class,"srvLeftWrist");
+        srvRightWrist = hwMap.get(Servo.class,"srvRightWrist");
         dcmArm = hwMap.get(DcMotor.class,"dcmArm");
+        dcmIntake = hwMap.get(DcMotor.class,"dcmIntake");
         dcmHangingMechanism = hwMap.get(DcMotor.class,"hangingMechanism");
         srvAirplaneLauncher = hwMap.get(Servo.class,"airplaneLauncher");
         srvAirplaneLauncherEv = hwMap.get(Servo.class, "airplaneLauncherEv");
-        srvOdometryLeft = hwMap.get(Servo.class, "odometryLeft");
-        srvOdometryRight = hwMap.get(Servo.class, "odometryRight");
-        srvOdometryMiddle = hwMap.get(Servo.class, "odometryMiddle");
         navxMicro = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
 
-        controlScheme = ChassisControlType.FIELDCENTRIC;
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
 
@@ -201,10 +209,12 @@ public class RobotBase extends Object{
         rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
         leftWristSubsystem = new WristSubsystem(srvLeftWrist);
         rightWristSubsystem = new WristSubsystem(srvRightWrist);
+        /*
         redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);
         greenButtonSubsystem = new SwitchBoardSubsystem(tsGreenSwitch);
         blackButtonSubsystem = new SwitchBoardSubsystem(tsBlackSwitch);
+        */
         armSubsystem = new ArmSubsystem(dcmArm);
 
         //default value for the alliance side

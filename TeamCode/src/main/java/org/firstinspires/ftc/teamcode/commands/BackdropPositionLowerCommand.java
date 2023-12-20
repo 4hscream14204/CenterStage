@@ -11,48 +11,33 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class BackdropPositionLowerCommand extends SequentialCommandGroup {
 
+    RobotBase.SlideHeight newSlideHeight;
+
     public BackdropPositionLowerCommand(SlideSubsystem slideSubsystemCon, WristSubsystem wristSubsystemCon, ArmSubsystem armSubsystemCon) {
+        newSlideHeight = slideSubsystemCon.slideHeight;
         switch (slideSubsystemCon.slideHeight) {
-            case LOWEST:
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.GRABBING));
-                new UniversalGrabbingPosCommand();
-                break;
             case LOW:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.LOWEST));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.LOWEST;
                 break;
             case LOWMEDIUM:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.LOW));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.LOW;
                 break;
             case MEDIUM:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.LOWMEDIUM));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.LOWMEDIUM;
                 break;
             case MEDIUMHIGH:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.MEDIUM));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.MEDIUM;
                 break;
             case HIGH:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.MEDIUMHIGH));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.MEDIUMHIGH;
                 break;
             case HIGHEST:
-                new InstantCommand(()->armSubsystemCon.armDropOffPos());
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(RobotBase.SlideHeight.HIGH));
-                new InstantCommand(()->wristSubsystemCon.wristDropOff());
+                newSlideHeight = RobotBase.SlideHeight.HIGH;
                 break;
         }
+        new InstantCommand(()->armSubsystemCon.armDropOffPos());
+        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
+        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight));
+        new InstantCommand(()->wristSubsystemCon.wristDropOff());
     }
 }
