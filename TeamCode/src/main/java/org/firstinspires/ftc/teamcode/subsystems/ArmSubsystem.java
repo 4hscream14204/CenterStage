@@ -13,8 +13,8 @@ public class ArmSubsystem extends SubsystemBase {
     //goBilda 312 yellow jacket motor 537.7 PPR at the Output Shaft
     //goBilda 312 yellow jacket motor positive power is counterclockwise rotation
     public RobotBase.ArmState armState;
-    private final double dblGrabbingPower = 0.1;
-    private final double dblLiftingPower = 0.3;
+    private final double dblGrabbingPower = 0.4;
+    private final double dblLiftingPower = 0.8;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 179;
 
@@ -22,7 +22,6 @@ public class ArmSubsystem extends SubsystemBase {
         dcmArm = armConstructor;
 
         dcmArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        dcmArm.setDirection(DcMotor.Direction.REVERSE);
         dcmArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         dcmArm.setTargetPosition(0);
         dcmArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
