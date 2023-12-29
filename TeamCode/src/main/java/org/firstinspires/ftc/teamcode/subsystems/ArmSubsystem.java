@@ -10,16 +10,16 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class ArmSubsystem extends SubsystemBase {
 
     DcMotor dcmArm;
-    //goBilda 312 yellow jacket motor 537.7 PPR at the Output Shaft
-    //goBilda 312 yellow jacket motor positive power is counterclockwise rotation
+    //goBilda 43 yellow jacket motor 3895.9 PPR at the Output Shaft
     public RobotBase.ArmState armState;
     private final double dblGrabbingPower = 0.4;
     private final double dblLiftingPower = 0.8;
     private final int intGrabbingPosition = 0;
-    private final int intDropOffPosition = 179;
+    private final int intDropOffPosition = 324;
 
     public ArmSubsystem(DcMotor armConstructor) {
         dcmArm = armConstructor;
+        armState = RobotBase.ArmState.GRABBING;
 
         dcmArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         dcmArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

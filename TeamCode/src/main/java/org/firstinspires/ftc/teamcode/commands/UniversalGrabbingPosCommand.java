@@ -9,13 +9,15 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class UniversalGrabbingPosCommand extends SequentialCommandGroup {
 
     public UniversalGrabbingPosCommand(RobotBase robotBase) {
-        if(robotBase.leftClawSubsystem.clawState == RobotBase.ClawState.OPEN && robotBase.rightClawSubsystem.clawState == RobotBase.ClawState.OPEN && robotBase.armSubsystem.getArmPosition() > 10) {
-            new InstantCommand(()->robotBase.leftSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING));
-            new InstantCommand(()->robotBase.rightSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING));
-            new InstantCommand(()->robotBase.leftWristSubsystem.wristPickup());
-            new InstantCommand(()->robotBase.rightWristSubsystem.wristPickup());
-            new WaitCommand(1000);
-            new InstantCommand(()->robotBase.armSubsystem.armGrabbingPosition());
+        if(robotBase.leftClawSubsystem.clawState == RobotBase.ClawState.OPEN && robotBase.rightClawSubsystem.clawState == RobotBase.ClawState.OPEN && robotBase.armSubsystem.getArmPosition() > 20) {
+            addCommands(
+            new InstantCommand(()->robotBase.leftSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
+            new InstantCommand(()->robotBase.rightSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
+            new InstantCommand(()->robotBase.leftWristSubsystem.wristPickup()),
+            new InstantCommand(()->robotBase.rightWristSubsystem.wristPickup()),
+            new WaitCommand(1000),
+            new InstantCommand(()->robotBase.armSubsystem.armGrabbingPosition())
+            );
         }
     }
 }

@@ -16,7 +16,6 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     public HangingMechanismSubsystem(DcMotor hangingMechanismConstructor) {
         dcmHangingMechanism = hangingMechanismConstructor;
         hangingState = RobotBase.HangingState.DOWN;
-        //CHANGE TO INITIALIZE DOWN
     }
 
     public void initialRaisePosition() {

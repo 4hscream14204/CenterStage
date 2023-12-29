@@ -8,14 +8,15 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class ClawSubsystem extends SubsystemBase {
 
     private Servo srvClaw;
-    private double dblClawOpen = 0;
+    private double dblClawOpen = 0.7;
     private double dblClawClose = 1;
     public RobotBase.ClawState clawState;
 
     public ClawSubsystem(Servo clawConstructor, boolean bolLeftSide) {
         srvClaw = clawConstructor;
+        clawState = RobotBase.ClawState.OPEN;
         if (bolLeftSide != true) {
-            dblClawOpen = 1;
+            dblClawOpen = 0.3;
             dblClawClose = 0;
         }
     }
