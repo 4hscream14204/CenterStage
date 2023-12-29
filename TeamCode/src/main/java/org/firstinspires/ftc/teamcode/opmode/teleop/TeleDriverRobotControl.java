@@ -177,6 +177,23 @@ public class TeleDriverRobotControl extends OpMode {
                     telemetry.addLine("X Button Pressed");
                     robotBase.armSubsystem.armDropOffPos();
                 }));
+
+
+        //SLIDE TEST
+        armController.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new SequentialCommandGroup(
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.HIGH),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.HIGH)));
     }
 
     public void loop() {

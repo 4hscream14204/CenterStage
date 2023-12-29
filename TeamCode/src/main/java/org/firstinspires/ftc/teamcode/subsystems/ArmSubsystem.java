@@ -15,7 +15,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final double dblGrabbingPower = 0.4;
     private final double dblLiftingPower = 0.8;
     private final int intGrabbingPosition = 0;
-    private final int intDropOffPosition = 324;
+    private final int intDropOffPosition = 1298;
 
     public ArmSubsystem(DcMotor armConstructor) {
         dcmArm = armConstructor;
@@ -47,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedSafeDrop() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 150) {
+        if(dcmArm.getCurrentPosition() > 1100) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
