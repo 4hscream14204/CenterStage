@@ -31,13 +31,12 @@ public class BackdropPositionLowerCommand extends SequentialCommandGroup {
             case HIGH:
                 newSlideHeight = RobotBase.SlideHeight.MEDIUMHIGH;
                 break;
-            case HIGHEST:
-                newSlideHeight = RobotBase.SlideHeight.HIGH;
-                break;
         }
-        new InstantCommand(()->armSubsystemCon.armDropOffPos());
-        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight));
-        new InstantCommand(()->wristSubsystemCon.wristDropOff());
+        addCommands(
+        new InstantCommand(()->armSubsystemCon.armDropOffPos()),
+        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
+        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight)),
+        new InstantCommand(()->wristSubsystemCon.wristDropOff())
+        );
     }
 }

@@ -12,6 +12,7 @@ public class WristSubsystem extends SubsystemBase {
 
     public WristSubsystem(Servo wristConstructor) {
         srvWrist = wristConstructor;
+        wristPickup();
     }
 
     public void wristPickup() {

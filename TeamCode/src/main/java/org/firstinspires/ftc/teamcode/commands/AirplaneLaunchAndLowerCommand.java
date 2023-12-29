@@ -11,9 +11,10 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 public class AirplaneLaunchAndLowerCommand extends SequentialCommandGroup {
 
     public AirplaneLaunchAndLowerCommand(AirplaneLauncherSubsystem airplaneLauncherSubsystem, ArmSubsystem armSubsystemCon) {
-        new InstantCommand(()->airplaneLauncherSubsystem.release());
-        new WaitCommand(1000);
-        new InstantCommand(()->airplaneLauncherSubsystem.lower());
-
+        addCommands(
+        new InstantCommand(()->airplaneLauncherSubsystem.release()),
+        new WaitCommand(1000),
+        new InstantCommand(()->airplaneLauncherSubsystem.lower())
+        );
     }
 }

@@ -13,19 +13,21 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class DropOffPositionCommand extends SequentialCommandGroup {
 
-    //TO DO COMBINE DROPOFFTOGGLE'S AND REMOVE IF STATEMENT
     //CLOSE GRABBERS WHEN METHOD CALLED
 
     public DropOffPositionCommand(SlideSubsystem slideSubsystemCon, ArmSubsystem armSubsystemCon, WristSubsystem wristSubsystemCon, ClawSubsystem leftClawSubsystemCon, ClawSubsystem rightClawSubsystemCon, RobotBase.SlideHeight slideHeightCon) {
-
         if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN || rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
-            new InstantCommand(()->leftClawSubsystemCon.clawClose());
-            new InstantCommand(()->rightClawSubsystemCon.clawClose());
-            new WaitCommand(500);
+            addCommands(
+            new InstantCommand(()->leftClawSubsystemCon.clawClose()),
+            new InstantCommand(()->rightClawSubsystemCon.clawClose()),
+            new WaitCommand(500)
+            );
         }
-            new InstantCommand(()->armSubsystemCon.armDropOffPos());
-            new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-            new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon));
-            new InstantCommand(()->wristSubsystemCon.wristDropOff());
+        addCommands(
+        new InstantCommand(()->armSubsystemCon.armDropOffPos()),
+        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
+        new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon)),
+        new InstantCommand(()->wristSubsystemCon.wristDropOff())
+        );
     }
 }

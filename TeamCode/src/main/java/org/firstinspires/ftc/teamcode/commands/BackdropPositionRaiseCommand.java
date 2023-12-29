@@ -31,13 +31,12 @@ public class BackdropPositionRaiseCommand extends SequentialCommandGroup {
             case MEDIUMHIGH:
                 newSlideHeight = RobotBase.SlideHeight.HIGH;
                 break;
-            case HIGH:
-                newSlideHeight = RobotBase.SlideHeight.HIGHEST;
-                break;
         }
-        new InstantCommand(()->armSubsystemCon.armDropOffPos());
-        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop());
-        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight));
-        new InstantCommand(()->wristSubsystemCon.wristDropOff());
+        addCommands(
+        new InstantCommand(()->armSubsystemCon.armDropOffPos()),
+        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
+        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight)),
+        new InstantCommand(()->wristSubsystemCon.wristDropOff())
+        );
     }
 }

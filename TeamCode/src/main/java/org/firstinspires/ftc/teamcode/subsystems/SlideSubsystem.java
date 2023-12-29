@@ -12,6 +12,7 @@ public class SlideSubsystem extends SubsystemBase {
 
     public SlideSubsystem(Servo slideConstructor) {
         srvSlide = slideConstructor;
+        slideHeight = RobotBase.SlideHeight.GRABBING;
     }
 
     public void slideGoToPos(RobotBase.SlideHeight slideHeightParam) {
