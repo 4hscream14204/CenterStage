@@ -55,8 +55,8 @@ public class TeleDriverRobotControl extends OpMode {
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
         chassisController.getGamepadButton(GamepadKeys.Button.Y)
-                .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
-                .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
+                //.and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
+                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
 
         chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
@@ -254,5 +254,10 @@ public class TeleDriverRobotControl extends OpMode {
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);
         CommandScheduler.getInstance().run();
+
+
+    }
+    public void stop(){
+//add return slides to home
     }
 }

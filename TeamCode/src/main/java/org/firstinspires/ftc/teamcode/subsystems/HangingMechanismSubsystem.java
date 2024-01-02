@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
@@ -11,11 +12,21 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     DcMotor dcmHangingMechanism;
     public RobotBase.HangingState hangingState;
 
+    private final double dblHangingPower = 0.2;
+
 
 
     public HangingMechanismSubsystem(DcMotor hangingMechanismConstructor) {
         dcmHangingMechanism = hangingMechanismConstructor;
         hangingState = RobotBase.HangingState.DOWN;
+
+        dcmHangingMechanism.setDirection(DcMotorSimple.Direction.REVERSE);
+        dcmHangingMechanism.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        dcmHangingMechanism.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        dcmHangingMechanism.setTargetPosition(0);
+        dcmHangingMechanism.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        dcmHangingMechanism.setPower(dblHangingPower);
+
     }
 
     public void initialRaisePosition() {

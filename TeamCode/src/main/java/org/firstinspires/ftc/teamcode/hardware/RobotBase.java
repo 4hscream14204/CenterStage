@@ -71,8 +71,8 @@ public class RobotBase extends Object{
     }
     public enum HangingState {
         DOWN (0),
-        RAISED (456),
-        LOWERED (-1539);
+        RAISED (2016),
+        LOWERED (1152);
         public final int intHangingPos;
 
         HangingState(int hangingPosConstructor) {
