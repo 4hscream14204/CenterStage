@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -22,93 +24,123 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence BlueLeftCenterInner;
     private TrajectorySequence BlueLeftCenterInner2;
     private TrajectorySequence BlueLeftLeftInner;
+
+    private TrajectorySequence OuterPark;
+
+    private TrajectorySequence InnerPark;
+
+    private TrajectorySequence parkLocation;
+
     public Pose2d startPose;
 
+    public GamepadEx autoChassisController;
+
     @Override
-    public void init(){
+    public void init() {
+        autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
+        robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
         BlueLeftRightInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(6.00, 36.00), Math.toRadians(225.00))
-                .lineToLinearHeading(new Pose2d(17.00, 46.00, Math.toRadians(270.00)))
-                //.addDisplacementMarker(() -> {robotBase.clawSubsystem.dropPosition();})
-                .splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
-                .lineToLinearHeading(new Pose2d(52.00, 31.70, Math.toRadians(180.00)))
-                //.addDisplacementMarker(() -> {robotBase.clawSubsystem.drop();})
-                .lineToConstantHeading(new Vector2d(50.00, 31.70))
-                .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(45.00, 31.70))
-                //.addDisplacementMarker(() -> {robotBase.clawSubsystem.downPosition();})
-                .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
+                .splineTo(new Vector2d(10.00, 45.00), Math.toRadians(241.00))
+                .splineTo(new Vector2d(25.00, 38.00), Math.toRadians(0))
+                .splineTo(new Vector2d(48.00, 28.00), Math.toRadians(0))
                 .build();
 
+                /*.splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
+                .lineToLinearHeading(new Pose2d(52.00, 31.70, Math.toRadians(180.00)))
+                .lineTo(new Vector2d(51.00, 31.70))
+                .lineTo(new Vector2d(52.00,31.70))
+                .waitSeconds(0.25)
+                .lineToConstantHeading(new Vector2d(50.00, 31.70))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(45.00, 36.70))
+                // .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
+                .build();*/
+
         BlueLeftCenterInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineToSplineHeading(new Pose2d(12.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .splineToSplineHeading(new Pose2d(12.00, 39.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                //.addDisplacementMarker(() -> {robotBase.clawSubsystem.dropPosition();})
-                .lineToSplineHeading(new Pose2d(35.00, 39.00, Math.toRadians(270.00)))
+                .splineToConstantHeading(new Vector2d(12.00, 41.00), Math.toRadians(270.00))
+                .splineTo(new Vector2d(49.00, 36.00), Math.toRadians(0))
+                //.lineToSplineHeading(new Pose2d(35.00, 39.00, Math.toRadians(270.00)))
                 //.lineToLinearHeading(new Pose2d(50.50, -37.50, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
-                .lineToSplineHeading(new Pose2d(52.0, 39.00, Math.toRadians(180.00)))
-                //.addTemporalMarker(() -> robotBase.clawSubsystem.drop())
-                //.waitSeconds(3)
-                //.lineToLinearHeading(new Pose2d(40.00, -37.00, Math.toRadians(180.00)))
+                //.lineToSplineHeading(new Pose2d(52.0, 39.00, Math.toRadians(180.00)))
+                //.lineTo(new Vector2d(51.00, 39.00))
+                //.lineTo(new Vector2d(52.00,39.00))
+                //.waitSeconds(0.25)
+                //.addTemporalMarker(() -> {robotBase.grabber.downPosition();})
+                //.waitSeconds(1)
+                //.lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                //.splineTo(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
+                // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
         BlueLeftCenterInner2 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(BlueLeftCenterInner.end())
                 .waitSeconds(1)
-                //.addDisplacementMarker(() -> {robotBase.clawSubsystem.downPosition();})
                 //.waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(40.00, 37.00, Math.toRadians(180.00)))
+                //.lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
+                // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
         BlueLeftLeftInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineToSplineHeading(new Pose2d(20.00, 37.00, Math.toRadians(300.00)), Math.toRadians(300.00))
-                .lineToSplineHeading(new Pose2d(20.00, 43.00, Math.toRadians(270.00)))
-                //.addTemporalMarker(() -> robotBase.clawSubsystem.dropPosition())
-                .lineToSplineHeading(new Pose2d(43.00, 43.00, Math.toRadians(180.00)))
-                .lineToSplineHeading(new Pose2d(52.00, 43.00, Math.toRadians(180.00)))
-                //.addTemporalMarker(() -> robotBase.clawSubsystem.drop())
-                .waitSeconds(1)
-                //.addTemporalMarker(() -> robotBase.Grabber.DownPosition())
-                .lineToSplineHeading(new Pose2d(46.50, 43.00, Math.toRadians(180.00)))
-                //.addTemporalMarker(() -> robotBase.clawSubsystem.downPosition())
-                .splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
+                .splineToConstantHeading(new Vector2d(20.00, 47.00), Math.toRadians(270.00))
+                .lineToSplineHeading(new Pose2d(49.00, 43.00, Math.toRadians(0)))
+                .build();
+
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180)))
+                .splineToConstantHeading(new Vector2d(55.00, 61.00), Math.toRadians(0.00))
+                .build();
+
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180)))
+                .splineToConstantHeading(new Vector2d(55.00, 12.00), Math.toRadians(0.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+        parkLocation = InnerPark;
     }
+
     @Override
-    public void init_loop(){
+    public void init_loop() {
+        autoChassisController.readButtons();
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
+            if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
+                robotBase.parkSide = RobotBase.ParkSide.OUTER;
+                parkLocation = OuterPark;
+            } else {
+                robotBase.parkSide = RobotBase.ParkSide.INNER;
+                parkLocation = InnerPark;
+            }
+        }
         robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
-        telemetry.addData("InitLoop","true");
-        telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.addData("InitLoop", "true");
+        telemetry.addData("Detection", (robotBase.propPosition));
+        telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.update();
+
     }
     @Override
-    public void start(){
+    public void start () {
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftCenterInner);
-            //robotBase.grabber.drop();
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftCenterInner2);
+            // robotBase.grabber.drop();
+            // robotBase.mecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftRightInner);
         } else {
             robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftLeftInner);
         }
-    }
-    @Override
-    public void loop(){
+        robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
 
     }
     @Override
-    public void stop(){
+    public void loop () {
+
+    }
+    @Override
+    public void stop () {
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         double dblCurrentHeading = angles.firstAngle;
         DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
