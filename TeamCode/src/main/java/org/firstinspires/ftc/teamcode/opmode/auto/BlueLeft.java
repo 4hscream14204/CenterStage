@@ -44,10 +44,12 @@ public class BlueLeft extends OpMode {
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
         BlueLeftRightInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(6.00, 36.00), Math.toRadians(225.00))
-                .lineToLinearHeading(new Pose2d(17.00, 46.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(10.00, 45.00), Math.toRadians(241.00))
+                .splineTo(new Vector2d(25.00, 38.00), Math.toRadians(0))
+                .splineTo(new Vector2d(48.00, 28.00), Math.toRadians(0))
+                .build();
 
-                .splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
+                /*.splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
                 .lineToLinearHeading(new Pose2d(52.00, 31.70, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(51.00, 31.70))
                 .lineTo(new Vector2d(52.00,31.70))
@@ -56,21 +58,21 @@ public class BlueLeft extends OpMode {
                 .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(45.00, 36.70))
                 // .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
-                .build();
+                .build();*/
 
         BlueLeftCenterInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineToSplineHeading(new Pose2d(12.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .splineToSplineHeading(new Pose2d(12.00, 39.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .lineToSplineHeading(new Pose2d(35.00, 39.00, Math.toRadians(270.00)))
+                .splineToConstantHeading(new Vector2d(12.00, 41.00), Math.toRadians(270.00))
+                .splineTo(new Vector2d(49.00, 36.00), Math.toRadians(0))
+                //.lineToSplineHeading(new Pose2d(35.00, 39.00, Math.toRadians(270.00)))
                 //.lineToLinearHeading(new Pose2d(50.50, -37.50, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
-                .lineToSplineHeading(new Pose2d(52.0, 39.00, Math.toRadians(180.00)))
-                .lineTo(new Vector2d(51.00, 39.00))
-                .lineTo(new Vector2d(52.00,39.00))
-                .waitSeconds(0.25)
+                //.lineToSplineHeading(new Pose2d(52.0, 39.00, Math.toRadians(180.00)))
+                //.lineTo(new Vector2d(51.00, 39.00))
+                //.lineTo(new Vector2d(52.00,39.00))
+                //.waitSeconds(0.25)
                 //.addTemporalMarker(() -> {robotBase.grabber.downPosition();})
                 //.waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
+                //.lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
                 // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
@@ -84,17 +86,8 @@ public class BlueLeft extends OpMode {
                 .build();
 
         BlueLeftLeftInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineToSplineHeading(new Pose2d(20.00, 37.00, Math.toRadians(300.00)), Math.toRadians(300.00))
-                .lineToSplineHeading(new Pose2d(20.00, 46.00, Math.toRadians(270.00)))
-                .lineToSplineHeading(new Pose2d(43.00, 43.00, Math.toRadians(180.00)))
-                .lineToSplineHeading(new Pose2d(52.00, 43.00, Math.toRadians(180.00)))
-                .lineTo(new Vector2d(50.00, 43.00))
-                .lineTo(new Vector2d(52.00,43.00))
-                .waitSeconds(0.25)
-                //.waitSeconds(1)
-                //.addTemporalMarker(() -> robotBase.Grabber.DownPosition())
-                .lineToSplineHeading(new Pose2d(45.0, 36.00, Math.toRadians(180.00)))
-                //.splineTo(new Vector2d(60.00, 58.00), Math.toRadians(360.00))
+                .splineToConstantHeading(new Vector2d(20.00, 47.00), Math.toRadians(270.00))
+                .lineToSplineHeading(new Pose2d(49.00, 43.00, Math.toRadians(0)))
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180)))
