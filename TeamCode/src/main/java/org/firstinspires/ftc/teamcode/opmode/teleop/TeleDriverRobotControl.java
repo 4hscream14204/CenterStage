@@ -88,12 +88,20 @@ public class TeleDriverRobotControl extends OpMode {
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
+        /*
         armController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                         .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem));
 
         //RIGHT CLAW DROPOFF
         armController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem));
+*/
+
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                        .whenPressed(new InstantCommand(()-> robotBase.leftClawSubsystem.clawOpen()));
+
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new InstantCommand(()-> robotBase.rightClawSubsystem.clawOpen()));
 
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOW
@@ -125,7 +133,7 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //DUAL SLIDE MEDIUM
-        armController.getGamepadButton(GamepadKeys.Button.A)
+        armController.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new SequentialCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
@@ -253,6 +261,7 @@ public class TeleDriverRobotControl extends OpMode {
 
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);
+            telemetry.addData("Arm Position", robotBase.armSubsystem.getArmPosition());
         CommandScheduler.getInstance().run();
 
 

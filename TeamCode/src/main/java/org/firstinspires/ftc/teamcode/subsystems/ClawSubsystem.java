@@ -19,6 +19,7 @@ public class ClawSubsystem extends SubsystemBase {
             dblClawOpen = 0.3;
             dblClawClose = 0;
         }
+        clawOpen();
     }
 
     public void clawOpen() {

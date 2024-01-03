@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -9,7 +10,9 @@ public class ClawOpenCommand extends SequentialCommandGroup {
 
     public ClawOpenCommand(ArmSubsystem armSubsystemCon, ClawSubsystem clawSubsystemCon) {
         if(armSubsystemCon.getArmPosition() > 315) {
-            clawSubsystemCon.clawOpen();
+            addCommands(
+            new InstantCommand(()->clawSubsystemCon.clawOpen())
+            );
         }
     }
 }
