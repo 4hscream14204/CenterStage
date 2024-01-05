@@ -51,9 +51,9 @@ public class RobotBase extends Object{
     }
     public enum SlideHeight {
         GRABBING (0),
-        ESCAPE (0.1),
-        LOWEST (0.2),
-        LOW (0.3),
+        ESCAPE (0),
+        LOWEST (0),
+        LOW (0),
         LOWMEDIUM (0.4),
         MEDIUM (0.5),
         MEDIUMHIGH (0.6),
@@ -213,8 +213,8 @@ public class RobotBase extends Object{
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
         leftSlideSubsystem = new SlideSubsystem(srvLeftSlide);
         rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
-        leftWristSubsystem = new WristSubsystem(srvLeftWrist);
-        rightWristSubsystem = new WristSubsystem(srvRightWrist);
+        leftWristSubsystem = new WristSubsystem(srvLeftWrist, true);
+        rightWristSubsystem = new WristSubsystem(srvRightWrist, false);
         /*
         redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);
