@@ -29,10 +29,12 @@ public class HangingMechanismSubsystem extends SubsystemBase {
 
     }
 
+    /*
     public void initialRaisePosition() {
         hangingState = RobotBase.HangingState.RAISED;
         dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
+    */
 
     public void lower() {
         hangingState = RobotBase.HangingState.LOWERED;
@@ -47,13 +49,11 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     public void hangingToggle() {
         switch (hangingState) {
             case DOWN:
-                initialRaisePosition();
+            case LOWERED:
+                raise();
                 break;
             case RAISED:
                 lower();
-                break;
-            case LOWERED:
-                raise();
                 break;
         }
     }

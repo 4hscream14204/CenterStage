@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
@@ -14,5 +15,10 @@ public class ClawOpenCommand extends SequentialCommandGroup {
             new InstantCommand(()->clawSubsystemCon.clawOpen())
             );
         }
+        new ConditionalCommand(
+                new InstantCommand(()->clawSubsystemCon.clawOpen()),
+                new InstantCommand(),
+                ()-> armSubsystemCon.armIsPassedSafeDrop()
+        );
     }
 }

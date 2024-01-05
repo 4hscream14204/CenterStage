@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -112,7 +113,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOW
         armController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new SequentialCommandGroup(
+                .whenPressed(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
@@ -134,7 +135,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new SequentialCommandGroup(
+                .whenPressed(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
@@ -189,7 +190,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //SLIDE TEST
         armController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new SequentialCommandGroup(
+                .whenPressed(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
