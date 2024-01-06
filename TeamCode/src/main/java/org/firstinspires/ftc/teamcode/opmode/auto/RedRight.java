@@ -41,7 +41,9 @@ public class RedRight extends OpMode {
         startPose = new Pose2d(15.00, -63.00, Math.toRadians(90.00));
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(10.2, 45.28), Math.toRadians(135.00))
+                .waitSeconds(1)
                 .splineTo(new Vector2d(48.51, 28.99), Math.toRadians(90.00))
+                .waitSeconds(1)
                 //Need drop off code
 
 
@@ -65,8 +67,10 @@ public class RedRight extends OpMode {
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(12.00, -41.00), Math.toRadians(95.44))
+                .waitSeconds(1)
                 .splineTo(new Vector2d(28.70, -38.24), Math.toRadians(-8.24))
                 .splineToConstantHeading(new Vector2d(48.81, -36.48), Math.toRadians(0.00))
+                .waitSeconds(1)
                 //Add drop off code
                 .build();
 
@@ -107,8 +111,10 @@ public class RedRight extends OpMode {
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(12.00, -41.00), Math.toRadians(95.44))
+                .waitSeconds(1)
                 .splineTo(new Vector2d(28.70, -38.24), Math.toRadians(-8.24))
                 .splineToConstantHeading(new Vector2d(48.81, -36.48), Math.toRadians(0.00))
+                .waitSeconds(1)
                 .build();
 
 
