@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -257,6 +258,7 @@ public class TeleDriverRobotControl extends OpMode {
             } else {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
+            robotBase.mecanumDriveSubsystem.chassisDirectionalSwap(hardwareMap);
         }
 
         //INTAKE OPERATION
