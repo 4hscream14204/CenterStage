@@ -8,15 +8,17 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class WristSubsystem extends SubsystemBase {
 
     Servo srvWrist;
-    private double dblWristGrabbing = 0.97;
-    private double dblWristDropOff = 0.05;
+    private double dblWristGrabbing = 0;
+    private double dblWristDropOff = 0.95;
+    private double dblWristEscape = 0.05;
     public RobotBase.WristState wristState;
 
     public WristSubsystem(Servo wristConstructor, Boolean bolLeftSide) {
         srvWrist = wristConstructor;
         if (bolLeftSide != true) {
-            dblWristGrabbing = 0;
-            dblWristDropOff = 0.9;
+            dblWristGrabbing = 0.97;
+            dblWristDropOff = 0.05;
+            dblWristEscape = 0.92;
         }
         wristPickup();
     }
@@ -28,7 +30,7 @@ public class WristSubsystem extends SubsystemBase {
 
     public void wristEscape() {
         wristState = RobotBase.WristState.ESCAPE;
-        srvWrist.setPosition(wristState.dblWristState);
+        srvWrist.setPosition(dblWristEscape);
     }
 
     public void wristDropOff() {

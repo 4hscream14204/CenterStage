@@ -20,10 +20,12 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
             addCommands(
             new InstantCommand(()->leftClawSubsystemCon.clawClose()),
             new InstantCommand(()->rightClawSubsystemCon.clawClose()),
-            new WaitCommand(500)
+            new WaitCommand(5000)
             );
         }
         addCommands(
+                new InstantCommand(()->wristSubsystemCon.wristEscape()),
+        new WaitCommand(5000),
         new InstantCommand(()->armSubsystemCon.armDropOffPos()),
         new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
         new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon)),
