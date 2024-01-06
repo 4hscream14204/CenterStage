@@ -20,10 +20,9 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 public class BlueLeft extends OpMode {
 
     public RobotBase robotBase;
-    private TrajectorySequence BlueLeftRightInner;
-    private TrajectorySequence BlueLeftCenterInner;
-    private TrajectorySequence BlueLeftCenterInner2;
-    private TrajectorySequence BlueLeftLeftInner;
+    private TrajectorySequence RightSpike;
+    private TrajectorySequence MiddleSpike;
+    private TrajectorySequence LeftSpike;
 
     private TrajectorySequence OuterPark;
 
@@ -42,11 +41,26 @@ public class BlueLeft extends OpMode {
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
+        robotBase.leftClawSubsystem.clawClose();
+        robotBase.leftWristSubsystem.wristEscape();
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
-        BlueLeftRightInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(10.00, 45.00), Math.toRadians(241.00))
-                .splineTo(new Vector2d(25.00, 38.00), Math.toRadians(0))
-                .splineTo(new Vector2d(48.00, 28.00), Math.toRadians(0))
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+                .splineToLinearHeading(new Pose2d(6.8, 42.20, Math.toRadians(241.00)), Math.toRadians(241.00))
+                .splineToConstantHeading(new Vector2d(16.00, 52.00), Math.toRadians(241.00))
+                .splineToLinearHeading(new Pose2d(37.50, 31.19, Math.toRadians(-38.90)), Math.toRadians(-38.90))
+                .splineToConstantHeading(new Vector2d(45.00, 28.00), Math.toRadians(0.00))
+                .waitSeconds(0.5)
+                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffPos();})
+                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .waitSeconds(0.5)
+                .addTemporalMarker(4, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .lineTo(new Vector2d(40, 28))
+                .waitSeconds(1)
+                .addTemporalMarker(4.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .waitSeconds(0.5)
+                .addTemporalMarker(5.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .waitSeconds(5)
+               // .lineToConstantHeading(new Vector2d(45.00, 36.70))
                 .build();
 
                 /*.splineToLinearHeading(new Pose2d(40.00, 31.70, Math.toRadians(180.00)), Math.toRadians(360.00))
@@ -60,9 +74,12 @@ public class BlueLeft extends OpMode {
                 // .splineTo(new Vector2d(58.00, 61.00), Math.toRadians(360.00))
                 .build();*/
 
-        BlueLeftCenterInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineToConstantHeading(new Vector2d(12.00, 41.00), Math.toRadians(270.00))
+                .waitSeconds(1)
                 .splineTo(new Vector2d(49.00, 36.00), Math.toRadians(0))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(45.00, 36.70))
                 //.lineToSplineHeading(new Pose2d(35.00, 39.00, Math.toRadians(270.00)))
                 //.lineToLinearHeading(new Pose2d(50.50, -37.50, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.Drop();})
@@ -77,24 +94,18 @@ public class BlueLeft extends OpMode {
                 // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
-        BlueLeftCenterInner2 = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(BlueLeftCenterInner.end())
-                .waitSeconds(1)
-                //.waitSeconds(1)
-                //.lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
-                //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
-                .build();
 
-        BlueLeftLeftInner = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
                 .splineToConstantHeading(new Vector2d(20.00, 47.00), Math.toRadians(270.00))
                 .lineToSplineHeading(new Pose2d(49.00, 43.00, Math.toRadians(0)))
                 .build();
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(55.00, 61.00), Math.toRadians(0.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180)))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(55.00, 12.00), Math.toRadians(0.00))
                 .build();
 
@@ -124,13 +135,13 @@ public class BlueLeft extends OpMode {
     @Override
     public void start () {
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftCenterInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleSpike);
             // robotBase.grabber.drop();
             // robotBase.mecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
-        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftRightInner);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
         } else {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(BlueLeftLeftInner);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightSpike);
         }
         robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
 
