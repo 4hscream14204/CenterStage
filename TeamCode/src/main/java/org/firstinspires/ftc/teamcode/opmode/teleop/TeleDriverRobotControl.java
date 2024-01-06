@@ -196,11 +196,16 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CommandScheduler.getInstance().setDefaultCommand(UniversalGrabbingPosCommand());
 
+       //AIRPLANE EV TEST
         armController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new InstantCommand(()->{
-                    telemetry.addLine("X Button Pressed");
-                    robotBase.armSubsystem.armDropOffPos();
-                }));
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise()));
+
+        //AIRPLANE LAUNCHER TEST
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.release()));
+
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.lower()));
 
     }
 
