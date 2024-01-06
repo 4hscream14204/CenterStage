@@ -23,18 +23,10 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         //dcmHangingMechanism.setDirection(DcMotorSimple.Direction.REVERSE);
         dcmHangingMechanism.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         dcmHangingMechanism.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //dcmHangingMechanism.setTargetPosition(0);
+        dcmHangingMechanism.setTargetPosition(0);
         dcmHangingMechanism.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         dcmHangingMechanism.setPower(dblHangingPower);
-
     }
-
-    /*
-    public void initialRaisePosition() {
-        hangingState = RobotBase.HangingState.RAISED;
-        dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
-    }
-    */
 
     public void lower() {
         hangingState = RobotBase.HangingState.LOWERED;

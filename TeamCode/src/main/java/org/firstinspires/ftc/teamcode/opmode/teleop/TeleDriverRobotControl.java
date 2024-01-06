@@ -58,15 +58,19 @@ public class TeleDriverRobotControl extends OpMode {
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
 
-
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
         chassisController.getGamepadButton(GamepadKeys.Button.Y)
                 .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
                 .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
 
+        /*
         chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
+
+        chassisController.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
+         */
 
         //ROBOT SLASH FIELD CENTRIC SWAP
 
