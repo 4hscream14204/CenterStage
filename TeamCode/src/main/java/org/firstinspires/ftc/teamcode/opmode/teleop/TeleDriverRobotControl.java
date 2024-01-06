@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -196,11 +197,16 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CommandScheduler.getInstance().setDefaultCommand(UniversalGrabbingPosCommand());
 
+       //AIRPLANE EV TEST
         armController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new InstantCommand(()->{
-                    telemetry.addLine("X Button Pressed");
-                    robotBase.armSubsystem.armDropOffPos();
-                }));
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise()));
+
+        //AIRPLANE LAUNCHER TEST
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.release()));
+
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.lower()));
 
     }
 
@@ -252,6 +258,7 @@ public class TeleDriverRobotControl extends OpMode {
             } else {
                 robotBase.controlScheme = RobotBase.ChassisControlType.FIELDCENTRIC;
             }
+            robotBase.mecanumDriveSubsystem.chassisDirectionalSwap(hardwareMap);
         }
 
         //INTAKE OPERATION

@@ -80,8 +80,16 @@ public class SampleMecanumDrive extends MecanumDrive {
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
 
+    public enum CHASSISDIRECTION {
+        ROBOTCENTRIC,
+        FIELDCENTRIC
+    }
+    public CHASSISDIRECTION chassisDirection;
+
     public SampleMecanumDrive(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
+
+        chassisDirection = CHASSISDIRECTION.FIELDCENTRIC;
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.2, 0.2, Math.toRadians(2.0)), 0.5);
@@ -144,6 +152,30 @@ public class SampleMecanumDrive extends MecanumDrive {
                 follower, HEADING_PID, batteryVoltageSensor,
                 lastEncPositions, lastEncVels, lastTrackingEncPositions, lastTrackingEncVels
         );
+    }
+
+    public void chassisDirectionalSwap(HardwareMap hardwareMap) {
+        if (chassisDirection == CHASSISDIRECTION.FIELDCENTRIC) {
+            chassisDirection = CHASSISDIRECTION.ROBOTCENTRIC;
+            leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+            leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+            rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+            rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE); // add if needed
+            leftRear.setDirection(DcMotorSimple.Direction.REVERSE); // add if needed
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD); // add if needed
+            rightRear.setDirection(DcMotorSimple.Direction.FORWARD); // add if needed
+        } else {
+            chassisDirection = CHASSISDIRECTION.FIELDCENTRIC;
+            rightRear = hardwareMap.get(DcMotorEx.class, "leftFront");
+            rightFront = hardwareMap.get(DcMotorEx.class, "leftRear");
+            leftFront = hardwareMap.get(DcMotorEx.class, "rightRear");
+            leftRear = hardwareMap.get(DcMotorEx.class, "rightFront");
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE); // add if needed
+            leftRear.setDirection(DcMotorSimple.Direction.REVERSE); // add if needed
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD); // add if needed
+            rightRear.setDirection(DcMotorSimple.Direction.FORWARD); // add if needed
+        }
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
