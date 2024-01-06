@@ -26,12 +26,14 @@ public class BackdropPositionRaiseCommand extends SequentialCommandGroup {
             case LOWMEDIUM:
                 newSlideHeight = RobotBase.SlideHeight.MEDIUM;
                 break;
+                /*
             case MEDIUM:
                 newSlideHeight = RobotBase.SlideHeight.MEDIUMHIGH;
                 break;
             case MEDIUMHIGH:
                 newSlideHeight = RobotBase.SlideHeight.HIGH;
                 break;
+                */
         }
 
         addCommands(

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -15,11 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.commands.AirplaneLaunchAndLowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.RaiseArmAndLauncherCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -58,8 +62,8 @@ public class TeleDriverRobotControl extends OpMode {
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
         chassisController.getGamepadButton(GamepadKeys.Button.Y)
-                //.and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
-                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
+                .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
+                .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
 
         chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
@@ -108,6 +112,28 @@ public class TeleDriverRobotControl extends OpMode {
 */
 
         //SLIDE MOVEMENTS
+        //LEFT SLIDE LOWEST
+
+
+        //RIGHT SLIDE LOWEST
+
+
+        //DUAL SLIDE LOWEST
+        armController.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new ParallelCommandGroup(
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.LOWEST),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.LOWEST)));
+
         //LEFT SLIDE LOW
 
 
@@ -115,8 +141,8 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //DUAL SLIDE LOW
-        armController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new ParallelCommandGroup(
+        armController.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
@@ -128,37 +154,15 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOW)));
+                                RobotBase.SlideHeight.LOW))));
 
-        //LEFT SLIDE MEDIUM
-
-
-        //RIGHT SLIDE MEDIUM
+        //LEFT SLIDE LOW MEDIUM
 
 
-        //DUAL SLIDE MEDIUM
-        armController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.MEDIUM),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.MEDIUM))));
-
-        //LEFT SLIDE HIGH
+        //RIGHT SLIDE LOW MEDIUM
 
 
-        //RIGHT SLIDE HIGH
-
-
-        //DUAL SLIDE HIGH
+        //DUAL SLIDE LOW MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -166,48 +170,49 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.leftWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.HIGH),
+                                RobotBase.SlideHeight.LOWMEDIUM),
                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.HIGH))));
+                                RobotBase.SlideHeight.LOWMEDIUM))));
 
-        //LEFT BACKDROP POSITION RAISE
-
-
-        //LEFT BACKDROP POSITION LOWER
+        //LEFT SLIDE MEDIUM
 
 
-        //RIGHT BACKDROP POSITION RAISE
+        //RIGHT SLIDE MEDIUM
 
 
-        //RIGHT BACKDROP POSITION LOWER
-
-
-        //DUAL BACKDROP POSITION RAISE
-
-
-        //DUAL BACKDROP POSITION LOWER
-
+        //DUEL SLIDE MEDIUM
+        armController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.LOWMEDIUM),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.LOWMEDIUM))));
 
         //AIRPLANE LAUNCHER OPERATION
-
-
-        //CommandScheduler.getInstance().setDefaultCommand(UniversalGrabbingPosCommand());
-
-       //AIRPLANE EV TEST
-        armController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise()));
-
-        //AIRPLANE LAUNCHER TEST
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.release()));
-
-        armController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new InstantCommand(()->robotBase.airplaneLauncherSubsystem.lower()));
-
+                        .and(armController.getGamepadButton(GamepadKeys.Button.START)
+                                .whenActive(()-> CommandScheduler.getInstance().schedule(new ConditionalCommand(
+                                        new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem),
+                                        new RaiseArmAndLauncherCommand(robotBase.airplaneLauncherSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem),
+                                        ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
+                                                ))));
     }
 
     public void loop() {

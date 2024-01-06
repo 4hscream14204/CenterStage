@@ -25,12 +25,16 @@ public class BackdropPositionLowerCommand extends SequentialCommandGroup {
             case MEDIUM:
                 newSlideHeight = RobotBase.SlideHeight.LOWMEDIUM;
                 break;
+                /*
             case MEDIUMHIGH:
                 newSlideHeight = RobotBase.SlideHeight.MEDIUM;
                 break;
             case HIGH:
                 newSlideHeight = RobotBase.SlideHeight.MEDIUMHIGH;
                 break;
+            case HIGHEST:
+                newSlideHeight = RobotBase.SlideHeight.HIGH;
+                */
         }
         addCommands(
         new InstantCommand(()->armSubsystemCon.armDropOffPos()),

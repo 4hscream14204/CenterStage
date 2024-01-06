@@ -35,6 +35,14 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = RobotBase.AirplaneState.RAISE;
     }
+
+    public boolean elevatorIsRaised(){
+        if(airplaneState == RobotBase.AirplaneState.RAISE) {
+            return true;
+        }
+        return false;
+    }
+
     public void raiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:

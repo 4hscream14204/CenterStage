@@ -17,18 +17,22 @@ public class ButtonTest extends OpMode {
     private boolean bolBlueButton = false;
     private boolean bolGreenButton = false;
     private boolean bolBlackButton = false;
+    /*
     private TouchSensor tsRedButton;
     private TouchSensor tsBlueButton;
     private TouchSensor tsGreenButton;
     private TouchSensor tsBlackButton;
+    */
 
     private GamepadEx dPadTestingController;
     public void init() {
         dPadTestingController = new GamepadEx(gamepad1);
+        /*
         tsRedButton = hardwareMap.get(TouchSensor.class,"RedButton");
         tsBlueButton = hardwareMap.get(TouchSensor.class,"BlueButton");
         tsGreenButton = hardwareMap.get(TouchSensor.class,"GreenButton");
         tsBlackButton = hardwareMap.get(TouchSensor.class,"BlackButton");
+        */
     }
     public void loop() {
 
@@ -45,6 +49,7 @@ public class ButtonTest extends OpMode {
         if(dPadTestingController.getButton(GamepadKeys.Button.DPAD_RIGHT)) {
             bolDPadRight = true;
         }
+        /*
         if(tsRedButton.isPressed()) {
             bolRedButton = true;
         } else {
@@ -65,6 +70,7 @@ public class ButtonTest extends OpMode {
         } else {
             bolBlackButton = false;
         }
+        */
 
 
         telemetry.addData("DPad Up Pressed", bolDPadUp);

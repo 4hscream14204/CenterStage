@@ -15,7 +15,12 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
 
     //CLOSE GRABBERS WHEN METHOD CALLED
 
-    public DropOffPositionCommand(SlideSubsystem slideSubsystemCon, ArmSubsystem armSubsystemCon, WristSubsystem wristSubsystemCon, ClawSubsystem leftClawSubsystemCon, ClawSubsystem rightClawSubsystemCon, RobotBase.SlideHeight slideHeightCon) {
+    public DropOffPositionCommand(SlideSubsystem slideSubsystemCon,
+                                  ArmSubsystem armSubsystemCon,
+                                  WristSubsystem wristSubsystemCon,
+                                  ClawSubsystem leftClawSubsystemCon,
+                                  ClawSubsystem rightClawSubsystemCon,
+                                  RobotBase.SlideHeight slideHeightCon) {
         if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN || rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
             addCommands(
             new InstantCommand(()->leftClawSubsystemCon.clawClose()),
