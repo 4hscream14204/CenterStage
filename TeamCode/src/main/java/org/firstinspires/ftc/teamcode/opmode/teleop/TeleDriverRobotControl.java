@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -89,20 +90,21 @@ public class TeleDriverRobotControl extends OpMode {
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
-        /*
+
         armController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                         .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem));
 
         //RIGHT CLAW DROPOFF
         armController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem));
-*/
 
+        /*
         armController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                         .whenPressed(new InstantCommand(()-> robotBase.leftClawSubsystem.clawOpen()));
 
         armController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new InstantCommand(()-> robotBase.rightClawSubsystem.clawOpen()));
+*/
 
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOW
@@ -135,7 +137,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new ParallelCommandGroup(
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
@@ -147,7 +149,7 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.MEDIUM)));
+                                RobotBase.SlideHeight.MEDIUM))));
 
         //LEFT SLIDE HIGH
 
@@ -156,7 +158,20 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //DUAL SLIDE HIGH
-
+        armController.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
+                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.leftWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.HIGH),
+                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                robotBase.armSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.rightClawSubsystem,
+                                RobotBase.SlideHeight.HIGH))));
 
         //LEFT BACKDROP POSITION RAISE
 
@@ -187,22 +202,6 @@ public class TeleDriverRobotControl extends OpMode {
                     robotBase.armSubsystem.armDropOffPos();
                 }));
 
-
-        //SLIDE TEST
-        armController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.HIGH),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.HIGH)));
     }
 
     public void loop() {
@@ -214,6 +213,10 @@ public class TeleDriverRobotControl extends OpMode {
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
+
+        //UNIVERSAL GRABBING COMMAND
+        CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase));
+
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
@@ -263,11 +266,6 @@ public class TeleDriverRobotControl extends OpMode {
             telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
             telemetry.addData("Chassis Control", robotBase.controlScheme);
             telemetry.addData("Arm Position", robotBase.armSubsystem.getArmPosition());
-        CommandScheduler.getInstance().run();
-
-
-    }
-    public void stop(){
-//add return slides to home
+            CommandScheduler.getInstance().run();
     }
 }

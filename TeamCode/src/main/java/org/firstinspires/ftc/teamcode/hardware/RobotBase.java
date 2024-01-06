@@ -86,7 +86,8 @@ public class RobotBase extends Object{
     }
     public enum ArmState {
         GRABBING (0),
-        DROPOFF (-179);
+        DROPOFF (1298),
+        RETURNING(0);
 
         public final int intArmPosition;
 

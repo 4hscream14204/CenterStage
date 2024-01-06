@@ -10,15 +10,12 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 public class ClawOpenCommand extends SequentialCommandGroup {
 
     public ClawOpenCommand(ArmSubsystem armSubsystemCon, ClawSubsystem clawSubsystemCon) {
-        if(armSubsystemCon.getArmPosition() > 315) {
-            addCommands(
-            new InstantCommand(()->clawSubsystemCon.clawOpen())
-            );
-        }
+        addCommands(
         new ConditionalCommand(
                 new InstantCommand(()->clawSubsystemCon.clawOpen()),
                 new InstantCommand(),
                 ()-> armSubsystemCon.armIsPassedSafeDrop()
+        )
         );
     }
 }

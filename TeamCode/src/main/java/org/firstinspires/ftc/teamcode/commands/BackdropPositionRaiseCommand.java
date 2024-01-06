@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -32,6 +33,7 @@ public class BackdropPositionRaiseCommand extends SequentialCommandGroup {
                 newSlideHeight = RobotBase.SlideHeight.HIGH;
                 break;
         }
+
         addCommands(
         new InstantCommand(()->armSubsystemCon.armDropOffPos()),
         new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),

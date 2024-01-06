@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void armGrabbingPosition() {
         dcmArm.setPower(dblGrabbingPower);
         armState = RobotBase.ArmState.GRABBING;
-        dcmArm.setTargetPosition(intDropOffPosition);
+        dcmArm.setTargetPosition(intGrabbingPosition);
     }
 
     public void armDropOffPos() {
@@ -51,5 +51,9 @@ public class ArmSubsystem extends SubsystemBase {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
+    }
+
+    public void armReturning() {
+        armState = RobotBase.ArmState.RETURNING;
     }
 }
