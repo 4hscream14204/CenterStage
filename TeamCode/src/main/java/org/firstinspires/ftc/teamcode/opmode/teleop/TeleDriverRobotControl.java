@@ -112,7 +112,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new InstantCommand(()-> dblTargetHeading = 90 + DataStorageSubsystem.dblIMUFinalHeading));
+                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(90) + DataStorageSubsystem.dblIMUFinalHeading));
 
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
