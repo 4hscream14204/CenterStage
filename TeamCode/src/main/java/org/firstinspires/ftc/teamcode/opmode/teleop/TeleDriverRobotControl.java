@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
+import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.util.Angle;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.TriggerReader;
@@ -22,6 +25,7 @@ import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.RaiseArmAndLauncherCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -29,6 +33,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="DriverRobotControl")
 public class TeleDriverRobotControl extends OpMode {
@@ -44,12 +49,27 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerLeftX = 0;
     private TriggerReader leftTriggerArmReader;
     private TriggerReader rightTriggerArmReader;
+    private PIDFController headingControl;
+    private double dblTargetHeading;
+    private double dblHeadingDeviation = 0;
+    private double dblHeadingOutput = 0;
+    private double dblCurrentTime = 0;
+    private double dblDelayTime = 200;
+    private double dblLastStickTime = 0;
+
+    private ElapsedTime timer;
 
     public void init() {
         CommandScheduler.getInstance().reset();
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
+
+        dblTargetHeading = DataStorageSubsystem.dblIMUFinalHeading;
+        headingControl = new PIDFController(SampleMecanumDrive.HEADING_PID);
+        headingControl.setTargetPosition(DataStorageSubsystem.dblIMUFinalHeading);
+
+        timer = new ElapsedTime();
 
         TriggerReader leftTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.LEFT_TRIGGER
@@ -64,13 +84,14 @@ public class TeleDriverRobotControl extends OpMode {
                 .and(new GamepadButton(chassisController, GamepadKeys.Button.DPAD_UP))
                 .whenActive(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggle()));
 
-        /*
-        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
-
         chassisController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck()));
-         */
+                        .whenPressed(()-> CommandScheduler.getInstance().schedule(new ConditionalCommand(
+                                new InstantCommand(),
+                                new InstantCommand(()->robotBase.hangingMechanismSubsystem.hangingToggleCheck()),
+                                        ()->chassisController.getButton(GamepadKeys.Button.DPAD_UP)
+                        )));
+
+//new InstantCommand(() -> robotBase.hangingMechanismSubsystem.hangingToggleCheck())
 
         //ROBOT SLASH FIELD CENTRIC SWAP
 
@@ -91,7 +112,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new InstantCommand(/* chassis backdrop position */));
+                .whenPressed(new InstantCommand(()-> dblTargetHeading = 90 + DataStorageSubsystem.dblIMUFinalHeading));
 
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
@@ -115,6 +136,8 @@ public class TeleDriverRobotControl extends OpMode {
                 .whenPressed(new InstantCommand(()-> robotBase.rightClawSubsystem.clawOpen()));
 */
 
+        //DUEL CLAW DROPOFF
+
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOWEST
 
@@ -124,7 +147,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOWEST
         armController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new ParallelCommandGroup(
+                .whenPressed(()->CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                 robotBase.armSubsystem,
                                 robotBase.leftWristSubsystem,
@@ -136,7 +159,7 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWEST)));
+                                RobotBase.SlideHeight.LOWEST))));
 
         //LEFT SLIDE LOW
 
@@ -220,6 +243,8 @@ public class TeleDriverRobotControl extends OpMode {
     }
 
     public void loop() {
+        dblCurrentTime = timer.milliseconds();
+
         chassisController.readButtons();
         armController.readButtons();
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
@@ -239,13 +264,47 @@ public class TeleDriverRobotControl extends OpMode {
                     -dblChassisControllerRightX
             ).rotated(-dblCurrentHeading);
 
-            robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
-                    new Pose2d(
-                            input.getX(),
-                            input.getY(),
-                            -dblChassisControllerLeftX
-                    )
-            );
+            if(Math.abs(chassisController.getLeftX()) > 0.1) {
+                dblLastStickTime = dblCurrentTime;
+
+                robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
+                        new Pose2d(
+                                input.getX(),
+                                input.getY(),
+                                -dblChassisControllerLeftX
+                        )
+                );
+                dblTargetHeading = dblCurrentHeading;
+
+            } else if((dblCurrentTime - dblLastStickTime) < dblDelayTime){
+
+                dblTargetHeading = dblCurrentHeading;
+
+                robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
+                        new Pose2d(
+                                input.getX(),
+                                input.getY(),
+                                -dblChassisControllerLeftX
+                        )
+                );
+
+            } else {
+
+                dblHeadingDeviation = dblCurrentHeading - dblTargetHeading;
+                dblHeadingDeviation = Angle.normDelta(dblHeadingDeviation);
+
+                dblHeadingOutput = headingControl.update(dblHeadingDeviation) * DriveConstants.kV * DriveConstants.TRACK_WIDTH;
+
+                robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
+                        new Pose2d(
+                                input.getX(),
+                                input.getY(),
+                                dblHeadingOutput
+                        )
+                );
+
+            }
+
 
         } else {
 
@@ -256,7 +315,6 @@ public class TeleDriverRobotControl extends OpMode {
                             -dblChassisControllerLeftX
                     )
             );
-
 
         }
 
