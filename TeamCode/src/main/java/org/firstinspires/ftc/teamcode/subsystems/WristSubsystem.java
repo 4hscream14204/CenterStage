@@ -9,7 +9,7 @@ public class WristSubsystem extends SubsystemBase {
 
     Servo srvWrist;
     private double dblWristGrabbing = 0;
-    private double dblWristDropOff = 0.95;
+    private double dblWristDropOff = 0.77;
     private double dblWristEscape = 0.05;
     public RobotBase.WristState wristState;
 
@@ -17,7 +17,7 @@ public class WristSubsystem extends SubsystemBase {
         srvWrist = wristConstructor;
         if (bolLeftSide != true) {
             dblWristGrabbing = 0.97;
-            dblWristDropOff = 0.05;
+            dblWristDropOff = 0.33;
             dblWristEscape = 0.92;
         }
         wristPickup();
