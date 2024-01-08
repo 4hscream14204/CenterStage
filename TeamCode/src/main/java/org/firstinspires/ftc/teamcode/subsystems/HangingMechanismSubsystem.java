@@ -25,7 +25,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         dcmHangingMechanism.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         dcmHangingMechanism.setTargetPosition(0);
         dcmHangingMechanism.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        dcmHangingMechanism.setPower(dblHangingPower);
+        dcmHangingMechanism.setPower(0);
     }
 
     public void lower() {
@@ -41,6 +41,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     public void hangingToggle() {
         switch (hangingState) {
             case DOWN:
+                dcmHangingMechanism.setPower(dblHangingPower);
             case LOWERED:
                 raise();
                 break;

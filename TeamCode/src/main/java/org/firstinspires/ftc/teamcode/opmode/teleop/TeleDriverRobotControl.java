@@ -137,6 +137,11 @@ public class TeleDriverRobotControl extends OpMode {
 */
 
         //DUEL CLAW DROPOFF
+        armController.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(new ParallelCommandGroup(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem),
+                        new ClawOpenCommand(robotBase.armSubsystem,
+                                robotBase.leftClawSubsystem)));
 
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOWEST
