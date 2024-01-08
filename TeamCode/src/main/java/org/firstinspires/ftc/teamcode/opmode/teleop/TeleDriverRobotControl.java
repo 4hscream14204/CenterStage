@@ -50,7 +50,7 @@ public class TeleDriverRobotControl extends OpMode {
     private TriggerReader leftTriggerArmReader;
     private TriggerReader rightTriggerArmReader;
     private PIDFController headingControl;
-    private double dblTargetHeading;
+    private double dblTargetHeading = 0;
     private double dblHeadingDeviation = 0;
     private double dblHeadingOutput = 0;
     private double dblCurrentTime = 0;
@@ -65,9 +65,11 @@ public class TeleDriverRobotControl extends OpMode {
         chassisController = new GamepadEx(gamepad1);
         armController = new GamepadEx(gamepad2);
 
+        robotBase.navxMicro.initialize();
+
         dblTargetHeading = DataStorageSubsystem.dblIMUFinalHeading;
         headingControl = new PIDFController(SampleMecanumDrive.HEADING_PID);
-        headingControl.setTargetPosition(DataStorageSubsystem.dblIMUFinalHeading);
+        headingControl.setTargetPosition(0);
 
         timer = new ElapsedTime();
 
@@ -112,7 +114,7 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(90) + DataStorageSubsystem.dblIMUFinalHeading));
+                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(90)));
 
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
@@ -269,7 +271,7 @@ public class TeleDriverRobotControl extends OpMode {
                     -dblChassisControllerRightX
             ).rotated(-dblCurrentHeading);
 
-            if(Math.abs(chassisController.getLeftX()) > 0.1) {
+            if(Math.abs(chassisController.getLeftX()) > 0.05) {
                 dblLastStickTime = dblCurrentTime;
 
                 robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
@@ -279,7 +281,6 @@ public class TeleDriverRobotControl extends OpMode {
                                 -dblChassisControllerLeftX
                         )
                 );
-                dblTargetHeading = dblCurrentHeading;
 
             } else if((dblCurrentTime - dblLastStickTime) < dblDelayTime){
 
@@ -342,9 +343,11 @@ public class TeleDriverRobotControl extends OpMode {
         }
             robotBase.mecanumDriveSubsystem.update();
 
-            telemetry.addData("IMU yaw angle", robotBase.imu.getRobotYawPitchRollAngles());
+            telemetry.addData("IMU yaw angle", Math.toDegrees(angles.firstAngle));
             telemetry.addData("Chassis Control", robotBase.controlScheme);
             telemetry.addData("Arm Position", robotBase.armSubsystem.getArmPosition());
+            telemetry.addData("Current Heading", Math.toDegrees(dblCurrentHeading));
+            telemetry.addData("Target Heading", Math.toDegrees(dblTargetHeading));
             CommandScheduler.getInstance().run();
     }
 }
