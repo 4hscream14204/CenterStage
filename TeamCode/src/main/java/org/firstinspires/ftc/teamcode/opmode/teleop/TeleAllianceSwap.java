@@ -16,6 +16,8 @@ public class TeleAllianceSwap extends OpMode {
 
     private GamepadEx allianceController;
     public void init(){
+        CommandScheduler.getInstance().reset();
+
         allianceController = new GamepadEx(gamepad1);
 
         allianceController.getGamepadButton(GamepadKeys.Button.X)

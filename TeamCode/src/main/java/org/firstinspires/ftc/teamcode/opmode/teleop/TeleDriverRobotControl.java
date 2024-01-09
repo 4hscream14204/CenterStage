@@ -234,19 +234,27 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUEL SLIDE MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWMEDIUM),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWMEDIUM))));
+                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
+                        new InstantCommand(),
+                        new ConditionalCommand(
+                                new InstantCommand(),
+                                new ParallelCommandGroup(
+                                    new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                        robotBase.armSubsystem,
+                                        robotBase.leftWristSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.rightClawSubsystem,
+                                        RobotBase.SlideHeight.MEDIUM),
+                                    new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                        robotBase.armSubsystem,
+                                        robotBase.rightWristSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.rightClawSubsystem,
+                                        RobotBase.SlideHeight.MEDIUM)),
+                                ()->leftTriggerArmReader.wasJustPressed()
+                        ),
+                        ()->rightTriggerArmReader.wasJustPressed()
+                ))));
 
         //AIRPLANE LAUNCHER OPERATION
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
