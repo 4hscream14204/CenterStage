@@ -106,13 +106,13 @@ public class BlueLeft extends OpMode {
                 .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffPos();})
                 .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
                 .lineTo(new Vector2d(50,43))
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .lineTo(new Vector2d(40, 28))
-                .addTemporalMarker(6.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.5)
-                .addTemporalMarker(6.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(8, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.5)
-                .addTemporalMarker(7.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addTemporalMarker(8.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0)))
