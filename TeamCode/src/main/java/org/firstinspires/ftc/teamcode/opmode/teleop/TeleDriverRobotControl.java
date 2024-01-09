@@ -57,6 +57,9 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblDelayTime = 200;
     private double dblLastStickTime = 0;
 
+    private double dblBackdropHeadingAngle = Math.toRadians(180);
+    private double dblWingHeadingAngle = Math.toRadians(45);
+
     private ElapsedTime timer;
 
     public void init() {
@@ -79,6 +82,14 @@ public class TeleDriverRobotControl extends OpMode {
         TriggerReader rightTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
+
+        if(DataStorageSubsystem.alliance == RobotBase.Alliance.BLUE) {
+            dblBackdropHeadingAngle = Math.toRadians(90);
+            dblWingHeadingAngle = Math.toRadians(315);
+        } else {
+            dblBackdropHeadingAngle = Math.toRadians(270);
+            dblWingHeadingAngle = Math.toRadians(45);
+        }
 
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
@@ -114,11 +125,11 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(90)));
+                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(dblBackdropHeadingAngle)));
 
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new InstantCommand(/* chassis wing position */));
+                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(dblWingHeadingAngle)));
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
