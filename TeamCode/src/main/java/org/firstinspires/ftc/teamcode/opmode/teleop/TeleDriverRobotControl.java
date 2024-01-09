@@ -58,7 +58,7 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblLastStickTime = 0;
 
     private double dblBackdropHeadingAngle = Math.toRadians(270);
-    private double dblWingHeadingAngle = Math.toRadians(45);
+    private double dblWingHeadingAngle = Math.toRadians(225);
 
     private ElapsedTime timer;
 
@@ -82,6 +82,14 @@ public class TeleDriverRobotControl extends OpMode {
         TriggerReader rightTriggerArmReader = new TriggerReader(
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
+
+        if(DataStorageSubsystem.alliance == RobotBase.Alliance.BLUE) {
+            dblBackdropHeadingAngle = Math.toRadians(90);
+            dblWingHeadingAngle = Math.toRadians(135);
+        } else {
+            dblBackdropHeadingAngle = Math.toRadians(270);
+            dblWingHeadingAngle = Math.toRadians(225);
+        }
 
         //CHASSIS CONTROLLER BINDS
         //HANGING MECHANISM OPERATION
@@ -117,11 +125,13 @@ public class TeleDriverRobotControl extends OpMode {
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(dblBackdropHeadingAngle)));
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> dblTargetHeading = dblBackdropHeadingAngle)));
 
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new InstantCommand(()-> dblTargetHeading = Math.toRadians(dblWingHeadingAngle)));
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> dblTargetHeading = dblWingHeadingAngle)));
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
@@ -267,14 +277,6 @@ public class TeleDriverRobotControl extends OpMode {
         //UNIVERSAL GRABBING COMMAND
         CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase));
 
-        if(DataStorageSubsystem.alliance == RobotBase.Alliance.BLUE) {
-            dblBackdropHeadingAngle = Math.toRadians(90);
-            dblWingHeadingAngle = Math.toRadians(315);
-        } else {
-            dblBackdropHeadingAngle = Math.toRadians(270);
-            dblWingHeadingAngle = Math.toRadians(45);
-        }
-
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
                     -dblChassisControllerRightY,
@@ -358,6 +360,7 @@ public class TeleDriverRobotControl extends OpMode {
             telemetry.addData("Arm Position", robotBase.armSubsystem.getArmPosition());
             telemetry.addData("Current Heading", Math.toDegrees(dblCurrentHeading));
             telemetry.addData("Target Heading", Math.toDegrees(dblTargetHeading));
+            telemetry.addData("Alliance Side", DataStorageSubsystem.alliance);
             CommandScheduler.getInstance().run();
     }
 }
