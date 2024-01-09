@@ -89,6 +89,7 @@ public class TeleDriverRobotControl extends OpMode {
         } else {
             dblBackdropHeadingAngle = Math.toRadians(270);
             dblWingHeadingAngle = Math.toRadians(225);
+            DataStorageSubsystem.alliance = RobotBase.Alliance.RED;
         }
 
         //CHASSIS CONTROLLER BINDS

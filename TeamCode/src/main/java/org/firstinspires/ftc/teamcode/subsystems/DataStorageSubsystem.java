@@ -9,6 +9,5 @@ public class DataStorageSubsystem {
     public static boolean bolBlueButtonState;
     public static boolean bolGreenButtonState;
     public static boolean bolBlackButtonState;
-
     public static RobotBase.Alliance alliance;
 }

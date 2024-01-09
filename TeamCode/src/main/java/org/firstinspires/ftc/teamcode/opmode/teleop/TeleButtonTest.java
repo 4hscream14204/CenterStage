@@ -4,10 +4,9 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@TeleOp (name= "DPad Test")
-public class ButtonTest extends OpMode {
+@TeleOp (name= "Button Test")
+public class TeleButtonTest extends OpMode {
 
     private boolean bolDPadUp = false;
     private boolean bolDPadDown = false;
