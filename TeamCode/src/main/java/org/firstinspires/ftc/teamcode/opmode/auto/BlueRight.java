@@ -47,17 +47,17 @@ public class BlueRight extends OpMode {
                 .splineToSplineHeading(new Pose2d(-26.65, 12, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(45.))
                 .splineToSplineHeading(new Pose2d(45.00, 43.00, Math.toRadians(0.00)), Math.toRadians(90.00))
-                .waitSeconds(1)
-                /*.addTemporalMarker(5, () -> { robotBase.armSubsystem.armDropOffPos();})
-                .addTemporalMarker(5.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .waitSeconds(2)
+                .addTemporalMarker(7.5, () -> { robotBase.armSubsystem.armDropOffPos();})
+                .addTemporalMarker(8, () -> { robotBase.leftWristSubsystem.wristDropOff();})
                 .lineTo(new Vector2d(50,43))
-                .waitSeconds(0.5)
+                .waitSeconds(2)
                 .lineTo(new Vector2d(40, 28))
-                .addTemporalMarker(6.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .waitSeconds(0.5)
-                .addTemporalMarker(7.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .waitSeconds(0.5)
-                .addTemporalMarker(8.5, () -> { robotBase.armSubsystem.armGrabbingPosition();}) */
+                .addTemporalMarker(10.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .waitSeconds(2)
+                .addTemporalMarker(12.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .waitSeconds(1)
+                .addTemporalMarker(14, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
 
