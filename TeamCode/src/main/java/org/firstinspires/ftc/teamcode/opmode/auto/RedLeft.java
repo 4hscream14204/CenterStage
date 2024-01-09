@@ -132,5 +132,6 @@ public class RedLeft extends OpMode {
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         double dblCurrentHeading = angles.firstAngle;
         DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
+        DataStorageSubsystem.alliance = robotBase.alliance.RED;
     }
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import android.provider.ContactsContract;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -168,5 +170,6 @@ public class BlueLeft extends OpMode {
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         double dblCurrentHeading = angles.firstAngle;
         DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
+        DataStorageSubsystem.alliance = robotBase.alliance.BLUE;
     }
 }
