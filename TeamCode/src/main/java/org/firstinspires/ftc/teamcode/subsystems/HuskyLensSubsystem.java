@@ -7,12 +7,14 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 public class HuskyLensSubsystem extends SubsystemBase {
 
-
      HuskyLens huskyLens;
      private RobotBase.PropPosition propPosition;
+     private RobotBase.StartPosition startPosition;
      private int intAllianceNumber = 1;
      private int intLeftDetectionLine = 80;
     private int intRightDetectionLine = 280;
+    private double dblLastDetectTime = System.currentTimeMillis();
+    private double dblDetectionThreshold = 2000;
 
      public HuskyLensSubsystem(HuskyLens huskyLensConstructor) {
          huskyLens = huskyLensConstructor;
@@ -35,7 +37,17 @@ public class HuskyLensSubsystem extends SubsystemBase {
          } else {
              intAllianceNumber = 2;
          }
+
+         if((System.currentTimeMillis() - dblLastDetectTime) > dblDetectionThreshold) {
+             if(startPosition == RobotBase.StartPosition.LEFT){
+                 propPosition = RobotBase.PropPosition.RIGHT;
+             } else {
+                 propPosition = RobotBase.PropPosition.LEFT;
+             }
+         }
+
          for (int i = 0; i < blocks.length; i++) {
+             dblLastDetectTime = System.currentTimeMillis();
              int blockLeftCoordinate = blocks[i].left;
              if (blocks[i].id == intAllianceNumber) {
                  if (startPosition == RobotBase.StartPosition.LEFT) {
