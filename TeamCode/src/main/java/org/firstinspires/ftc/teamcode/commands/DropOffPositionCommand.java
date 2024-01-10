@@ -28,13 +28,17 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
             new WaitCommand(500)
             );
         }
+        if(wristSubsystemCon.wristState != RobotBase.WristState.DROPOFF) {
+            addCommands(
+                    new InstantCommand(() -> wristSubsystemCon.wristEscape()),
+                    new WaitCommand(500)
+            );
+        }
         addCommands(
-                new InstantCommand(()->wristSubsystemCon.wristEscape()),
-        new WaitCommand(500),
-        new InstantCommand(()->armSubsystemCon.armDropOffPos()),
-        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
-        new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon)),
-        new InstantCommand(()->wristSubsystemCon.wristDropOff())
+                new InstantCommand(()->armSubsystemCon.armDropOffPos()),
+                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
+                new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon)),
+                new InstantCommand(()->wristSubsystemCon.wristDropOff())
         );
     }
 }
