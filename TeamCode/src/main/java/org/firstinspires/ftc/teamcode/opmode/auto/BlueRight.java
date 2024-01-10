@@ -63,19 +63,19 @@ public class BlueRight extends OpMode {
 
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-38.35, 63.3, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-36.04, 32.71), Math.toRadians(270.00))
-                .splineToLinearHeading(new Pose2d(-34.01, 43.69, Math.toRadians(315.00)), Math.toRadians(315.00))
+                .splineTo(new Vector2d(-36, 30), Math.toRadians(270.00))
+                .splineToLinearHeading(new Pose2d(-34, 43, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .splineToSplineHeading(new Pose2d(-5.00, 38.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .splineToSplineHeading(new Pose2d(45.00, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(2)
-                .addTemporalMarker(5, () -> { robotBase.armSubsystem.armDropOffPos();})
-                .addTemporalMarker(6, () -> { robotBase.leftWristSubsystem.wristDropOff();})
-                .lineTo(new Vector2d(54,36))
+                .addTemporalMarker(7, () -> { robotBase.armSubsystem.armDropOffPos();})
+                .addTemporalMarker(7.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .lineTo(new Vector2d(50,36))
                 .waitSeconds(1)
                 .lineTo(new Vector2d(40, 28))
-                .addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .addTemporalMarker(8, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(9, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addTemporalMarker(8.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addTemporalMarker(9.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(10, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-38.35, 63.3, Math.toRadians(270.00)))
