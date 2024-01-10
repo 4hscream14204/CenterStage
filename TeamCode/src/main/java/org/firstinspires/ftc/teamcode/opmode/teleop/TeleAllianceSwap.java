@@ -26,8 +26,11 @@ public class TeleAllianceSwap extends OpMode {
                         new InstantCommand(()->DataStorageSubsystem.alliance = RobotBase.Alliance.RED),
                         ()->DataStorageSubsystem.alliance == RobotBase.Alliance.RED
                 ));
+
+        telemetry.addLine("X Button to swap alliance");
     }
     public void loop(){
+        allianceController.readButtons();
 
         telemetry.addData("Alliance", DataStorageSubsystem.alliance);
         CommandScheduler.getInstance().run();
