@@ -21,11 +21,11 @@ public class TeleAllianceSwap extends OpMode {
         allianceController = new GamepadEx(gamepad1);
 
         allianceController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(()->new ConditionalCommand(
+                .whenPressed(()->CommandScheduler.getInstance().schedule(new ConditionalCommand(
                         new InstantCommand(()->DataStorageSubsystem.alliance = RobotBase.Alliance.BLUE),
                         new InstantCommand(()->DataStorageSubsystem.alliance = RobotBase.Alliance.RED),
                         ()->DataStorageSubsystem.alliance == RobotBase.Alliance.RED
-                ));
+                )));
 
         telemetry.addLine("X Button to swap alliance");
     }
