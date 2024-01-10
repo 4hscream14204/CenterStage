@@ -12,7 +12,7 @@ public class HangingMechanismSubsystem extends SubsystemBase {
     DcMotor dcmHangingMechanism;
     public RobotBase.HangingState hangingState;
 
-    private final double dblHangingPower = 0.2;
+    private final double dblHangingPower = 0.5;
 
 
 

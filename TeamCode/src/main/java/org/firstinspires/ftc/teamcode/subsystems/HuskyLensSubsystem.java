@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
 public class HuskyLensSubsystem extends SubsystemBase {
 
+    //Display: 2.0-inch IPS screen with 320*240 resolution
      HuskyLens huskyLens;
      private RobotBase.PropPosition propPosition;
      private RobotBase.StartPosition startPosition;
