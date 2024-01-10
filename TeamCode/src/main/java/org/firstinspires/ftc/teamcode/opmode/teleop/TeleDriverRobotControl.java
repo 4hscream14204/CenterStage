@@ -59,6 +59,7 @@ public class TeleDriverRobotControl extends OpMode {
 
     private double dblBackdropHeadingAngle = Math.toRadians(270);
     private double dblWingHeadingAngle = Math.toRadians(225);
+    private double dblAirplaneLaunchingAngle = Math.toRadians(0);
 
     private ElapsedTime timer;
 
@@ -86,9 +87,11 @@ public class TeleDriverRobotControl extends OpMode {
         if(DataStorageSubsystem.alliance == RobotBase.Alliance.BLUE) {
             dblBackdropHeadingAngle = Math.toRadians(90);
             dblWingHeadingAngle = Math.toRadians(135);
+            dblAirplaneLaunchingAngle = Math.toRadians(180);
         } else {
             dblBackdropHeadingAngle = Math.toRadians(270);
             dblWingHeadingAngle = Math.toRadians(225);
+            dblAirplaneLaunchingAngle = Math.toRadians(0);
             DataStorageSubsystem.alliance = RobotBase.Alliance.RED;
         }
 
@@ -132,7 +135,14 @@ public class TeleDriverRobotControl extends OpMode {
         //CHASSIS WING POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> dblTargetHeading = dblWingHeadingAngle)));
+                        new InstantCommand(()-> dblTargetHeading = dblWingHeadingAngle)
+                ));
+
+        //CHASSIS AIRPLANE LAUNCHER POSITION
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                        .whenPressed(()->CommandScheduler.getInstance().schedule(
+                                new InstantCommand(()-> dblTargetHeading = dblAirplaneLaunchingAngle)
+                        ));
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
