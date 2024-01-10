@@ -178,19 +178,27 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOWEST
         armController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(()->CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWEST),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWEST))));
+                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
+                        new InstantCommand(),
+                        new ConditionalCommand(
+                                new InstantCommand(),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOWEST),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOWEST)),
+                                ()->leftTriggerArmReader.wasJustPressed()
+                        ),
+                        ()->rightTriggerArmReader.wasJustPressed()
+                ))));
 
         //LEFT SLIDE LOW
 
@@ -200,19 +208,27 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOW
         armController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOW),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOW))));
+                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
+                        new InstantCommand(),
+                        new ConditionalCommand(
+                                new InstantCommand(),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOW),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOW)),
+                                ()->leftTriggerArmReader.wasJustPressed()
+                        ),
+                        ()->rightTriggerArmReader.wasJustPressed()
+                ))));
 
         //LEFT SLIDE LOW MEDIUM
 
@@ -222,19 +238,27 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOW MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.leftWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWMEDIUM),
-                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                robotBase.armSubsystem,
-                                robotBase.rightWristSubsystem,
-                                robotBase.leftClawSubsystem,
-                                robotBase.rightClawSubsystem,
-                                RobotBase.SlideHeight.LOWMEDIUM))));
+                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
+                        new InstantCommand(),
+                        new ConditionalCommand(
+                                new InstantCommand(),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOWMEDIUM),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.leftClawSubsystem,
+                                                robotBase.rightClawSubsystem,
+                                                RobotBase.SlideHeight.LOWMEDIUM)),
+                                ()->leftTriggerArmReader.wasJustPressed()
+                        ),
+                        ()->rightTriggerArmReader.wasJustPressed()
+                ))));
 
         //LEFT SLIDE MEDIUM
 
