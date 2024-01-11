@@ -18,22 +18,7 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
     public DropOffPositionCommand(SlideSubsystem slideSubsystemCon,
                                   ArmSubsystem armSubsystemCon,
                                   WristSubsystem wristSubsystemCon,
-                                  ClawSubsystem leftClawSubsystemCon,
-                                  ClawSubsystem rightClawSubsystemCon,
                                   RobotBase.SlideHeight slideHeightCon) {
-        if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN || rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
-            addCommands(
-            new InstantCommand(()->leftClawSubsystemCon.clawClose()),
-            new InstantCommand(()->rightClawSubsystemCon.clawClose()),
-            new WaitCommand(500)
-            );
-        }
-        if(wristSubsystemCon.wristState != RobotBase.WristState.DROPOFF) {
-            addCommands(
-                    new InstantCommand(() -> wristSubsystemCon.wristEscape()),
-                    new WaitCommand(500)
-            );
-        }
         addCommands(
                 new InstantCommand(()->armSubsystemCon.armDropOffPos()),
                 new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
