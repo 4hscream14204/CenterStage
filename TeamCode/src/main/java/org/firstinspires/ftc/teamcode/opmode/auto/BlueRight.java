@@ -88,12 +88,12 @@ public class BlueRight extends OpMode {
                 .waitSeconds(1.5)
                 .addTemporalMarker(8, () -> { robotBase.armSubsystem.armDropOffPos();})
                 .addTemporalMarker(8.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
-                .lineTo(new Vector2d(52,29.5))
-                .waitSeconds(2.5)
+                .lineTo(new Vector2d(53,29.5))
+                .waitSeconds(2.75)
                 .lineTo(new Vector2d(40, 29.5))
                 .addTemporalMarker(11.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .addTemporalMarker(12.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(13, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addTemporalMarker(12, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(12.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
