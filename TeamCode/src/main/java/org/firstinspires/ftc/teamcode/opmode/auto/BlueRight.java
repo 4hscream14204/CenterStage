@@ -79,8 +79,9 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .splineToLinearHeading(new Pose2d(-45.00, 38.00, Math.toRadians(270.00)), Math.toRadians(270.00))
+                .splineToLinearHeading(new Pose2d(-47.00, 38.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .lineToConstantHeading(new Vector2d(-33.00, 55.00))
+                .lineToLinearHeading(new Pose2d(-33.00, 21.00, Math.toRadians(270.00)))
                 .lineToLinearHeading(new Pose2d(-33.00, 12.00, Math.toRadians(0.00)))
                 .lineToLinearHeading(new Pose2d(25.00, 12.00, Math.toRadians(0.00)))
                 .splineToLinearHeading(new Pose2d(45.00, 29.50, Math.toRadians(0.00)), Math.toRadians(0.00))
