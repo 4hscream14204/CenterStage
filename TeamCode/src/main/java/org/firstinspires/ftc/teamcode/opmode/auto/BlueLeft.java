@@ -46,7 +46,7 @@ public class BlueLeft extends OpMode {
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
-        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(3.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .lineTo(new Vector2d(16.00, 52.00))
                 .splineToLinearHeading(new Pose2d(32.95, 35.16, Math.toRadians(0.00)), Math.toRadians(270.00))
@@ -66,7 +66,7 @@ public class BlueLeft extends OpMode {
                // .lineToConstantHeading(new Vector2d(45.00, 36.70))
                 .build();
 
-        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToConstantHeading(new Vector2d(10.00, 35.00), Math.toRadians(270.00))
                 .lineTo(new Vector2d(16.00, 52.00))
                 .splineToLinearHeading(new Pose2d(33, 37, Math.toRadians(0.00)), Math.toRadians(270.00))
@@ -98,7 +98,7 @@ public class BlueLeft extends OpMode {
 
 
 
-        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(15.00, 63.00, Math.toRadians(270.00)))
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineTo(new Vector2d(15, 35.00), Math.toRadians(315.00))
                 .lineTo(new Vector2d(15.00, 43.69))
                 .splineToSplineHeading(new Pose2d(40.00, 43.00, Math.toRadians(0.00)), Math.toRadians(0.00))
