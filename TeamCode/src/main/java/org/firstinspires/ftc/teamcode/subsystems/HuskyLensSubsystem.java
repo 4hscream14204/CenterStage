@@ -12,8 +12,8 @@ public class HuskyLensSubsystem extends SubsystemBase {
      private RobotBase.PropPosition propPosition;
      private RobotBase.StartPosition startPosition;
      private int intAllianceNumber = 1;
-     private int intLeftDetectionLine = 80;
-    private int intRightDetectionLine = 280;
+     private int intLeftDetectionLine = 110;
+    private int intRightDetectionLine = 300;
     private double dblLastDetectTime = System.currentTimeMillis();
     private double dblDetectionThreshold = 2000;
 
@@ -27,11 +27,11 @@ public class HuskyLensSubsystem extends SubsystemBase {
          HuskyLens.Block[] blocks = huskyLens.blocks();
          huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
          if (startPosition == RobotBase.StartPosition.LEFT) {
-             intLeftDetectionLine = 100;
-             intRightDetectionLine = 250;
+             intLeftDetectionLine = 110;
+             intRightDetectionLine = 300;
          } else {
-             intLeftDetectionLine = 80;
-             intRightDetectionLine = 230;
+             intLeftDetectionLine = 5;
+             intRightDetectionLine = 170;
          }
          if (alliance == RobotBase.Alliance.RED) {
              intAllianceNumber = 1;
