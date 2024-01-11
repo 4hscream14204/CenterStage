@@ -185,7 +185,7 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.leftWristSubsystem,
                                         robotBase.rightWristSubsystem,
                                         robotBase.leftClawSubsystem,
-                                        robotBase.leftClawSubsystem
+                                        robotBase.rightClawSubsystem
                                 ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -212,7 +212,7 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.leftWristSubsystem,
                                         robotBase.rightWristSubsystem,
                                         robotBase.leftClawSubsystem,
-                                        robotBase.leftClawSubsystem
+                                        robotBase.rightClawSubsystem
                                 ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -239,7 +239,7 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.leftWristSubsystem,
                                         robotBase.rightWristSubsystem,
                                         robotBase.leftClawSubsystem,
-                                        robotBase.leftClawSubsystem
+                                        robotBase.rightClawSubsystem
                                 ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -266,7 +266,7 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.leftWristSubsystem,
                                         robotBase.rightWristSubsystem,
                                         robotBase.leftClawSubsystem,
-                                        robotBase.leftClawSubsystem
+                                        robotBase.rightClawSubsystem
                                 ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -287,7 +287,7 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.leftWristSubsystem,
                                 robotBase.rightWristSubsystem,
                                 robotBase.leftClawSubsystem,
-                                robotBase.leftClawSubsystem
+                                robotBase.rightClawSubsystem
                         ),
                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
