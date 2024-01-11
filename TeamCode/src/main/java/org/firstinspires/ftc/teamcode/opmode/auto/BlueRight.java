@@ -79,13 +79,20 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .splineToLinearHeading(new Pose2d(-37.00, 35.00, Math.toRadians(220.00)), Math.toRadians(261.00))
-                /*.waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(-36.00, 41.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-52, 600), Math.toRadians(0))
-                .lineTo(new Vector2d(25, 59))
-                .splineToConstantHeading(new Vector2d(48, 35), Math.toRadians(0))
-                .waitSeconds(1) */
+                .splineToLinearHeading(new Pose2d(-45.00, 38.00, Math.toRadians(270.00)), Math.toRadians(270.00))
+                .lineToConstantHeading(new Vector2d(-35.00, 50.00))
+                .splineToLinearHeading(new Pose2d(-25.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .lineToLinearHeading(new Pose2d(25.00, 12.00, Math.toRadians(0.00)))
+                .splineToLinearHeading(new Pose2d(45.00, 29.50, Math.toRadians(0.00)), Math.toRadians(0.00))
+              /*  .waitSeconds(1.5)
+                .addTemporalMarker(6.5, () -> { robotBase.armSubsystem.armDropOffPos();})
+                .addTemporalMarker(7, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .lineTo(new Vector2d(52,36))
+                .waitSeconds(2.5)
+                .lineTo(new Vector2d(40, 28))
+                .addTemporalMarker(8.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addTemporalMarker(9.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(10, () -> { robotBase.armSubsystem.armGrabbingPosition();}) */
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
