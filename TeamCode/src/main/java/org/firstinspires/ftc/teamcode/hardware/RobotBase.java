@@ -55,8 +55,8 @@ public class RobotBase extends Object{
         LOWEST (0),
         LOW (0.546),
         LOWMEDIUM (0.68),
-        MEDIUM (0.827);
-        //MEDIUMHIGH (0.173),
+        MEDIUM (0.827),
+        MEDIUMHIGH (1);
         //HIGH (1),
         //HIGHEST (0.8);
         public final double dblSlidePos;

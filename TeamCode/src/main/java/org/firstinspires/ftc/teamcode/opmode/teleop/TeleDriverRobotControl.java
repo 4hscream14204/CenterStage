@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.commands.AirplaneLaunchAndLowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.GrabAndWristEscapeCommandGrp;
 import org.firstinspires.ftc.teamcode.commands.RaiseArmAndLauncherCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
@@ -122,10 +123,11 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUEL CLAW CLOSING
         chassisController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new InstantCommand(() -> {
-                    robotBase.leftClawSubsystem.clawClose();
-                    robotBase.rightClawSubsystem.clawClose();
-                }));
+                .whenPressed(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                        robotBase.rightWristSubsystem,
+                        robotBase.leftClawSubsystem,
+                        robotBase.rightClawSubsystem
+                        ));
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -178,27 +180,24 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOWEST
         armController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
-                        new InstantCommand(),
-                        new ConditionalCommand(
-                                new InstantCommand(),
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.leftWristSubsystem,
+                                        robotBase.rightWristSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.leftClawSubsystem
+                                ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.leftWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
                                                 RobotBase.SlideHeight.LOWEST),
                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.rightWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
-                                                RobotBase.SlideHeight.LOWEST)),
-                                ()->leftTriggerArmReader.wasJustPressed()
-                        ),
-                        ()->rightTriggerArmReader.wasJustPressed()
-                ))));
+                                                RobotBase.SlideHeight.LOWEST))
+                        )
+                ));
 
         //LEFT SLIDE LOW
 
@@ -208,27 +207,24 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOW
         armController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
-                        new InstantCommand(),
-                        new ConditionalCommand(
-                                new InstantCommand(),
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.leftWristSubsystem,
+                                        robotBase.rightWristSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.leftClawSubsystem
+                                ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.leftWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
                                                 RobotBase.SlideHeight.LOW),
                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.rightWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
-                                                RobotBase.SlideHeight.LOW)),
-                                ()->leftTriggerArmReader.wasJustPressed()
-                        ),
-                        ()->rightTriggerArmReader.wasJustPressed()
-                ))));
+                                                RobotBase.SlideHeight.LOW))
+                        )
+                ));
 
         //LEFT SLIDE LOW MEDIUM
 
@@ -238,27 +234,24 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUAL SLIDE LOW MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
-                        new InstantCommand(),
-                        new ConditionalCommand(
-                                new InstantCommand(),
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.leftWristSubsystem,
+                                        robotBase.rightWristSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.leftClawSubsystem
+                                ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.leftWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
                                                 RobotBase.SlideHeight.LOWMEDIUM),
                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.rightWristSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem,
-                                                RobotBase.SlideHeight.LOWMEDIUM)),
-                                ()->leftTriggerArmReader.wasJustPressed()
-                        ),
-                        ()->rightTriggerArmReader.wasJustPressed()
-                ))));
+                                                RobotBase.SlideHeight.LOWMEDIUM))
+                        )
+                ));
 
         //LEFT SLIDE MEDIUM
 
@@ -268,27 +261,45 @@ public class TeleDriverRobotControl extends OpMode {
 
         //DUEL SLIDE MEDIUM
         armController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule((new ConditionalCommand(
-                        new InstantCommand(),
-                        new ConditionalCommand(
-                                new InstantCommand(),
-                                new ParallelCommandGroup(
-                                    new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                        robotBase.armSubsystem,
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem,
-                                        robotBase.rightClawSubsystem,
-                                        RobotBase.SlideHeight.MEDIUM),
-                                    new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                        robotBase.armSubsystem,
                                         robotBase.rightWristSubsystem,
                                         robotBase.leftClawSubsystem,
-                                        robotBase.rightClawSubsystem,
-                                        RobotBase.SlideHeight.MEDIUM)),
-                                ()->leftTriggerArmReader.wasJustPressed()
+                                        robotBase.leftClawSubsystem
+                                ),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                RobotBase.SlideHeight.MEDIUM),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                RobotBase.SlideHeight.MEDIUM))
+                        )
+                ));
+
+        //DUEL SLIDE MEDIUM HIGH
+        armController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                        new GrabAndWristEscapeCommandGrp(
+                                robotBase.leftWristSubsystem,
+                                robotBase.rightWristSubsystem,
+                                robotBase.leftClawSubsystem,
+                                robotBase.leftClawSubsystem
                         ),
-                        ()->rightTriggerArmReader.wasJustPressed()
-                ))));
+                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                RobotBase.SlideHeight.MEDIUMHIGH),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                RobotBase.SlideHeight.MEDIUMHIGH))
+                        )
+                ));
 
         //AIRPLANE LAUNCHER OPERATION
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
