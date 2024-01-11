@@ -31,7 +31,7 @@ public class HuskyLensSubsystem extends SubsystemBase {
              intRightDetectionLine = 300;
          } else {
              intLeftDetectionLine = 5;
-             intRightDetectionLine = 170;
+             intRightDetectionLine = 155;
          }
          if (alliance == RobotBase.Alliance.RED) {
              intAllianceNumber = 1;
