@@ -115,13 +115,12 @@ public class BlueLeft extends OpMode {
                 .addTemporalMarker(8.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(49.00, 61.00), Math.toRadians(0.00))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .lineTo(new Vector2d(45.00, -62.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0)))
-                .lineToSplineHeading(new Pose2d(50.28, 10.64, Math.toRadians(0.00)))
-                //.splineToConstantHeading(new Vector2d(55.00, 12.00), Math.toRadians(0.00))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .lineTo(new Vector2d(45.00, -12.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);

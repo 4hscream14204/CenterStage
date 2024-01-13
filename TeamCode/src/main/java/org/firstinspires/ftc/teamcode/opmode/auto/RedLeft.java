@@ -98,11 +98,11 @@ public class RedLeft extends OpMode {
 
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(55.00, -62.00), Math.toRadians(0.00))
+                .lineTo(new Vector2d(45.00, -62.00))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(55.00, -12.00), Math.toRadians(0.00))
+                .lineTo(new Vector2d(45.00, -12.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
