@@ -99,11 +99,11 @@ public class BlueRight extends OpMode {
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
-                .lineTo(new Vector2d(45.00, -62.00))
+                .lineTo(new Vector2d(45.00, 62.00))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
-                .lineTo(new Vector2d(45.00, -12.00))
+                .lineTo(new Vector2d(45.00, 12.00))
                 .build();
         parkLocation = InnerPark;
     }
