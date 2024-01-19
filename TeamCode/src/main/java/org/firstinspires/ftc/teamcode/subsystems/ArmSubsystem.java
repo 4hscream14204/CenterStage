@@ -45,9 +45,25 @@ public class ArmSubsystem extends SubsystemBase {
         return dcmArm.getCurrentPosition();
     }
 
+    public boolean armIsPassedWristSafe() {
+        boolean bolArmIsPassedSafeDrop = false;
+        if(dcmArm.getCurrentPosition() > 216) {
+            bolArmIsPassedSafeDrop = true;
+        }
+        return bolArmIsPassedSafeDrop;
+    }
+
+    public boolean armIsPassedExtendSlideSafe() {
+        boolean bolArmIsPassedSafeDrop = false;
+        if(dcmArm.getCurrentPosition() > 758) {
+            bolArmIsPassedSafeDrop = true;
+        }
+        return bolArmIsPassedSafeDrop;
+    }
+
     public boolean armIsPassedSafeDrop() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 1190) {
+        if(dcmArm.getCurrentPosition() > 1100) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;

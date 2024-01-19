@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class DropOffPositionCommand extends SequentialCommandGroup {
 
-    //CLOSE GRABBERS WHEN METHOD CALLED
 
     public DropOffPositionCommand(SlideSubsystem slideSubsystemCon,
                                   ArmSubsystem armSubsystemCon,
@@ -21,9 +20,10 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                                   RobotBase.SlideHeight slideHeightCon) {
         addCommands(
                 new InstantCommand(()->armSubsystemCon.armDropOffPos()),
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon)),
-                new InstantCommand(()->wristSubsystemCon.wristDropOff())
+                new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe()),
+                new InstantCommand(()->wristSubsystemCon.wristDropOff()),
+                new InstantCommand(()->armSubsystemCon.armIsPassedExtendSlideSafe()),
+                new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon))
         );
     }
 }

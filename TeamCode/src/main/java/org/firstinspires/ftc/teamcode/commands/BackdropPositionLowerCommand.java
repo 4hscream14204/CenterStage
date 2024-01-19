@@ -13,7 +13,9 @@ public class BackdropPositionLowerCommand extends SequentialCommandGroup {
 
     RobotBase.SlideHeight newSlideHeight;
 
-    public BackdropPositionLowerCommand(SlideSubsystem slideSubsystemCon, WristSubsystem wristSubsystemCon, ArmSubsystem armSubsystemCon) {
+    public BackdropPositionLowerCommand(SlideSubsystem slideSubsystemCon,
+                                        WristSubsystem wristSubsystemCon,
+                                        ArmSubsystem armSubsystemCon) {
         newSlideHeight = slideSubsystemCon.slideHeight;
         switch (slideSubsystemCon.slideHeight) {
             case LOW:
@@ -37,10 +39,11 @@ public class BackdropPositionLowerCommand extends SequentialCommandGroup {
                 */
         }
         addCommands(
-        new InstantCommand(()->armSubsystemCon.armDropOffPos()),
-        new WaitUntilCommand(()->armSubsystemCon.armIsPassedSafeDrop()),
-        new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight)),
-        new InstantCommand(()->wristSubsystemCon.wristDropOff())
+                new InstantCommand(()->armSubsystemCon.armDropOffPos()),
+                new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe()),
+                new InstantCommand(()->wristSubsystemCon.wristDropOff()),
+                new WaitUntilCommand(()->armSubsystemCon.armIsPassedExtendSlideSafe()),
+                new InstantCommand(()->slideSubsystemCon.slideGoToPos(newSlideHeight))
         );
     }
 }
