@@ -16,10 +16,10 @@ public class AirplaneLaunchAndLowerCommand extends SequentialCommandGroup {
                                          ClawSubsystem leftClawSubsystemCon,
                                          ClawSubsystem rightClawSubsystemCon) {
         addCommands(
+                new WaitCommand(500),
                 new InstantCommand(()->airplaneLauncherSubsystem.release()),
                 new WaitCommand(500),
                 new InstantCommand(()->airplaneLauncherSubsystem.lower()),
-                new WaitCommand(500),
                 new InstantCommand(()->leftClawSubsystemCon.clawOpen()),
                 new InstantCommand(()->rightClawSubsystemCon.clawOpen())
         );

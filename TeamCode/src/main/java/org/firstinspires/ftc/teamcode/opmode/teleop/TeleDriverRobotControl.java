@@ -289,7 +289,7 @@ public class TeleDriverRobotControl extends OpMode {
                                 robotBase.leftClawSubsystem,
                                 robotBase.rightClawSubsystem
                         ),
-                new ParallelCommandGroup(
+                        new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.leftWristSubsystem,
@@ -303,17 +303,29 @@ public class TeleDriverRobotControl extends OpMode {
 
         //AIRPLANE LAUNCHER OPERATION
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .and(armController.getGamepadButton(GamepadKeys.Button.START)
+                        .and(armController.getGamepadButton(GamepadKeys.Button.START))
                                 .whenActive(()-> CommandScheduler.getInstance().schedule(new ConditionalCommand(
-                                        new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
+                                        new SequentialCommandGroup(
+                                                new ParallelCommandGroup(
+                                                new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                        robotBase.armSubsystem,
+                                                        robotBase.leftWristSubsystem,
+                                                        RobotBase.SlideHeight.LOWEST),
+                                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                                robotBase.armSubsystem,
+                                                                robotBase.rightWristSubsystem,
+                                                                RobotBase.SlideHeight.LOWEST)
+                                                ),
+                                                new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
                                                 robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem),
+                                                robotBase.rightClawSubsystem)
+                                        ),
                                         new RaiseArmAndLauncherCommand(robotBase.airplaneLauncherSubsystem,
                                                 robotBase.armSubsystem,
                                                 robotBase.leftClawSubsystem,
                                                 robotBase.rightClawSubsystem),
                                         ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
-                                                ))));
+                                                )));
     }
 
     public void loop() {
