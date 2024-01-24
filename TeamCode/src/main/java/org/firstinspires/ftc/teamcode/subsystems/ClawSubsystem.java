@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class ClawSubsystem extends SubsystemBase {
 
     private Servo srvClaw;
-    private double dblClawOpen = 0.1;
+    private double dblClawOpen = 0.13;
     private double dblClawClose = 0;
     public RobotBase.ClawState clawState;
 
