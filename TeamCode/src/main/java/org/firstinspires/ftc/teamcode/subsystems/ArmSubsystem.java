@@ -55,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedExtendSlideSafe() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 758) {
+        if(dcmArm.getCurrentPosition() > 974) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
