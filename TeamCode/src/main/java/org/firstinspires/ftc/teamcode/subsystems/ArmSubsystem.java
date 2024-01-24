@@ -44,7 +44,6 @@ public class ArmSubsystem extends SubsystemBase {
     public int getArmPosition() {
         return dcmArm.getCurrentPosition();
     }
-
     public boolean armIsPassedWristSafe() {
         boolean bolArmIsPassedSafeDrop = false;
         if(dcmArm.getCurrentPosition() > 216) {
@@ -55,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedExtendSlideSafe() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 974) {
+        if(dcmArm.getCurrentPosition() > 1100) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
