@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class WristSubsystem extends SubsystemBase {
 
     Servo srvWrist;
-    private double dblWristGrabbing = 0;
-    private double dblWristDropOff = 0.85;
-    private double dblWristEscape = 0.05;
+    private double dblWristGrabbing = 0.04;
+    private double dblWristDropOff = 0.88;
+    private double dblWristEscape = 0.09;
     public RobotBase.WristState wristState;
 
     public WristSubsystem(Servo wristConstructor, Boolean bolLeftSide) {
