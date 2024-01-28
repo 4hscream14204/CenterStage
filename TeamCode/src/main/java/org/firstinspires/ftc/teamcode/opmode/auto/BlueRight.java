@@ -86,7 +86,7 @@ public class BlueRight extends OpMode {
                 .lineToLinearHeading(new Pose2d(-33.00, 21.00, Math.toRadians(270.00)))
                 .lineToLinearHeading(new Pose2d(-33.00, 12.00, Math.toRadians(0.00)))
                 .lineToLinearHeading(new Pose2d(25.00, 12.00, Math.toRadians(0.00)))
-                .splineToLinearHeading(new Pose2d(45.00, 27, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToLinearHeading(new Pose2d(35, 27/*45.00, 27*/, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1.5)
                 .addTemporalMarker(18, () -> { robotBase.armSubsystem.armDropOffPos();})
                 .addTemporalMarker(18.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})

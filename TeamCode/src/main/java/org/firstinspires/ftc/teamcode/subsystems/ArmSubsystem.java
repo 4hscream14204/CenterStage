@@ -16,6 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final double dblLiftingPower = 0.6;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 1298;
+    private final int intDropOffLowestPosition = 1461;
 
     public ArmSubsystem(DcMotor armConstructor) {
         dcmArm = armConstructor;
@@ -38,6 +39,13 @@ public class ArmSubsystem extends SubsystemBase {
         dcmArm.setPower(dblLiftingPower);
         armState = RobotBase.ArmState.DROPOFF;
         dcmArm.setTargetPosition(intDropOffPosition);
+        //telemetry.addLine("armDropOffPos Called");
+    }
+
+    public void armDropOffLowestPos() {
+        dcmArm.setPower(dblLiftingPower);
+        armState = RobotBase.ArmState.DROPOFF;
+        dcmArm.setTargetPosition(intDropOffLowestPosition);
         //telemetry.addLine("armDropOffPos Called");
     }
 
