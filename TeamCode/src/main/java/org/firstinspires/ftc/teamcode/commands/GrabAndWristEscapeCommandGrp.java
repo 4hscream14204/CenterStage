@@ -6,22 +6,28 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class GrabAndWristEscapeCommandGrp extends SequentialCommandGroup {
 
     public GrabAndWristEscapeCommandGrp(WristSubsystem leftWristSubsystemCon,
                                         WristSubsystem rightWristSubsystemCon,
-                                         ClawSubsystem leftClawSubsystemCon,
-                                         ClawSubsystem rightClawSubsystemCon) {
+                                        ClawSubsystem leftClawSubsystemCon,
+                                        ClawSubsystem rightClawSubsystemCon,
+                                        IntakeSubsystem intakeSubsystemCon) {
 
-        if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN || rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
+        if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN ||
+                rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
             addCommands(
                     new InstantCommand(()->leftClawSubsystemCon.clawClose()),
                     new InstantCommand(()->rightClawSubsystemCon.clawClose()),
                     new WaitCommand(500)
             );
         }
+        addCommands(
+                new InstantCommand(()->intakeSubsystemCon.intake(-1))
+        );
         if(leftWristSubsystemCon.wristState != RobotBase.WristState.DROPOFF || rightWristSubsystemCon.wristState != RobotBase.WristState.DROPOFF) {
             addCommands(
                     new InstantCommand(() -> leftWristSubsystemCon.wristEscape()),
