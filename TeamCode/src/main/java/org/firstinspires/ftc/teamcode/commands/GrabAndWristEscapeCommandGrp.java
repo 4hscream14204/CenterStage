@@ -35,6 +35,8 @@ public class GrabAndWristEscapeCommandGrp extends SequentialCommandGroup {
                     new WaitCommand(500)
             );
         }
-
+        addCommands(
+                new InstantCommand(()->intakeSubsystemCon.intake(-1))
+        );
     }
 }

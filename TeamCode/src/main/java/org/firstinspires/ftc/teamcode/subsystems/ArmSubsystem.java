@@ -16,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final double dblLiftingPower = 0.6;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 1298;
-    private final int intDropOffLowestPosition = 1461;
+    private final int intDropOffLowestPosition = 1360;
 
     public ArmSubsystem(DcMotor armConstructor) {
         dcmArm = armConstructor;
