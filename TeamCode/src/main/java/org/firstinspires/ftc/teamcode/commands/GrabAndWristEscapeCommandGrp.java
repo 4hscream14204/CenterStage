@@ -28,7 +28,7 @@ public class GrabAndWristEscapeCommandGrp extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(()->intakeSubsystemCon.intake(-1))
         );
-        if(leftWristSubsystemCon.wristState != RobotBase.WristState.DROPOFF || rightWristSubsystemCon.wristState != RobotBase.WristState.DROPOFF) {
+        if(leftWristSubsystemCon.wristState == RobotBase.WristState.GRABBING || rightWristSubsystemCon.wristState == RobotBase.WristState.GRABBING) {
             addCommands(
                     new InstantCommand(() -> leftWristSubsystemCon.wristEscape()),
                     new InstantCommand(() -> rightWristSubsystemCon.wristEscape()),

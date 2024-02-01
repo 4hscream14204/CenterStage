@@ -60,9 +60,9 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblDelayTime = 200;
     private double dblLastStickTime = 0;
 
-    private double dblBackdropHeadingAngle = Math.toRadians(270);
-    private double dblWingHeadingAngle = Math.toRadians(225);
-    private double dblAirplaneLaunchingAngle = Math.toRadians(0);
+    private double dblBackdropHeadingAngle = Math.toRadians(90);
+    private double dblWingHeadingAngle = Math.toRadians(135);
+    private double dblAirplaneLaunchingAngle = Math.toRadians(180);
 
     private ElapsedTime timer;
 
@@ -94,15 +94,15 @@ public class TeleDriverRobotControl extends OpMode {
                 armController, GamepadKeys.Trigger.RIGHT_TRIGGER
         );
 
-        if(DataStorageSubsystem.alliance == RobotBase.Alliance.BLUE) {
-            dblBackdropHeadingAngle = Math.toRadians(90);
-            dblWingHeadingAngle = Math.toRadians(135);
-            dblAirplaneLaunchingAngle = Math.toRadians(180);
-        } else {
+        if(DataStorageSubsystem.alliance == RobotBase.Alliance.RED) {
             dblBackdropHeadingAngle = Math.toRadians(270);
             dblWingHeadingAngle = Math.toRadians(225);
             dblAirplaneLaunchingAngle = Math.toRadians(0);
-            DataStorageSubsystem.alliance = RobotBase.Alliance.RED;
+        } else {
+            dblBackdropHeadingAngle = Math.toRadians(90);
+            dblWingHeadingAngle = Math.toRadians(135);
+            dblAirplaneLaunchingAngle = Math.toRadians(180);
+            DataStorageSubsystem.alliance = RobotBase.Alliance.BLUE;
         }
 
         //CHASSIS CONTROLLER BINDS
@@ -129,15 +129,6 @@ public class TeleDriverRobotControl extends OpMode {
                     DataStorageSubsystem.dblIMUFinalHeading = 0;
                     robotBase.navxMicro.initialize();
                 }));
-
-        //DUEL CLAW CLOSING
-        chassisController.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                        robotBase.rightWristSubsystem,
-                        robotBase.leftClawSubsystem,
-                        robotBase.rightClawSubsystem,
-                        robotBase.intakeSubsystem
-                        ));
 
         //CHASSIS BACKDROP POSITION
         chassisController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -180,6 +171,15 @@ public class TeleDriverRobotControl extends OpMode {
                         robotBase.rightClawSubsystem),
                         new ClawOpenCommand(robotBase.armSubsystem,
                                 robotBase.leftClawSubsystem)));
+
+        //DUEL CLAW CLOSING
+        armController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                        robotBase.rightWristSubsystem,
+                        robotBase.leftClawSubsystem,
+                        robotBase.rightClawSubsystem,
+                        robotBase.intakeSubsystem
+                ));
 
         //SLIDE MOVEMENTS
         //LEFT SLIDE LOWEST

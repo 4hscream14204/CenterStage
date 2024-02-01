@@ -12,7 +12,7 @@ public class ArmSubsystem extends SubsystemBase {
     DcMotor dcmArm;
     //goBilda 43 yellow jacket motor 3895.9 PPR at the Output Shaft
     public RobotBase.ArmState armState;
-    private final double dblGrabbingPower = 0.5;
+    private final double dblGrabbingPower = 0.7;
     private final double dblLiftingPower = 0.6;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 1298;
