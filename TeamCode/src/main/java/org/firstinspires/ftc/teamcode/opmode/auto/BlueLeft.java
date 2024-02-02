@@ -53,8 +53,8 @@ public class BlueLeft extends OpMode {
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(50.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1.5)
-                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffPos();})
-                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .lineTo(new Vector2d(40, 28))
@@ -72,8 +72,8 @@ public class BlueLeft extends OpMode {
                 .splineToLinearHeading(new Pose2d(33, 37, Math.toRadians(0.00)), Math.toRadians(270.00))
                 .splineTo(new Vector2d(50.00, 36.00), Math.toRadians(00))
                 .waitSeconds(1.5)
-                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffPos();})
-                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(6, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .lineTo(new Vector2d(40, 28))
@@ -103,8 +103,8 @@ public class BlueLeft extends OpMode {
                 .lineTo(new Vector2d(15.00, 43.69))
                 .splineToSplineHeading(new Pose2d(40.00, 43.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1.5)
-                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffPos();})
-                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOff();})
+                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(50,43))
                 .waitSeconds(1)
                 .lineTo(new Vector2d(40, 28))
@@ -121,6 +121,7 @@ public class BlueLeft extends OpMode {
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .lineTo(new Vector2d(45.00, 12.00))
+                .lineTo(new Vector2d(57.00, 12.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
