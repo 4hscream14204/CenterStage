@@ -16,7 +16,7 @@ public class ClawSubsystem extends SubsystemBase {
         srvClaw = clawConstructor;
         clawState = RobotBase.ClawState.OPEN;
         if (bolLeftSide != true) {
-            dblClawOpen = 0.9;
+            dblClawOpen = 0.87;
             dblClawClose = 1;
         }
         clawOpen();
