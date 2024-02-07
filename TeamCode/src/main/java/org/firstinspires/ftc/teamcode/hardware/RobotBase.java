@@ -118,6 +118,10 @@ public class RobotBase extends Object{
     public DistanceSensor rightDistanceSensor;
     public DistanceSensor backDistanceSensor;
     */
+    /*
+    public TouchSensor tsLeftIntake;
+    public TouchSensor tsRightIntake;
+    */
     public DcMotor leftFront;
     public DcMotor leftRear;
     public DcMotor rightRear;

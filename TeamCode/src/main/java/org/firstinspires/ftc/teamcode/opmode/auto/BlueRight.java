@@ -55,7 +55,7 @@ public class BlueRight extends OpMode {
                 .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(53, 40.5/*55,42*/))
                 .waitSeconds(1)
-                .lineTo(new Vector2d(40, 28))
+                .lineTo(new Vector2d(43, 28))
                 .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
@@ -74,7 +74,7 @@ public class BlueRight extends OpMode {
                 .lineTo(new Vector2d(53,33))
                 .waitSeconds(2.5)
                 .addTemporalMarker(18.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(40, 28))
+                .lineTo(new Vector2d(43, 28))
                 .addTemporalMarker(20, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
@@ -92,7 +92,7 @@ public class BlueRight extends OpMode {
                 .addTemporalMarker(18.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(53,27))
                 .waitSeconds(2.75)
-                .lineTo(new Vector2d(40, 27))
+                .lineTo(new Vector2d(43, 27))
                 .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
@@ -108,6 +108,8 @@ public class BlueRight extends OpMode {
                 .lineTo(new Vector2d(45.00, 12.00))
                 .lineTo(new Vector2d(57.00, 12.00))
                 .build();
+
+
         parkLocation = InnerPark;
     }
     @Override
