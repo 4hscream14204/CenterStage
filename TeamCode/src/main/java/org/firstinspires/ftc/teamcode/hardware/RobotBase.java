@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
+import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -18,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LightsSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwitchBoardSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
@@ -118,10 +121,14 @@ public class RobotBase extends Object{
     public DistanceSensor rightDistanceSensor;
     public DistanceSensor backDistanceSensor;
     */
-    /*
-    public TouchSensor tsLeftIntake;
-    public TouchSensor tsRightIntake;
-    */
+
+    public DigitalChannel tsLeftIntake;
+    public DigitalChannel tsRightIntake;
+
+    public LED dgRedLeftLight;
+    public LED dgRedRightLight;
+    public LED dgGreenLeftLight;
+    public LED dgGreenRightLight;
     public DcMotor leftFront;
     public DcMotor leftRear;
     public DcMotor rightRear;
@@ -170,6 +177,8 @@ public class RobotBase extends Object{
     public SwitchBoardSubsystem blueButtonSubsystem;
     public SwitchBoardSubsystem greenButtonSubsystem;
     public SwitchBoardSubsystem blackButtonSubsystem;
+    public LightsSubsystem leftLightsSubsystem;
+    public LightsSubsystem rightLightsSubsystem;
     public ArmSubsystem armSubsystem;
 
     // first instance of alliance
@@ -205,6 +214,10 @@ public class RobotBase extends Object{
         navxMicro = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         huskyLens = hwMap.get(HuskyLens.class,"huskyLens");
         imu = hwMap.get(IMU.class,"imu");
+        dgRedLeftLight = hwMap.get(LED.class,"redLeftLight");
+        dgRedRightLight = hwMap.get(LED.class,"redRightLight");
+        dgGreenLeftLight = hwMap.get(LED.class,"greenLeftLight");
+        dgGreenRightLight = hwMap.get(LED.class,"greenRightLight");
 
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
@@ -220,6 +233,8 @@ public class RobotBase extends Object{
         rightSlideSubsystem = new SlideSubsystem(srvRightSlide);
         leftWristSubsystem = new WristSubsystem(srvLeftWrist, true);
         rightWristSubsystem = new WristSubsystem(srvRightWrist, false);
+        leftLightsSubsystem = new LightsSubsystem(dgRedLeftLight, dgGreenLeftLight);
+        rightLightsSubsystem = new LightsSubsystem(dgRedRightLight, dgGreenRightLight);
         /*
         redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);

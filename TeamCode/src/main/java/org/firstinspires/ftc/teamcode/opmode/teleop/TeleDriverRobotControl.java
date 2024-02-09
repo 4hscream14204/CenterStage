@@ -147,6 +147,27 @@ public class TeleDriverRobotControl extends OpMode {
                                 new InstantCommand(()-> dblTargetHeading = dblAirplaneLaunchingAngle)
                         ));
 
+        //TESTING LIGHTS CODE
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                        .whenPressed(()->CommandScheduler.getInstance().schedule(
+                                new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOn())
+                        ));
+
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOn())
+                ));
+
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenReleased(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOff())
+                ));
+
+        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenReleased(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
+                ));
+
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
 
@@ -464,5 +485,9 @@ public class TeleDriverRobotControl extends OpMode {
             telemetry.addData("Target Heading", Math.toDegrees(dblTargetHeading));
             telemetry.addData("Alliance Side", DataStorageSubsystem.alliance);
             CommandScheduler.getInstance().run();
+    }
+    public void stop (){
+        robotBase.leftLightsSubsystem.lightOff();
+        robotBase.rightLightsSubsystem.lightOff();
     }
 }
