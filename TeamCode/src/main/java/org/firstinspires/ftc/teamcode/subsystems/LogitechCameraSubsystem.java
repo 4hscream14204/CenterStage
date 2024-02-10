@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.qualcomm.hardware.dfrobot.HuskyLens;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -19,6 +22,10 @@ public class LogitechCameraSubsystem implements VisionProcessor {
     public Rect rectRight = new Rect(10,70,150,230);
     public Rect rectMiddle = new Rect(190, 120, 340, 180);
     public Rect rectLeft = new Rect(610, 100, 170, 200);
+
+    private RobotBase.PropPosition propPosition;
+
+    private RobotBase.StartPosition startPosition;
     Selected selection = Selected.NONE;
 
     Mat submat = new Mat();
@@ -28,6 +35,11 @@ public class LogitechCameraSubsystem implements VisionProcessor {
     public void init(int width, int height, CameraCalibration calibration) {
     }
 
+    public LogitechCameraSubsystem(RobotBase.StartPosition startPositionCon) {
+        startPosition = startPositionCon;
+    }
+    
+
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
         Imgproc.cvtColor(frame, hsvMat, Imgproc.COLOR_RGB2HSV);
@@ -35,13 +47,23 @@ public class LogitechCameraSubsystem implements VisionProcessor {
         double satRectLeft = getAvgSaturation(hsvMat, rectLeft);
         double satRectMiddle = getAvgSaturation(hsvMat, rectMiddle);
         double satRectRight = getAvgSaturation(hsvMat, rectRight);
+        if (startPosition == RobotBase.StartPosition.LEFT) {
+            if ((satRectLeft > satRectMiddle) && (satRectLeft > satRectRight)) {
+                return Selected.LEFT;
+            } else if ((satRectMiddle > satRectLeft) && (satRectMiddle > satRectRight)) {
+                return Selected.MIDDLE;
+            }
+            return Selected.RIGHT;
 
-        if ((satRectLeft > satRectMiddle) && (satRectLeft > satRectRight)) {
+        } else{
+                if ((satRectRight > satRectMiddle) && (satRectRight > satRectRight)) {
+                    return Selected.RIGHT;
+                } else if ((satRectMiddle > satRectLeft) && (satRectMiddle > satRectRight)) {
+                    return Selected.MIDDLE;
+                }
+            }
             return Selected.LEFT;
-        } else if ((satRectMiddle > satRectLeft) && (satRectMiddle > satRectRight)) {
-            return Selected.MIDDLE;
-        }
-        return Selected.RIGHT;
+
     }
 
     protected double getAvgSaturation(Mat input, Rect rect) {
