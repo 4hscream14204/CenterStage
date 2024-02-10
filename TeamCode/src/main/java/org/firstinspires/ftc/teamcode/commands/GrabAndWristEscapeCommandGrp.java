@@ -11,24 +11,19 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class GrabAndWristEscapeCommandGrp extends SequentialCommandGroup {
 
-    public GrabAndWristEscapeCommandGrp(WristSubsystem leftWristSubsystemCon,
-                                        WristSubsystem rightWristSubsystemCon,
-                                        ClawSubsystem leftClawSubsystemCon,
-                                        ClawSubsystem rightClawSubsystemCon,
-                                        IntakeSubsystem intakeSubsystemCon) {
+    public GrabAndWristEscapeCommandGrp(WristSubsystem wristSubsystemCon,
+                                        ClawSubsystem clawSubsystemCon
+                                        ) {
 
-        if(leftClawSubsystemCon.clawState == RobotBase.ClawState.OPEN ||
-                rightClawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
+        if(clawSubsystemCon.clawState == RobotBase.ClawState.OPEN) {
             addCommands(
-                    new InstantCommand(()->leftClawSubsystemCon.clawClose()),
-                    new InstantCommand(()->rightClawSubsystemCon.clawClose()),
+                    new InstantCommand(()->clawSubsystemCon.clawClose()),
                     new WaitCommand(500)
             );
         }
-        if(leftWristSubsystemCon.wristState == RobotBase.WristState.GRABBING || rightWristSubsystemCon.wristState == RobotBase.WristState.GRABBING) {
+        if(wristSubsystemCon.wristState == RobotBase.WristState.GRABBING) {
             addCommands(
-                    new InstantCommand(() -> leftWristSubsystemCon.wristEscape()),
-                    new InstantCommand(() -> rightWristSubsystemCon.wristEscape()),
+                    new InstantCommand(() -> wristSubsystemCon.wristEscape()),
                     new WaitCommand(500)
             );
         }

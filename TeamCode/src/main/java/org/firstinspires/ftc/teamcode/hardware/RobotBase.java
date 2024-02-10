@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LightsSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwitchBoardSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TouchSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 
@@ -180,6 +181,8 @@ public class RobotBase extends Object{
     public LightsSubsystem leftLightsSubsystem;
     public LightsSubsystem rightLightsSubsystem;
     public ArmSubsystem armSubsystem;
+    public TouchSensorSubsystem leftTouchSensorSubsystem;
+    public TouchSensorSubsystem rightTouchSensorSubsystem;
 
     // first instance of alliance
     public Alliance alliance;
@@ -218,6 +221,8 @@ public class RobotBase extends Object{
         dgRedRightLight = hwMap.get(LED.class,"redRightLight");
         dgGreenLeftLight = hwMap.get(LED.class,"greenLeftLight");
         dgGreenRightLight = hwMap.get(LED.class,"greenRightLight");
+        tsLeftIntake = hwMap.get(DigitalChannel.class,"tsLeftIntake");
+        tsRightIntake = hwMap.get(DigitalChannel.class,"tsRightIntake");
 
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;
@@ -235,6 +240,8 @@ public class RobotBase extends Object{
         rightWristSubsystem = new WristSubsystem(srvRightWrist, false);
         leftLightsSubsystem = new LightsSubsystem(dgRedLeftLight, dgGreenLeftLight);
         rightLightsSubsystem = new LightsSubsystem(dgRedRightLight, dgGreenRightLight);
+        leftTouchSensorSubsystem = new TouchSensorSubsystem(tsLeftIntake);
+        rightTouchSensorSubsystem = new TouchSensorSubsystem(tsRightIntake);
         /*
         redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);

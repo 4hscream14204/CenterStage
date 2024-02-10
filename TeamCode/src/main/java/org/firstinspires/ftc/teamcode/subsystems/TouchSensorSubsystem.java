@@ -9,6 +9,7 @@ public class TouchSensorSubsystem extends SubsystemBase {
 
     public TouchSensorSubsystem (DigitalChannel intakeSensorConstructor) {
         tsIntake = intakeSensorConstructor;
+        //tsIntake.setMode(DigitalChannel.Mode.OUTPUT);
     }
 
     public boolean pixelInIntake(){
