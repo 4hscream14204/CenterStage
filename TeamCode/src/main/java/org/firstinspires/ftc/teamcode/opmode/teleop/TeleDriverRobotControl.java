@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.TriggerReader;
@@ -167,6 +168,17 @@ public class TeleDriverRobotControl extends OpMode {
                 .whenReleased(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
                 ));
+
+        //INTAKE OPERATION
+        new Trigger(() -> chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1)
+                .or(new Trigger(()-> chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1))
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(new InstantCommand(()->
+                        robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) -
+                                chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER
+                                )))))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(new InstantCommand(()->
+                        robotBase.intakeSubsystem.intakeStop()
+                )));
 
         //ARM CONTROLLER BINDS
         //LEFT CLAW DROPOFF
@@ -467,15 +479,6 @@ public class TeleDriverRobotControl extends OpMode {
             robotBase.mecanumDriveSubsystem.chassisDirectionalSwap(hardwareMap);
         }
 
-        //INTAKE OPERATION
-        if (chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1 ||
-                chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1) {
-            robotBase.intakeSubsystem.intake(chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) -
-                    chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
-        } else if (chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 &&
-                chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2) {
-            robotBase.intakeSubsystem.intakeStop();
-        }
             robotBase.mecanumDriveSubsystem.update();
 
             telemetry.addData("IMU yaw angle", Math.toDegrees(angles.firstAngle));
