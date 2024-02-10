@@ -149,7 +149,7 @@ public class TeleDriverRobotControl extends OpMode {
                         ));
 
         //TESTING LIGHTS CODE
-        new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake() == true)
+        new Trigger(()-> !robotBase.leftTouchSensorSubsystem.pixelInIntake())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
                         /*
                         new ParallelCommandGroup(
@@ -158,9 +158,12 @@ public class TeleDriverRobotControl extends OpMode {
                          */
                                 new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOn())
                         //) REMOVE COMMENT BRACKETS ONCE THIS IS CONFIRMED TO WORK
+                ))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
                 ));
 
-        new Trigger(()-> robotBase.rightTouchSensorSubsystem.pixelInIntake() == true)
+        new Trigger(()-> !robotBase.rightTouchSensorSubsystem.pixelInIntake())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
                         /*
                         new ParallelCommandGroup(
@@ -169,7 +172,10 @@ public class TeleDriverRobotControl extends OpMode {
                          */
                         new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOn())
                         //) REMOVE COMMENT BRACKETS ONCE THIS IS CONFIRMED TO WORK
-                ));
+                ))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOff())
+                ));;
 
         /*
         chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
