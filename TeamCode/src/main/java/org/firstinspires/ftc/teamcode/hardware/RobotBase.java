@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwitchBoardSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TouchSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
+import org.openftc.easyopencv.OpenCvCamera;
 
 
 public class RobotBase extends Object{
@@ -160,6 +161,7 @@ public class RobotBase extends Object{
     public TouchSensor tsBlueSwitch;
     */
     public HuskyLens huskyLens;
+    public OpenCvCamera logitechCamera;
     public IMU imu;
     public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
