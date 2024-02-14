@@ -171,7 +171,7 @@ public class TeleDriverRobotControl extends OpMode {
                 ))
                 .whenInactive(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOff())
-                ));;
+                ));
 
         /*
         chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
