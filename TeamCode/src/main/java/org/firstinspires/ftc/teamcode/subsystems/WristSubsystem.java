@@ -43,4 +43,14 @@ public class WristSubsystem extends SubsystemBase {
         wristState = RobotBase.WristState.DROPOFF;
         srvWrist.setPosition(dblWristDropOffLowest);
     }
+
+    public boolean wristIsInEscape() {
+        boolean bolWristEscape = false;
+        if(wristState == RobotBase.WristState.ESCAPE) {
+            bolWristEscape = true;
+        } else {
+            bolWristEscape = false;
+        }
+        return bolWristEscape;
+    }
 }
