@@ -390,9 +390,6 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.leftWristSubsystem, robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new InstantCommand(()-> robotBase.leftLightsSubsystem.redLightOn())
                         )
-                ))
-                .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.leftLightsSubsystem.redLightOff())
                 ));
 
         //LEFT TOUCH SENSOR
@@ -403,28 +400,25 @@ public class TeleDriverRobotControl extends OpMode {
                                         robotBase.rightWristSubsystem, robotBase.rightClawSubsystem, robotBase.armSubsystem),
                                 new InstantCommand(()-> robotBase.rightLightsSubsystem.redLightOn())
                         )
-                ))
-                .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.redLightOff())
                 ));
 
         //WRIST POSITION SENSING FOR LIGHTS
         //LEFT WRIST CHECK
         new Trigger(()-> robotBase.leftWristSubsystem.wristIsInEscape())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
-                       new InstantCommand(()-> robotBase.leftLightsSubsystem.greenLightOn())
+                       new InstantCommand(()-> robotBase.leftLightsSubsystem.lightsOn())
                 ))
                 .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.greenLightOff())
+                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightsOff())
                 ));
 
         //RIGHT WRIST CHECK
         new Trigger(()-> robotBase.rightWristSubsystem.wristIsInEscape())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.greenLightOn())
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightsOn())
                 ))
                 .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.greenLightOff())
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightsOff())
                 ));
 
     }
