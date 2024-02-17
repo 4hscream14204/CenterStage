@@ -126,10 +126,10 @@ public class DemoBot extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max/2;
-                rightFrontPower /= max/2;
-                leftBackPower   /= max/2;
-                rightBackPower  /= max/2;
+                leftFrontPower  /= max;
+                rightFrontPower /= max;
+                leftBackPower   /= max;
+                rightBackPower  /= max;
             }
 
             // This is test code:
