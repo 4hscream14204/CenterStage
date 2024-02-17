@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -29,7 +28,6 @@ import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -148,57 +146,6 @@ public class TeleDriverRobotControl extends OpMode {
                                 new InstantCommand(()-> dblTargetHeading = dblAirplaneLaunchingAngle)
                         ));
 
-        //TESTING LIGHTS CODE
-        new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake())
-                .whenActive(()->CommandScheduler.getInstance().schedule(
-                        /*
-                        new ParallelCommandGroup(
-                            new GrabAndWristEscapeCommandGrp(
-                            robotBase.leftWristSubsystem, robotBase.leftClawSubsystem),
-                         */
-                                new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOn())
-                        //) REMOVE COMMENT BRACKETS ONCE THIS IS CONFIRMED TO WORK
-                ))
-                .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
-                ));
-
-        new Trigger(()-> robotBase.rightTouchSensorSubsystem.pixelInIntake())
-                .whenActive(()->CommandScheduler.getInstance().schedule(
-                        /*
-                        new ParallelCommandGroup(
-                            new GrabAndWristEscapeCommandGrp(
-                            robotBase.rightWristSubsystem, robotBase.rightClawSubsystem),
-                         */
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOn())
-                        //) REMOVE COMMENT BRACKETS ONCE THIS IS CONFIRMED TO WORK
-                ))
-                .whenInactive(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOff())
-                ));;
-
-        /*
-        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                        .whenPressed(()->CommandScheduler.getInstance().schedule(
-                                new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOn())
-                        ));
-
-        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOn())
-                ));
-
-        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenReleased(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightOff())
-                ));
-
-        chassisController.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenReleased(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
-                ));
-        */
-
         //INTAKE OPERATION
         new Trigger(()-> chassisController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1)
                 .or(new Trigger(()-> chassisController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1))
@@ -239,9 +186,9 @@ public class TeleDriverRobotControl extends OpMode {
         armController.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new ParallelCommandGroup(
                         new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                            robotBase.leftClawSubsystem),
+                            robotBase.leftClawSubsystem, robotBase.armSubsystem),
                          new GrabAndWristEscapeCommandGrp(robotBase.rightWristSubsystem,
-                            robotBase.rightClawSubsystem)
+                            robotBase.rightClawSubsystem, robotBase.armSubsystem)
                 ));
 
         //SLIDE MOVEMENTS
@@ -257,10 +204,10 @@ public class TeleDriverRobotControl extends OpMode {
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem),
+                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.rightWristSubsystem,
-                                        robotBase.rightClawSubsystem)
+                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
                                 ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -288,10 +235,10 @@ public class TeleDriverRobotControl extends OpMode {
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem),
+                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.rightWristSubsystem,
-                                        robotBase.rightClawSubsystem)
+                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
                         ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -319,10 +266,10 @@ public class TeleDriverRobotControl extends OpMode {
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem),
+                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.rightWristSubsystem,
-                                        robotBase.rightClawSubsystem)
+                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
                         ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -350,10 +297,10 @@ public class TeleDriverRobotControl extends OpMode {
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem),
+                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.rightWristSubsystem,
-                                        robotBase.rightClawSubsystem)
+                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
                         ),
                                 new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -375,10 +322,10 @@ public class TeleDriverRobotControl extends OpMode {
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
-                                        robotBase.leftClawSubsystem),
+                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.rightWristSubsystem,
-                                        robotBase.rightClawSubsystem)
+                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
                         ),
                         new ParallelCommandGroup(
                                         new DropOffPositionCommand(robotBase.leftSlideSubsystem,
@@ -402,17 +349,17 @@ public class TeleDriverRobotControl extends OpMode {
                                                 new ParallelCommandGroup(
                                                         new GrabAndWristEscapeCommandGrp(
                                                                 robotBase.leftWristSubsystem,
-                                                                robotBase.leftClawSubsystem),
+                                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
                                                         new GrabAndWristEscapeCommandGrp(
                                                                 robotBase.rightWristSubsystem,
-                                                                robotBase.rightClawSubsystem)
+                                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
                                                 ),
                                                 new ParallelCommandGroup(
-                                                new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                                        robotBase.armSubsystem,
-                                                        robotBase.leftWristSubsystem,
-                                                        robotBase.intakeSubsystem,
-                                                        RobotBase.SlideHeight.LOWEST),
+                                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                                robotBase.armSubsystem,
+                                                                robotBase.leftWristSubsystem,
+                                                                robotBase.intakeSubsystem,
+                                                                RobotBase.SlideHeight.LOWEST),
                                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                                 robotBase.armSubsystem,
                                                                 robotBase.rightWristSubsystem,
@@ -429,6 +376,51 @@ public class TeleDriverRobotControl extends OpMode {
                                                 robotBase.rightClawSubsystem),
                                         ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
                                                 )));
+
+        //SENSOR BINDS
+        //TOUCH SENSOR CODE
+            //change so that the button only activates one light and deactivates one light
+            //add a light activation when the wrist is in escape position this should be the opposite light from intake button
+            //talk to noah to figure out light colors
+        //RIGHT TOUCH SENSOR
+        new Trigger(()-> !robotBase.leftTouchSensorSubsystem.pixelInIntake())
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
+                        new ParallelCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.leftWristSubsystem, robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                new InstantCommand(()-> robotBase.leftLightsSubsystem.redLightOn())
+                        )
+                ));
+
+        //LEFT TOUCH SENSOR
+        new Trigger(()-> !robotBase.rightTouchSensorSubsystem.pixelInIntake())
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
+                        new ParallelCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.rightWristSubsystem, robotBase.rightClawSubsystem, robotBase.armSubsystem),
+                                new InstantCommand(()-> robotBase.rightLightsSubsystem.redLightOn())
+                        )
+                ));
+
+        //WRIST POSITION SENSING FOR LIGHTS
+        //LEFT WRIST CHECK
+        new Trigger(()-> robotBase.leftWristSubsystem.wristIsInEscape())
+                .whenActive(()->CommandScheduler.getInstance().schedule(
+                       new InstantCommand(()-> robotBase.leftLightsSubsystem.lightsOn())
+                ))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.leftLightsSubsystem.lightsOff())
+                ));
+
+        //RIGHT WRIST CHECK
+        new Trigger(()-> robotBase.rightWristSubsystem.wristIsInEscape())
+                .whenActive(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightsOn())
+                ))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rightLightsSubsystem.lightsOff())
+                ));
+
     }
 
     public void loop() {
@@ -526,7 +518,7 @@ public class TeleDriverRobotControl extends OpMode {
             CommandScheduler.getInstance().run();
     }
     public void stop (){
-        robotBase.leftLightsSubsystem.lightOff();
-        robotBase.rightLightsSubsystem.lightOff();
+        robotBase.leftLightsSubsystem.lightsOff();
+        robotBase.rightLightsSubsystem.lightsOff();
     }
 }

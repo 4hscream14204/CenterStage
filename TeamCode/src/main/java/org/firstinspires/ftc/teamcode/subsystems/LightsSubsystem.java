@@ -11,16 +11,32 @@ public class LightsSubsystem extends SubsystemBase {
     public LightsSubsystem(LED redLightConstructor, LED greenLightConstructor){
         dgRedLight = redLightConstructor;
         dgGreenLight = greenLightConstructor;
-        lightOff();
+        lightsOff();
     }
 
-    public void lightOn (){
+    public void lightsOn(){
+        redLightOn();
+        greenLightOn();
+    }
+
+    public void redLightOn(){
         dgRedLight.enableLight(true);
+    }
+
+    public void greenLightOn(){
         dgGreenLight.enableLight(true);
     }
 
-    public void lightOff (){
+    public void lightsOff (){
+        redLightOff();
+        greenLightOff();
+    }
+
+    public void redLightOff (){
         dgRedLight.enableLight(false);
+    }
+
+    public void greenLightOff (){
         dgGreenLight.enableLight(false);
     }
 }

@@ -76,6 +76,14 @@ public class ArmSubsystem extends SubsystemBase {
         return bolArmIsPassedSafeDrop;
     }
 
+    public boolean armIsInGrabbing() {
+        boolean bolArmIsPassedSafeDrop = false;
+        if(dcmArm.getCurrentPosition() < 10) {
+            bolArmIsPassedSafeDrop = true;
+        }
+        return bolArmIsPassedSafeDrop;
+    }
+
     public void armReturning() {
         armState = RobotBase.ArmState.RETURNING;
     }
