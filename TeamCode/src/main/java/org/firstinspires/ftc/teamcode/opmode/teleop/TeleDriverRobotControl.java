@@ -149,7 +149,7 @@ public class TeleDriverRobotControl extends OpMode {
                         ));
 
         //TESTING LIGHTS CODE
-        new Trigger(()-> !robotBase.leftTouchSensorSubsystem.pixelInIntake())
+        new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
                         /*
                         new ParallelCommandGroup(
@@ -163,7 +163,7 @@ public class TeleDriverRobotControl extends OpMode {
                         new InstantCommand(()-> robotBase.leftLightsSubsystem.lightOff())
                 ));
 
-        new Trigger(()-> !robotBase.rightTouchSensorSubsystem.pixelInIntake())
+        new Trigger(()-> robotBase.rightTouchSensorSubsystem.pixelInIntake())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
                         /*
                         new ParallelCommandGroup(

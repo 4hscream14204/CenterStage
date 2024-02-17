@@ -14,7 +14,7 @@ public class TouchSensorSubsystem extends SubsystemBase {
 
     public boolean pixelInIntake(){
         boolean bolPixelInIntake = false;
-        if(tsIntake.getState() == true){
+        if(tsIntake.getState() == false){
             bolPixelInIntake = true;
         } else {
             bolPixelInIntake = false;
