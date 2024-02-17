@@ -121,7 +121,7 @@ public class BlueLeft extends OpMode {
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .lineTo(new Vector2d(45.00, 12.00))
-                .lineTo(new Vector2d(57.00, 12.00))
+                //.lineTo(new Vector2d(57.00, 12.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
