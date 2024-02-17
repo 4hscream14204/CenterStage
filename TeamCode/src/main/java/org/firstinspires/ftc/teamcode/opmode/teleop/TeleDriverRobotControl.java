@@ -383,7 +383,7 @@ public class TeleDriverRobotControl extends OpMode {
             //add a light activation when the wrist is in escape position this should be the opposite light from intake button
             //talk to noah to figure out light colors
         //RIGHT TOUCH SENSOR
-        new Trigger(()-> !robotBase.leftTouchSensorSubsystem.pixelInIntake())
+        new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake())
                 .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
@@ -393,7 +393,7 @@ public class TeleDriverRobotControl extends OpMode {
                 ));
 
         //LEFT TOUCH SENSOR
-        new Trigger(()-> !robotBase.rightTouchSensorSubsystem.pixelInIntake())
+        new Trigger(()-> robotBase.rightTouchSensorSubsystem.pixelInIntake())
                 .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
