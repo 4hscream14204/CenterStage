@@ -370,18 +370,34 @@ public class TeleDriverRobotControl extends OpMode {
                                                 robotBase.leftClawSubsystem,
                                                 robotBase.rightClawSubsystem)
                                         ),
-                                        new RaiseArmAndLauncherCommand(robotBase.airplaneLauncherSubsystem,
-                                                robotBase.armSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem),
+                                        new SequentialCommandGroup(
+                                                new ParallelCommandGroup(
+                                                        new GrabAndWristEscapeCommandGrp(
+                                                                robotBase.leftWristSubsystem,
+                                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                                        new GrabAndWristEscapeCommandGrp(
+                                                                robotBase.rightWristSubsystem,
+                                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
+                                                ),
+                                                new ParallelCommandGroup(
+                                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                                robotBase.armSubsystem,
+                                                                robotBase.leftWristSubsystem,
+                                                                robotBase.intakeSubsystem,
+                                                                RobotBase.SlideHeight.LOWEST),
+                                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                                robotBase.armSubsystem,
+                                                                robotBase.rightWristSubsystem,
+                                                                robotBase.intakeSubsystem,
+                                                                RobotBase.SlideHeight.LOWEST)
+                                                ),
+                                                new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise())
+                                                ),
                                         ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
                                                 )));
 
         //SENSOR BINDS
         //TOUCH SENSOR CODE
-            //change so that the button only activates one light and deactivates one light
-            //add a light activation when the wrist is in escape position this should be the opposite light from intake button
-            //talk to noah to figure out light colors
         //RIGHT TOUCH SENSOR
         new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake())
                 .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(

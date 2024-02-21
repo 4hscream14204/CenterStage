@@ -12,12 +12,11 @@ public class UniversalGrabbingPosCommand extends SequentialCommandGroup {
         if(robotBase.leftClawSubsystem.clawState == RobotBase.ClawState.OPEN &&
                 robotBase.rightClawSubsystem.clawState == RobotBase.ClawState.OPEN &&
                 robotBase.armSubsystem.getArmPosition() > 20 &&
-                robotBase.armSubsystem.armState != RobotBase.ArmState.RETURNING
+                robotBase.armSubsystem.armState == RobotBase.ArmState.DROPOFF
         ) {
             addCommands(
-                    new WaitCommand(700),
                     new InstantCommand(()->robotBase.armSubsystem.armReturning()),
-                    new WaitCommand(1),
+                    new WaitCommand(700),
                     new InstantCommand(()->robotBase.leftSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
                     new InstantCommand(()->robotBase.rightSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
                     new InstantCommand(()->robotBase.leftWristSubsystem.wristPickup()),
