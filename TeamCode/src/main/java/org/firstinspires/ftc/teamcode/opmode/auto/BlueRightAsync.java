@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 public class BlueRightAsync extends OpMode {
     public RobotBase robotBase;
 
-    enum CurrantRouteState {
+    enum CurrentRouteState {
         TRAJECTORY_1,
         PARKING
     }
@@ -37,13 +37,11 @@ public class BlueRightAsync extends OpMode {
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private TrajectorySequence parkLocation;
-    private TrajectorySequence Spike;
 
     public Pose2d startPose;
 
     public GamepadEx autoChassisController;
-    private CurrantRouteState currantRouteState;
-
+    private CurrentRouteState currentRouteState;
     @Override
     public void init(){
         autoChassisController = new GamepadEx(gamepad1);
@@ -147,15 +145,15 @@ public class BlueRightAsync extends OpMode {
     @Override
     public void start () {
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
             //robotBase.grabber.drop();
             //robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner2);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
         } else {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
         }
-
+        currentRouteState = CurrentRouteState.TRAJECTORY_1;
 
 
 
@@ -163,11 +161,11 @@ public class BlueRightAsync extends OpMode {
     @Override
     public void loop () {
 
-        switch (currantRouteState) {
+        switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currantRouteState = CurrantRouteState.PARKING;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
+                    currentRouteState = CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
     }
