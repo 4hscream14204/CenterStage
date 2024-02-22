@@ -2,22 +2,32 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
 @Autonomous(name = "BlueRight")
 public class BlueRight extends OpMode {
     public RobotBase robotBase;
+
+    enum CurrentRouteState {
+        TRAJECTORY_1,
+        PARKING
+    }
 
 
     public TrajectorySequence LeftSpike;
@@ -31,7 +41,7 @@ public class BlueRight extends OpMode {
     public Pose2d startPose;
 
     public GamepadEx autoChassisController;
-
+    private CurrentRouteState currentRouteState;
     @Override
     public void init(){
         autoChassisController = new GamepadEx(gamepad1);
@@ -45,21 +55,30 @@ public class BlueRight extends OpMode {
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
                 .waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
+                .splineTo(new Vector2d(-32.00, 37.00), Math.toRadians(-40.82))
+                .setReversed(true)
+                .splineTo(new Vector2d(-36.00, 60.00), Math.toRadians(0.00))
+                .splineTo(new Vector2d(0.00, 60.00), Math.toRadians(0.00))
+                .splineTo(new Vector2d(50.00, 36.00), Math.toRadians(-0.51))
+                .setReversed(false)
+                .splineTo(new Vector2d(40.00, 36.00), Math.toRadians(0.00))
+                .build();
+
+                /*.splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(-20.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(35, 40.5)/*45.00, 43.00*/,Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(35, 40.5)/*45.00, 43.00*/ /*,Math.toRadians(0.00))
                 .waitSeconds(2.5)
                 .addTemporalMarker(16.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(53, 40.5/*55,42*/))
+                .lineTo(new Vector2d(53, 40.5/*55,42*/ /*))
                 .waitSeconds(1)
                 .lineTo(new Vector2d(43, 28))
                 .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
-                .build();
+                .build(); */
 
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
@@ -102,12 +121,17 @@ public class BlueRight extends OpMode {
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .lineTo(new Vector2d(45.00, 62.00))
+                .lineTo(new Vector2d(55.00, 62.00))
+                .lineTo(new Vector2d(45.00, 62.00))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .lineTo(new Vector2d(45.00, 12.00))
-                //.lineTo(new Vector2d(57.00, 12.00))
+                .lineTo(new Vector2d(55.00, 12.00))
+                .lineTo(new Vector2d(45.00, 12.00))
                 .build();
+
+
 
 
         parkLocation = InnerPark;
@@ -129,30 +153,40 @@ public class BlueRight extends OpMode {
         telemetry.addData("Detection",(robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.update();
-        }
-        @Override
-        public void start () {
-            if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-                robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleSpike);
-                //robotBase.grabber.drop();
-                //robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner2);
-            } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-                robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightSpike);
-            } else {
-                robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
-            }
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
-
-        }
-        @Override
-        public void loop () {
-
-        }
-        @Override
-        public void stop () {
-            Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-            double dblCurrentHeading = angles.firstAngle;
-            DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
-            DataStorageSubsystem.alliance = robotBase.alliance.BLUE;
-        }
     }
+    @Override
+    public void start () {
+        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
+            //robotBase.grabber.drop();
+            //robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
+        } else {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
+        }
+        currentRouteState = CurrentRouteState.TRAJECTORY_1;
+
+
+
+    }
+    @Override
+    public void loop () {
+
+        switch (currentRouteState) {
+            case TRAJECTORY_1:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                }
+        }
+        robotBase.mecanumDriveSubsystem.update();
+    }
+    @Override
+    public void stop () {
+        Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        double dblCurrentHeading = angles.firstAngle;
+        DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
+        DataStorageSubsystem.alliance = robotBase.alliance.BLUE;
+    }
+}

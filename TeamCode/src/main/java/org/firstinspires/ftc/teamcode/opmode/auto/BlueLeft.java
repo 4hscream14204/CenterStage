@@ -35,6 +35,7 @@ public class BlueLeft extends OpMode {
     public Pose2d startPose;
 
     public GamepadEx autoChassisController;
+    private BlueRight.CurrentRouteState currentRouteState;
 
     @Override
     public void init() {
@@ -150,20 +151,25 @@ public class BlueLeft extends OpMode {
     @Override
     public void start () {
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleSpike);
-            // robotBase.grabber.drop();
-            // robotBase.mecanumDrive.followTrajectorySequence(BlueLeftCenterInner2);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
         } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
         } else {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
         }
-        robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
 
+        currentRouteState = BlueRight.CurrentRouteState.TRAJECTORY_1;
     }
     @Override
     public void loop () {
-
+        switch (currentRouteState) {
+            case TRAJECTORY_1:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = BlueRight.CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                }
+        }
+        robotBase.mecanumDriveSubsystem.update();
     }
     @Override
     public void stop () {
