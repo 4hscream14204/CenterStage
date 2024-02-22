@@ -21,7 +21,7 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                                   IntakeSubsystem intakeSubsystemCon,
                                   RobotBase.SlideHeight slideHeightCon) {
         addCommands(
-                new InstantCommand(()->intakeSubsystemCon.intake(-1)),
+                new InstantCommand(()->intakeSubsystemCon.intake(-0.5)),
                 new InstantCommand(()->armSubsystemCon.armDropOffPos()),
                 new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe()),
                 new InstantCommand(()->wristSubsystemCon.wristDropOff()),

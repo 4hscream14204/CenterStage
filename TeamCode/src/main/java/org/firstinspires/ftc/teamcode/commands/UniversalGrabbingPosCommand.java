@@ -21,7 +21,7 @@ public class UniversalGrabbingPosCommand extends SequentialCommandGroup {
                     new InstantCommand(()->robotBase.rightSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
                     new InstantCommand(()->robotBase.leftWristSubsystem.wristPickup()),
                     new InstantCommand(()->robotBase.rightWristSubsystem.wristPickup()),
-                    new WaitCommand(600),
+                    new WaitCommand(100),
                     new InstantCommand(()->robotBase.armSubsystem.armGrabbingPosition())
             );
         }
