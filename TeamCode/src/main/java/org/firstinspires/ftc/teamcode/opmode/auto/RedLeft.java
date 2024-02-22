@@ -29,6 +29,7 @@ public class RedLeft extends OpMode {
     private TrajectorySequence parkLocation;
 
     public GamepadEx autoChassisController;
+    private BlueRight.CurrentRouteState currentRouteState;
 
     @Override
     public void init(){
@@ -153,18 +154,23 @@ public class RedLeft extends OpMode {
     public void start(){
 
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
         } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
         } else {
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
         }
-        robotBase.mecanumDriveSubsystem.followTrajectorySequence(parkLocation);
 
     }
     @Override
     public void loop(){
-
+        switch (currentRouteState) {
+            case TRAJECTORY_1:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = BlueRight.CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                }
+        }
     }
     @Override
     public void stop(){
