@@ -19,7 +19,7 @@ public class WristSubsystem extends SubsystemBase {
         if (bolLeftSide != true) {
             dblWristGrabbing = 1;
             dblWristDropOff = 0.17;
-            dblWristEscape = 0.94;
+            dblWristEscape = 0.95;
         }
         wristPickup();
     }
