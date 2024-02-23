@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LightsSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlideSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwitchBoardSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TouchSensorSubsystem;
@@ -186,6 +187,8 @@ public class RobotBase extends Object{
     public TouchSensorSubsystem leftTouchSensorSubsystem;
     public TouchSensorSubsystem rightTouchSensorSubsystem;
 
+    public LogitechCameraSubsystem logitechCameraSubsystem;
+
     // first instance of alliance
     public Alliance alliance;
     public ChassisControlType controlScheme;
@@ -244,6 +247,7 @@ public class RobotBase extends Object{
         rightLightsSubsystem = new LightsSubsystem(dgRedRightLight, dgGreenRightLight);
         leftTouchSensorSubsystem = new TouchSensorSubsystem(tsLeftIntake);
         rightTouchSensorSubsystem = new TouchSensorSubsystem(tsRightIntake);
+        logitechCameraSubsystem = new LogitechCameraSubsystem(startPosition);
         /*
         redButtonSubsystem = new SwitchBoardSubsystem(tsRedSwitch);
         blueButtonSubsystem = new SwitchBoardSubsystem(tsBlueSwitch);
