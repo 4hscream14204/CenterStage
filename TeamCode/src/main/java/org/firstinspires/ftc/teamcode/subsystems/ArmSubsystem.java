@@ -13,7 +13,7 @@ public class ArmSubsystem extends SubsystemBase {
     //goBilda 43 yellow jacket motor 3895.9 PPR at the Output Shaft
     public RobotBase.ArmState armState;
     private final double dblMainPower = 1;
-    private final double dblSlowPower = 0.5;
+    private final double dblSlowPower = 0.4;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 1298;
     private final int intDropOffLowestPosition = 1330;
@@ -62,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedExtendSlideSafe() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(getArmPosition() > 650) {
+        if(getArmPosition() > 600) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;

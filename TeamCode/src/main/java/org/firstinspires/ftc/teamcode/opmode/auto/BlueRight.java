@@ -60,9 +60,9 @@ public class BlueRight extends OpMode {
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-36.00, 36.00), Math.toRadians(-45))
+                .splineTo(new Vector2d(-30.00, 36.00), Math.toRadians(-45))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-36.00, 60.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(-36.50, 60.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
@@ -76,10 +76,8 @@ public class BlueRight extends OpMode {
                 .splineToConstantHeading(new Vector2d(50.00, 36.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
                         robotBase.leftClawSubsystem)))
-                .waitSeconds(1)
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
-                .waitSeconds(1)
-                .setReversed(false)
+                .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))
                 /*.waitSeconds(10)
                 .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
@@ -139,10 +137,12 @@ public class BlueRight extends OpMode {
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .lineTo(new Vector2d(45.00, 62.00))
+                .lineTo(new Vector2d(57, 62))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
-                .lineTo(new Vector2d(45.00, 12.00))
+                .lineTo(new Vector2d(45.00, 10.00))
+                .lineTo(new Vector2d(57, 10))
                 .build();
 
 
