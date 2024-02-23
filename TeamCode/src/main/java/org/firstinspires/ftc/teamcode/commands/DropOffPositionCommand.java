@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -27,7 +28,10 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                 new InstantCommand(()->wristSubsystemCon.wristDropOff()),
                 new InstantCommand(()->intakeSubsystemCon.intakeStop()),
                 new WaitUntilCommand(()->armSubsystemCon.armIsPassedExtendSlideSafe()),
+                new ParallelCommandGroup(
+                new InstantCommand(()->armSubsystemCon.armSlowPower()),
                 new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon))
+                )
         );
     }
 }

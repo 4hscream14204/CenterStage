@@ -12,8 +12,8 @@ public class ArmSubsystem extends SubsystemBase {
     DcMotor dcmArm;
     //goBilda 43 yellow jacket motor 3895.9 PPR at the Output Shaft
     public RobotBase.ArmState armState;
-    private final double dblGrabbingPower = 1;
-    private final double dblLiftingPower = 0.6;
+    private final double dblMainPower = 1;
+    private final double dblSlowPower = 0.5;
     private final int intGrabbingPosition = 0;
     private final int intDropOffPosition = 1298;
     private final int intDropOffLowestPosition = 1330;
@@ -26,24 +26,24 @@ public class ArmSubsystem extends SubsystemBase {
         dcmArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         dcmArm.setTargetPosition(0);
         dcmArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        dcmArm.setPower(dblLiftingPower);
+        dcmArm.setPower(dblSlowPower);
     }
 
     public void armGrabbingPosition() {
-        dcmArm.setPower(dblGrabbingPower);
+        dcmArm.setPower(dblMainPower);
         armState = RobotBase.ArmState.GRABBING;
         dcmArm.setTargetPosition(intGrabbingPosition);
     }
 
     public void armDropOffPos() {
-        dcmArm.setPower(dblLiftingPower);
+        dcmArm.setPower(dblMainPower);
         armState = RobotBase.ArmState.DROPOFF;
         dcmArm.setTargetPosition(intDropOffPosition);
         //telemetry.addLine("armDropOffPos Called");
     }
 
     public void armDropOffLowestPos() {
-        dcmArm.setPower(dblLiftingPower);
+        dcmArm.setPower(dblMainPower);
         armState = RobotBase.ArmState.DROPOFF;
         dcmArm.setTargetPosition(intDropOffLowestPosition);
         //telemetry.addLine("armDropOffPos Called");
@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     public boolean armIsPassedWristSafe() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 216) {
+        if(getArmPosition() > 216) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
@@ -62,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedExtendSlideSafe() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 1000) {
+        if(getArmPosition() > 650) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
@@ -70,7 +70,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedSafeDrop() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() > 1100) {
+        if(getArmPosition() > 1100) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
@@ -78,10 +78,26 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsInGrabbing() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(dcmArm.getCurrentPosition() < 10) {
+        if(getArmPosition() < 10) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;
+    }
+
+    public boolean armIsPassedReturnSlow() {
+        boolean bolArmIsPassedReturnSlow = false;
+        if(getArmPosition() < 500) {
+            bolArmIsPassedReturnSlow = true;
+        }
+        return bolArmIsPassedReturnSlow;
+    }
+
+    public void armMainPower() {
+        dcmArm.setPower(dblMainPower);
+    }
+
+    public void armSlowPower(){
+        dcmArm.setPower(dblSlowPower);
     }
 
     public void armReturning() {

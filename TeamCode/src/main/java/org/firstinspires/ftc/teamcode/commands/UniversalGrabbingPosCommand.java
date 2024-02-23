@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 
@@ -17,12 +19,16 @@ public class UniversalGrabbingPosCommand extends SequentialCommandGroup {
             addCommands(
                     new InstantCommand(()->robotBase.armSubsystem.armReturning()),
                     new WaitCommand(700),
+                    new ParallelCommandGroup(
                     new InstantCommand(()->robotBase.leftSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
                     new InstantCommand(()->robotBase.rightSlideSubsystem.slideGoToPos(RobotBase.SlideHeight.GRABBING)),
                     new InstantCommand(()->robotBase.leftWristSubsystem.wristPickup()),
-                    new InstantCommand(()->robotBase.rightWristSubsystem.wristPickup()),
+                    new InstantCommand(()->robotBase.rightWristSubsystem.wristPickup())
+                            ),
                     new WaitCommand(100),
-                    new InstantCommand(()->robotBase.armSubsystem.armGrabbingPosition())
+                    new InstantCommand(()->robotBase.armSubsystem.armGrabbingPosition()),
+                    new WaitUntilCommand(()->robotBase.armSubsystem.armIsPassedReturnSlow()),
+                    new InstantCommand(()->robotBase.armSubsystem.armSlowPower())
             );
         }
     }
