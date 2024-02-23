@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+/*import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -148,4 +148,4 @@ public class LogitechCameraSubsystem implements VisionProcessor {
     }
 
     public enum Selected { NONE, LEFT, MIDDLE, RIGHT }
-}
+}*/

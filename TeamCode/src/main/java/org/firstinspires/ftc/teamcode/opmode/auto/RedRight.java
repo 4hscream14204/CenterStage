@@ -29,8 +29,12 @@ public class RedRight extends OpMode {
     private TrajectorySequence OuterPark;
     private TrajectorySequence parkLocation;
     public Pose2d startPose;
+    private enum CurrentRouteState {
+        TRAJECTORY_1,
+        PARKING
+    }
     public GamepadEx autoChassisController;
-    private BlueRight.CurrentRouteState currentRouteState;
+    private RedRight.CurrentRouteState currentRouteState;
 
     @Override
     public void init(){
@@ -240,7 +244,7 @@ public class RedRight extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = BlueRight.CurrentRouteState.PARKING;
+                    currentRouteState = RedRight.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }

@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 public class BlueRight extends OpMode {
     public RobotBase robotBase;
 
-    enum CurrentRouteState {
+    private enum CurrentRouteState {
         TRAJECTORY_1,
         PARKING
     }

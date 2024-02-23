@@ -34,8 +34,13 @@ public class BlueLeft extends OpMode {
 
     public Pose2d startPose;
 
+    private enum CurrentRouteState {
+        TRAJECTORY_1,
+        PARKING
+    }
+
     public GamepadEx autoChassisController;
-    private BlueRight.CurrentRouteState currentRouteState;
+    private BlueLeft.CurrentRouteState currentRouteState;
 
     @Override
     public void init() {
@@ -158,14 +163,14 @@ public class BlueLeft extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
         }
 
-        currentRouteState = BlueRight.CurrentRouteState.TRAJECTORY_1;
+        currentRouteState = BlueLeft.CurrentRouteState.TRAJECTORY_1;
     }
     @Override
     public void loop () {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = BlueRight.CurrentRouteState.PARKING;
+                    currentRouteState = BlueLeft.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
