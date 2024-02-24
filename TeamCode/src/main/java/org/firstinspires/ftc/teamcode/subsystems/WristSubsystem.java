@@ -17,7 +17,7 @@ public class WristSubsystem extends SubsystemBase {
     public WristSubsystem(Servo wristConstructor, Boolean bolLeftSide) {
         srvWrist = wristConstructor;
         if (bolLeftSide != true) {
-            dblWristGrabbing = 1;
+            dblWristGrabbing = 0.99;
             dblWristDropOff = 0.17;
             dblWristEscape = 0.95;
         }
