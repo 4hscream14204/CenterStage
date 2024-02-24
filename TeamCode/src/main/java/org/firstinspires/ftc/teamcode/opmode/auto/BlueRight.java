@@ -60,6 +60,7 @@ public class BlueRight extends OpMode {
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
+                .waitSeconds(15)
                 .splineTo(new Vector2d(-30.00, 36.00), Math.toRadians(-45))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.50, 60.00, Math.toRadians(0.00)), Math.toRadians(0.00))
@@ -98,6 +99,7 @@ public class BlueRight extends OpMode {
 
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
+                .waitSeconds(15)
                 .splineTo(new Vector2d(-36.00, 35.00), Math.toRadians(270.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -134,6 +136,7 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
+                .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
