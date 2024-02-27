@@ -11,7 +11,7 @@ public class WristSubsystem extends SubsystemBase {
     private double dblWristGrabbing = 0.0427;//0.02
     private double dblWristDropOff = 0.87;
     private double dblWristEscape = 0.0827;
-    private double dblWristDropOffLowest = 0.82;
+    private double dblWristDropOffLowest = 0.8561;//tune this number
     private double dblWristDropOffMH = 0.8961;
     public RobotBase.WristState wristState;
 
