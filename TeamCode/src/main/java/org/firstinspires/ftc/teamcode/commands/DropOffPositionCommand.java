@@ -22,16 +22,44 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                                   IntakeSubsystem intakeSubsystemCon,
                                   RobotBase.SlideHeight slideHeightCon) {
         addCommands(
-                new InstantCommand(()->intakeSubsystemCon.intake(-0.5)),
-                new InstantCommand(()->armSubsystemCon.armDropOffPos()),
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe()),
-                new InstantCommand(()->wristSubsystemCon.wristDropOff()),
-                new InstantCommand(()->intakeSubsystemCon.intakeStop()),
-                new WaitUntilCommand(()->armSubsystemCon.armIsPassedExtendSlideSafe()),
-                new ParallelCommandGroup(
-                new InstantCommand(()->armSubsystemCon.armSlowPower()),
-                new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon))
-                )
+                new InstantCommand(()->intakeSubsystemCon.intake(-0.5))
         );
+                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH){
+                    addCommands(
+                            new InstantCommand(()->armSubsystemCon.armDropOffMHPos())
+                    );
+                } else if (slideHeightCon == RobotBase.SlideHeight.LOWEST) {
+                    addCommands(
+                            new InstantCommand(()->armSubsystemCon.armDropOffLowestPos())
+                    );
+                }else {
+                    addCommands(
+                            new InstantCommand(()->armSubsystemCon.armDropOffPos())
+                    );
+                }
+                addCommands(
+                new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe())
+                );
+                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH) {
+                    addCommands(
+                            new InstantCommand(()->wristSubsystemCon.wristDropOffMediumHigh())
+                    );
+                } else if (slideHeightCon == RobotBase.SlideHeight.LOWEST) {
+                    addCommands(
+                            new InstantCommand(()->wristSubsystemCon.wristDropOffLowest())
+                    );
+                } else {
+                    addCommands(
+                            new InstantCommand(()->wristSubsystemCon.wristDropOff())
+                    );
+                }
+                addCommands(
+                        new InstantCommand(()->intakeSubsystemCon.intakeStop()),
+                        new WaitUntilCommand(()->armSubsystemCon.armIsPassedExtendSlideSafe()),
+                        new ParallelCommandGroup(
+                                new InstantCommand(()->armSubsystemCon.armSlowPower()),
+                                new InstantCommand(()->slideSubsystemCon.slideGoToPos(slideHeightCon))
+                        )
+                );
     }
 }

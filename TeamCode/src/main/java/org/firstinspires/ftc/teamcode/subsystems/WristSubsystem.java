@@ -9,9 +9,10 @@ public class WristSubsystem extends SubsystemBase {
 
     Servo srvWrist;
     private double dblWristGrabbing = 0.0427;//0.02
-    private double dblWristDropOff = 0.8827;
+    private double dblWristDropOff = 0.87;
     private double dblWristEscape = 0.0827;
     private double dblWristDropOffLowest = 0.82;
+    private double dblWristDropOffMH = 0.8961;
     public RobotBase.WristState wristState;
 
     public WristSubsystem(Servo wristConstructor, Boolean bolLeftSide) {
@@ -20,6 +21,8 @@ public class WristSubsystem extends SubsystemBase {
             dblWristGrabbing = 0.9722;
             dblWristDropOff = 0.1388;
             dblWristEscape = 0.9322;
+            dblWristDropOffLowest = 0.1388;
+            dblWristDropOffMH = 0.0922;
         }
         wristPickup();
     }
@@ -42,6 +45,11 @@ public class WristSubsystem extends SubsystemBase {
     public void wristDropOffLowest() {
         wristState = RobotBase.WristState.DROPOFF;
         srvWrist.setPosition(dblWristDropOffLowest);
+    }
+
+    public void wristDropOffMediumHigh() {
+        wristState = RobotBase.WristState.DROPOFF;
+        srvWrist.setPosition(dblWristDropOffMH);
     }
 
     public boolean wristIsInEscape() {
