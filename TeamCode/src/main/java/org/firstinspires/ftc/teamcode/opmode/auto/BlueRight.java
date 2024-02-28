@@ -68,7 +68,7 @@ public class BlueRight extends OpMode {
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
                 .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(45.00, 36.00), Math.toRadians(0.00))
+                .splineTo(new Vector2d(45.00, 36.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
@@ -178,8 +178,8 @@ public class BlueRight extends OpMode {
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(45,61), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(59,61), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45,60), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
