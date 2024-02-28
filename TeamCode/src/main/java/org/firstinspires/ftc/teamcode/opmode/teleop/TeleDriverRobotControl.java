@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -368,7 +369,9 @@ public class TeleDriverRobotControl extends OpMode {
                                                 ),
                                                 new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
                                                 robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem)
+                                                robotBase.rightClawSubsystem),
+                                                new WaitCommand(500),
+                                                new UniversalGrabbingPosCommand(robotBase)
                                         ),
                                         new SequentialCommandGroup(
                                                 new ParallelCommandGroup(
@@ -437,6 +440,12 @@ public class TeleDriverRobotControl extends OpMode {
                         new InstantCommand(()-> robotBase.rightLightsSubsystem.lightsOff())
                 ));
 
+        //UNIVERSAL GRABBING POSITION COMMAND
+        new Trigger(()-> robotBase.leftClawSubsystem.clawIsOpen() && robotBase.rightClawSubsystem.clawIsOpen())
+                .whenActive(()->CommandScheduler.getInstance().schedule(
+                        new UniversalGrabbingPosCommand(robotBase)
+                ));
+
     }
 
     public void loop() {
@@ -452,7 +461,7 @@ public class TeleDriverRobotControl extends OpMode {
         dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
 
         //UNIVERSAL GRABBING COMMAND
-        CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase));
+        //CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase));
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(

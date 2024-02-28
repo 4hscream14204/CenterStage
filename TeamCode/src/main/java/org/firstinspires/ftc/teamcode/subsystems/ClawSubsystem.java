@@ -32,6 +32,14 @@ public class ClawSubsystem extends SubsystemBase {
         clawState = RobotBase.ClawState.CLOSED;
     }
 
+    public boolean clawIsOpen() {
+        boolean bolClawIsOpen = false;
+        if (clawState == RobotBase.ClawState.OPEN) {
+            bolClawIsOpen = true;
+        }
+        return bolClawIsOpen;
+    }
+
     public void clawToggle() {
         switch (clawState) {
             case OPEN:
