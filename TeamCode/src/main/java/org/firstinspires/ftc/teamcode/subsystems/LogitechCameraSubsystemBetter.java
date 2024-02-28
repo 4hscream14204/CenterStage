@@ -19,12 +19,17 @@ public class LogitechCameraSubsystemBetter implements VisionProcessor {
     public Rect rectRightSideRight = new Rect(10,70,150,230);
     public Rect rectMiddleSideRight = new Rect(190, 120, 340, 180);
 
-    public  Rect rectMiddleSideLeft = new Rect(190, 120, 340, 180);
-    public Rect rectLeftSideLeft = new Rect(610, 100, 170, 200);
+    public  Rect rectMiddleSideLeft = new Rect(310, 300, 150, 150);
+    public Rect rectLeftSideLeft = new Rect(310, 20, 150, 150);
 
     public Rect rectSide ;
 
     public Rect rectMiddle;
+
+    public double satRectSide;
+
+    public double satRectMiddle;
+
     Selected selection = Selected.NONE;
 
     private RobotBase.StartPosition startPosition;
@@ -64,29 +69,25 @@ public class LogitechCameraSubsystemBetter implements VisionProcessor {
         return Selected.RIGHT;
 
          */
-        double satRectLeft = getAvgSaturation(hsvMat, rectLeftSideLeft);
-        double satRectMiddleSideLeft = getAvgSaturation(hsvMat, rectMiddleSideLeft);
-        double satRectMiddleSideRight = getAvgSaturation(hsvMat, rectMiddleSideRight);
+        satRectSide = getAvgSaturation(hsvMat, rectSide);
+        satRectMiddle = getAvgSaturation(hsvMat, rectMiddle);
+        /*double satRectMiddleSideRight = getAvgSaturation(hsvMat, rectMiddleSideRight);
         double satRectRight = getAvgSaturation(hsvMat, rectRightSideRight);
-        if (startPosition == RobotBase.StartPosition.LEFT) {
-            if ((satRectLeft  > satRectMiddleSideLeft) && (satRectLeft > satRectRight)) {
-                return LogitechCameraSubsystem.Selected.LEFT;
-            } else if ((satRectMiddleSideLeft > satRectLeft) && (satRectMiddleSideLeft > satRectRight)) {
-                return LogitechCameraSubsystem.Selected.MIDDLE;
-            }
-            return LogitechCameraSubsystem.Selected.RIGHT;
 
-        } else {
-            if ((satRectRight > satRectMiddleSideRight) && (satRectRight > satRectRight)) {
-                return LogitechCameraSubsystem.Selected.RIGHT;
-            } else if ((satRectMiddleSideRight > satRectLeft) && (satRectMiddleSideRight > satRectRight)) {
-                return LogitechCameraSubsystem.Selected.MIDDLE;
+         */
+
+            if (satRectSide  > satRectMiddle)  {
+                return Selected.SIDE;
+            } else if (satRectMiddle > satRectSide)  {
+                return Selected.MIDDLE;
             }
+            return Selected.NONE;
+
+
         }
 
 
-        return LogitechCameraSubsystem.Selected.LEFT;
-    }
+
 
     protected double getAvgSaturation(Mat input, Rect rect) {
         submat = input.submat(rect);

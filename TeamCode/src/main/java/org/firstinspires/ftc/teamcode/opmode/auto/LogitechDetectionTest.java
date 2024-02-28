@@ -48,6 +48,11 @@ public class LogitechDetectionTest extends OpMode {
 
     }
 
+    @Override
+    public void init_loop() {
+        telemetry.addData("HSV value side", visionProcesser.satRectSide);
+        telemetry.addData("HSV value middle", visionProcesser.satRectMiddle);    }
+
     public void start (){
         visionPortal.stopStreaming();
     }
