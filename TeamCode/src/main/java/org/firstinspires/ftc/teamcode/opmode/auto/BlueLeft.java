@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import android.provider.ContactsContract;
+import android.util.Size;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -9,6 +10,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -16,6 +18,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 
 @Autonomous(name = "BlueLeft")
@@ -42,15 +46,26 @@ public class BlueLeft extends OpMode {
     public GamepadEx autoChassisController;
     private BlueLeft.CurrentRouteState currentRouteState;
 
+    private LogitechCameraSubsystemBetter visionProcesser;
+    private VisionPortal visionPortal;
+
     @Override
     public void init() {
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
-        robotBase.startPosition = RobotBase.StartPosition.LEFT;
+        //robotBase.startPosition = RobotBase.StartPosition.LEFT;
+        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam1"))
+                .addProcessor(visionProcesser)
+                .setCameraResolution(new Size(864, 480))
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(3.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
@@ -146,7 +161,11 @@ public class BlueLeft extends OpMode {
                 parkLocation = InnerPark;
             }
         }
+        /*
         robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+         */
+        robotBase.propPosition = visionProcesser.getLocation();
+
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
@@ -155,6 +174,7 @@ public class BlueLeft extends OpMode {
     }
     @Override
     public void start () {
+        visionPortal.stopStreaming();
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
         } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {

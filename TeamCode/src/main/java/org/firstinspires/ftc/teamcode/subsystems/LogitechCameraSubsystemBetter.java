@@ -16,11 +16,11 @@ import org.opencv.imgproc.Imgproc;
 public class LogitechCameraSubsystemBetter implements VisionProcessor {
     //since the camera is upside down, right is left and left is right
     //this is more efficient than rotating the camera orientation which has a lot of overhead
-    public Rect rectRightSideRight = new Rect(10,70,150,230);
-    public Rect rectMiddleSideRight = new Rect(190, 120, 340, 180);
+    public Rect rectRightSideRight = new Rect(320,350,130,130);
+    public Rect rectMiddleSideRight = new Rect(360, 90, 110, 120);
 
-    public  Rect rectMiddleSideLeft = new Rect(310, 300, 150, 150);
-    public Rect rectLeftSideLeft = new Rect(310, 20, 150, 150);
+    public  Rect rectMiddleSideLeft = new Rect(360, 310, 110, 120);
+    public Rect rectLeftSideLeft = new Rect(330, 40, 130, 130);
 
     public Rect rectSide ;
 
@@ -30,7 +30,11 @@ public class LogitechCameraSubsystemBetter implements VisionProcessor {
 
     public double satRectMiddle;
 
-    Selected selection = Selected.NONE;
+    private double colorThreshold = 70;
+
+
+
+   public Selected selection = Selected.NONE;
 
     private RobotBase.StartPosition startPosition;
 
@@ -76,9 +80,9 @@ public class LogitechCameraSubsystemBetter implements VisionProcessor {
 
          */
 
-            if (satRectSide  > satRectMiddle)  {
+            if (satRectSide  > colorThreshold)  {
                 return Selected.SIDE;
-            } else if (satRectMiddle > satRectSide)  {
+            } else if (satRectMiddle > colorThreshold)  {
                 return Selected.MIDDLE;
             }
             return Selected.NONE;
@@ -136,6 +140,28 @@ public class LogitechCameraSubsystemBetter implements VisionProcessor {
 
     public Selected getSelection() {
         return selection;
+    }
+
+    public RobotBase.PropPosition getLocation () {
+        RobotBase.PropPosition propPosition;
+        if (startPosition == RobotBase.StartPosition.LEFT) {
+            if (selection == Selected.SIDE) {
+                propPosition = RobotBase.PropPosition.LEFT;
+            } else if(selection == Selected.MIDDLE) {
+                propPosition = RobotBase.PropPosition.MIDDLE;
+            } else {
+                propPosition = RobotBase.PropPosition.RIGHT;
+            }
+        } else {
+            if (selection == Selected.SIDE) {
+                propPosition = RobotBase.PropPosition.RIGHT;
+            } else if(selection == Selected.MIDDLE) {
+                propPosition = RobotBase.PropPosition.MIDDLE;
+            } else {
+                propPosition = RobotBase.PropPosition.LEFT;
+            }
+        }
+        return propPosition;
     }
 
     public enum Selected { MIDDLE, SIDE, NONE }
