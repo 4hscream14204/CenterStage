@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.commands.DropOffPositionLowCommandGrp;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -46,6 +48,7 @@ public class RedRight extends OpMode {
 
     @Override
     public void init(){
+        CommandScheduler.getInstance().reset();
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
@@ -66,13 +69,15 @@ public class RedRight extends OpMode {
                 .splineToLinearHeading(new Pose2d(3.25, -38.00, Math.toRadians(135.00)), Math.toRadians(135.00))
                 .lineTo(new Vector2d(16.00, -52.00))
                 .splineToLinearHeading(new Pose2d(33.00, -35.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
                 .splineToLinearHeading(new Pose2d(50.00, -30.50, Math.toRadians(0.00)), Math.toRadians(-5.50))
                 .waitSeconds(1.5)
-                .addTemporalMarker(4, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(4.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .waitSeconds(0.5)
                 .addTemporalMarker(7.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(40, -29.5))
+                .lineTo(new Vector2d(40, -36))
                 .waitSeconds(1)
                 .addTemporalMarker(8.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.5)
@@ -113,7 +118,7 @@ public class RedRight extends OpMode {
                 .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(6, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(50, -38.5))
+                .lineTo(new Vector2d(50, -36))
                 .waitSeconds(1)
                 .addTemporalMarker(6.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.5)
@@ -175,7 +180,7 @@ public class RedRight extends OpMode {
                 .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(41,-43))
                 .waitSeconds(1)
-                .lineTo(new Vector2d(40, -28))
+                .lineTo(new Vector2d(40, -36))
                 .addTemporalMarker(5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(6, () -> { robotBase.leftWristSubsystem.wristPickup();})
@@ -210,11 +215,13 @@ public class RedRight extends OpMode {
                  */
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,-61), Math.toRadians(360.0))
                 .splineToConstantHeading(new Vector2d(59,-61), Math.toRadians(360.0))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,-10), Math.toRadians(360.0))
                 .splineToConstantHeading(new Vector2d(61,-10), Math.toRadians(360.0))
                 .build();
@@ -255,7 +262,10 @@ public class RedRight extends OpMode {
         } else {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
         }
+
+        currentRouteState = RedRight.CurrentRouteState.TRAJECTORY_1;
     }
+
 
     @Override
     public void loop(){
@@ -265,6 +275,9 @@ public class RedRight extends OpMode {
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = RedRight.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+
+                    robotBase.mecanumDriveSubsystem.update();
+                    CommandScheduler.getInstance().run();
                 }
         }
     }
