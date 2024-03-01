@@ -276,10 +276,11 @@ public class RedRight extends OpMode {
                     currentRouteState = RedRight.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
 
-                    robotBase.mecanumDriveSubsystem.update();
-                    CommandScheduler.getInstance().run();
+
                 }
         }
+        robotBase.mecanumDriveSubsystem.update();
+        CommandScheduler.getInstance().run();
     }
     @Override
     public void stop(){
