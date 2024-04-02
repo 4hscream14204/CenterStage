@@ -399,6 +399,13 @@ public class TeleDriverRobotControl extends OpMode {
                                         ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
                                                 )));
 
+        //ABORT BUTTON
+        /*armController.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(
+
+                );
+         */
+
         //SENSOR BINDS
         //TOUCH SENSOR CODE
         //RIGHT TOUCH SENSOR
