@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -34,6 +35,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="DriverRobotControl")
@@ -451,6 +453,29 @@ public class TeleDriverRobotControl extends OpMode {
         new Trigger(()-> robotBase.leftClawSubsystem.clawIsOpen() && robotBase.rightClawSubsystem.clawIsOpen())
                 .whenActive(()->CommandScheduler.getInstance().schedule(
                         new UniversalGrabbingPosCommand(robotBase)
+                ));
+
+        //TESTING
+        //CHASSIS
+        //DROP RIGHT
+        chassisController.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                        new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem)
+                ));
+
+        //DROP LEFT
+        chassisController.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(()-> CommandScheduler.getInstance().schedule(
+                        new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem)
+                ));
+
+        //DROP BOTH
+        chassisController.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                       new ParallelCommandGroup(
+                               new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem),
+                               new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem)
+                       )
                 ));
 
     }
