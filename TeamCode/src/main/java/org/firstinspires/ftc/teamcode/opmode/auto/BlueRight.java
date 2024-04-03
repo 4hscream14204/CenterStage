@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -153,7 +154,22 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .waitSeconds(15)
+                .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
+                .splineTo(new Vector2d(-56.35, 27.10), Math.toRadians(180))
+                .waitSeconds(1)
+                .lineTo(new Vector2d(-40.52, 24.39))
+                .build();
+
+
+                /*.waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -172,28 +188,12 @@ public class BlueRight extends OpMode {
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(40.00, 36.00))
-        /*        .waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-47.00, 38.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .lineToConstantHeading(new Vector2d(-33.00, 55.00))
-                .lineToLinearHeading(new Pose2d(-33.00, 21.00, Math.toRadians(270.00)))
-                .lineToLinearHeading(new Pose2d(-33.00, 12.00, Math.toRadians(0.00)))
-                .lineToLinearHeading(new Pose2d(25.00, 12.00, Math.toRadians(0.00)))
-                .splineToLinearHeading(new Pose2d(35, 27, 45.00, 27, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1.5)
-                .addTemporalMarker(18, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(18.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(53,27))
-                .waitSeconds(2.75)
-                .lineTo(new Vector2d(43, 27))
-                .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();}) */
-                .build();
+                .lineTo(new Vector2d(40.00, 36.00))*/
+
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+       /* OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,60), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
@@ -203,7 +203,7 @@ public class BlueRight extends OpMode {
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(61,10), Math.toRadians(0.00))
-                .build();
+                .build();*/
 
 
 
