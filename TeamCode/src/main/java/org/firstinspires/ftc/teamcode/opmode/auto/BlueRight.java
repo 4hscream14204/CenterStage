@@ -64,10 +64,10 @@ public class BlueRight extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
-       // robotBase.startPosition = RobotBase.StartPosition.RIGHT;
+        robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
-        //robotBase.leftClawSubsystem.clawClose();
-        //robotBase.leftWristSubsystem.wristEscape();
+        robotBase.leftClawSubsystem.clawClose();
+        robotBase.leftWristSubsystem.wristEscape();
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam1"))
                 .addProcessor(visionProcesser)
@@ -195,7 +195,7 @@ public class BlueRight extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-       /* OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,60), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
@@ -205,7 +205,7 @@ public class BlueRight extends OpMode {
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(61,10), Math.toRadians(0.00))
-                .build();*/
+                .build();
 
 
 
