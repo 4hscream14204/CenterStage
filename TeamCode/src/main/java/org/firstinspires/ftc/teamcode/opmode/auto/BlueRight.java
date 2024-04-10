@@ -66,8 +66,8 @@ public class BlueRight extends OpMode {
         robotBase.alliance = RobotBase.Alliance.BLUE;
        // robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
-        robotBase.leftClawSubsystem.clawClose();
-        robotBase.leftWristSubsystem.wristEscape();
+        //robotBase.leftClawSubsystem.clawClose();
+        //robotBase.leftWristSubsystem.wristEscape();
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam1"))
                 .addProcessor(visionProcesser)
@@ -154,22 +154,7 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.rightClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
-                        ()->robotBase.intakeSubsystem.intake(-1)
-                )))
-                .setReversed(true)
-                .splineTo(new Vector2d(-56.35, 27.10), Math.toRadians(180))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(-40.52, 24.39))
-                .build();
-
-
-                /*.waitSeconds(15)
+                .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -188,7 +173,24 @@ public class BlueRight extends OpMode {
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(40.00, 36.00))*/
+                .lineTo(new Vector2d(40.00, 36.00))
+                        .build();
+
+    /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
+                .splineTo(new Vector2d(-55.35, 27.10), Math.toRadians(180))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(-56.35, 20))
+                .waitSeconds(1)
+                .lineTo(new Vector2d(-40.52, 24.39))
+                .build();*/
 
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
