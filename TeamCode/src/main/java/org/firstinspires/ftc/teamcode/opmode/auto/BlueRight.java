@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -37,7 +39,8 @@ public class BlueRight extends OpMode {
 
     private enum CurrentRouteState {
         TRAJECTORY_1,
-        PARKING
+        PARKING,
+        STACK
     }
 
 
@@ -47,9 +50,12 @@ public class BlueRight extends OpMode {
 
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
+    private TrajectorySequence StackPickup;
     private TrajectorySequence parkLocation;
 
     public Pose2d startPose;
+
+    public Pose2d stackPose;
 
     public GamepadEx autoChassisController;
     private CurrentRouteState currentRouteState;
@@ -76,6 +82,8 @@ public class BlueRight extends OpMode {
                 .setAutoStopLiveView(true)
                 .build();
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
+
+        stackPose = new Pose2d(-56.66, 52.77, Math.toRadians(270));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
                 .waitSeconds(15)
@@ -154,7 +162,19 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .waitSeconds(15)
+                .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                .splineToConstantHeading(new Vector2d(-56.66, 52.77), Math.toRadians(270.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
+                .build();
+
+                /*.waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -174,28 +194,12 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))
-                        .build();
-
-    /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.rightClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
-                        ()->robotBase.intakeSubsystem.intake(-1)
-                )))
-                .setReversed(true)
-                .splineTo(new Vector2d(-55.35, 27.10), Math.toRadians(180))
-                .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(-56.35, 20))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(-40.52, 24.39))
                 .build();*/
 
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        /*OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,60), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
@@ -205,10 +209,35 @@ public class BlueRight extends OpMode {
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(61,10), Math.toRadians(0.00))
+                .build();*/
+
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(stackPose);
+
+        StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-56.66, 52.77, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(-57.15, 20.17), Math.toRadians(268.31))
+                .splineTo(new Vector2d(-48.41, 13.32), Math.toRadians(-38.07))
+                .splineTo(new Vector2d(-61.52, 12.30), Math.toRadians(185.86))
                 .build();
 
-
-
+        //TOUCH SENSOR CODE
+        //RIGHT TOUCH SENSOR
+        new Trigger(()-> robotBase.rightTouchSensorSubsystem.pixelInIntake())
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
+                        new ParallelCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.rightWristSubsystem, robotBase.rightClawSubsystem, robotBase.armSubsystem),
+                                new InstantCommand(()-> robotBase.rightLightsSubsystem.redLightOn())
+                        )
+                ));
+        //LEFT TOUCH SENSOR
+        new Trigger(()-> robotBase.leftTouchSensorSubsystem.pixelInIntake())
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
+                        new ParallelCommandGroup(
+                                new GrabAndWristEscapeCommandGrp(
+                                        robotBase.leftWristSubsystem, robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                new InstantCommand(()-> robotBase.leftLightsSubsystem.redLightOn())
+                        )
+                ));
 
         parkLocation = InnerPark;
     }
@@ -252,11 +281,19 @@ public class BlueRight extends OpMode {
     public void loop () {
 
 
-        switch (currentRouteState) {
+        /*switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                }
+        }*/
+
+        switch (currentRouteState) {
+            case TRAJECTORY_1:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.STACK;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
