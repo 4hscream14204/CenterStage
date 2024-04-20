@@ -197,7 +197,7 @@ public class BlueRight extends OpMode {
                 .build();*/
 
 
-        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+        //robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
         /*OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
@@ -211,12 +211,12 @@ public class BlueRight extends OpMode {
                 .splineToConstantHeading(new Vector2d(61,10), Math.toRadians(0.00))
                 .build();*/
 
-        robotBase.mecanumDriveSubsystem.setPoseEstimate(stackPose);
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
         StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-56.66, 52.77, Math.toRadians(270.00)))
                 .splineTo(new Vector2d(-57.15, 20.17), Math.toRadians(268.31))
-                .splineTo(new Vector2d(-48.41, 13.32), Math.toRadians(-38.07))
-                .splineTo(new Vector2d(-61.52, 12.30), Math.toRadians(185.86))
+                .splineTo(new Vector2d(-48.41, 12.32), Math.toRadians(-38.07))
+                .splineTo(new Vector2d(-59.52, 11.30), Math.toRadians(180))
                 .build();
 
         //TOUCH SENSOR CODE
