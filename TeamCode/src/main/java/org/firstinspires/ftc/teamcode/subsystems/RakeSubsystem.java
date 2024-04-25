@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class RakeSubsystem extends SubsystemBase {
 
     private Servo srvRake;
-    private double dblRakeDown = 0.0;
-    private double dblRakeUp = 1.0;
+    private double dblRakeDown = 1;
+    private double dblRakeUp = 0;
 
     public RakeSubsystem(Servo rakeConstructor){
         srvRake = rakeConstructor;
