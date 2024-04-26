@@ -162,14 +162,16 @@ public class BlueRight extends OpMode {
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
-                .splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
+                /*.splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 45.00), Math.toRadians(270.00))
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 20.00), Math.toRadians(270.00))
-                .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))
-                /* .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
-                .splineToConstantHeading(new Vector2d(-56.66, 52.77), Math.toRadians(270.00))
+                .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))*/
+                 .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(0))
+                .waitSeconds(0.25)
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
@@ -177,7 +179,7 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
                         ()->robotBase.intakeSubsystem.intake(-1)
                 )))
-                .setReversed(true) */
+                .setReversed(true)
                 .build();
 
                 /*.waitSeconds(15)
@@ -219,10 +221,12 @@ public class BlueRight extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-56.66, 52.77, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-57.15, 20.17), Math.toRadians(268.31))
-                .splineTo(new Vector2d(-48.41, 12.32), Math.toRadians(-38.07))
-                .splineTo(new Vector2d(-59.52, 11.30), Math.toRadians(180))
+        StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-48.66, 52.77, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(-48.15, 20.17), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-48.41, 12.32), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-57.52, 11.30), Math.toRadians(0))
+                .waitSeconds(2)
+                .splineToConstantHeading(new Vector2d(-50.52, 11.30), Math.toRadians(0))
                 .build();
 
         //TOUCH SENSOR CODE
