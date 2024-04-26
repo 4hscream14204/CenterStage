@@ -414,7 +414,10 @@ public class TeleDriverRobotControl extends OpMode {
         //ABORT BUTTON
         /*armController.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(
-
+                cancel all commands
+                move the launcher down
+                drop the pixels
+                call UniversalGrabbingPosCommand
                 );
          */
 
