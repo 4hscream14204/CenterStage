@@ -401,10 +401,23 @@ public class TeleDriverRobotControl extends OpMode {
                                         ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
                                                 )));
 
+        //RAKE OPERATION
+        new Trigger(()-> armController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1)
+                .whileActiveContinuous(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(
+                                armController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)))
+                ))
+                .whenInactive(()->CommandScheduler.getInstance().schedule(
+                                new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0))
+                        ));
+
         //ABORT BUTTON
         /*armController.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(
-
+                cancel all commands
+                move the launcher down
+                drop the pixels
+                call UniversalGrabbingPosCommand
                 );
          */
 
