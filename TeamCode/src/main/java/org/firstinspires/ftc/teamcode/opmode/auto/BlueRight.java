@@ -224,7 +224,7 @@ public class BlueRight extends OpMode {
         StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-48.66, 52.77, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(-48.15, 20.17), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-48.41, 12.32), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(-57.52, 11.30), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-56.52, 11.30), Math.toRadians(0))
                 .waitSeconds(2)
                 .splineToConstantHeading(new Vector2d(-50.52, 11.30), Math.toRadians(0))
                 .build();
