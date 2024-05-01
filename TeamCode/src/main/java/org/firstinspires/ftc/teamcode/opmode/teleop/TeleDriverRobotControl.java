@@ -412,14 +412,15 @@ public class TeleDriverRobotControl extends OpMode {
                         ));
 
         //ABORT BUTTON
-        /*armController.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(
-                cancel all commands
-                move the launcher down
-                drop the pixels
-                call UniversalGrabbingPosCommand
-                );
-         */
+        armController.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                new SequentialCommandGroup(
+                new InstantCommand(()->CommandScheduler.getInstance().cancelAll()),
+                new InstantCommand(()->robotBase.airplaneLauncherSubsystem.lower()),
+                new InstantCommand(()->robotBase.leftClawSubsystem.clawOpen()),
+                new InstantCommand(()->robotBase.rightClawSubsystem.clawOpen())
+                )));
+
 
         //SENSOR BINDS
         //TOUCH SENSOR CODE
