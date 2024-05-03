@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TimerSubsystem;
 
 @TeleOp(name="MecanumDemo", group="Linear OpMode")
@@ -46,7 +47,8 @@ public class TeleMecanumDemoBot extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-     public TimerSubsystem  timerSubsystem;
+    public TimerSubsystem  timerSubsystem;
+    private ElapsedTime timer;
 
     @Override
     public void runOpMode() {
@@ -88,6 +90,10 @@ public class TeleMecanumDemoBot extends LinearOpMode {
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
+            }
+
+            if(timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, timer)) {
+                stop();
             }
 
             leftFrontDrive.setPower(leftFrontPower/2);
