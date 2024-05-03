@@ -231,6 +231,7 @@ public class RobotBase extends Object{
         dgGreenRightLight = hwMap.get(LED.class,"greenRightLight");
         tsLeftIntake = hwMap.get(DigitalChannel.class,"tsLeftIntake");
         tsRightIntake = hwMap.get(DigitalChannel.class,"tsRightIntake");
+        srvRake = hwMap.get(Servo.class, "srvRake");
 
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         gyro = (IntegratingGyroscope)navxMicro;

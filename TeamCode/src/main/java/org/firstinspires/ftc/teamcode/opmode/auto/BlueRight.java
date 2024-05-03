@@ -31,6 +31,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
+import org.firstinspires.ftc.teamcode.subsystems.RakeSubsystem;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous(name = "BlueRight")
@@ -224,7 +225,9 @@ public class BlueRight extends OpMode {
         StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-48.66, 52.77, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(-48.15, 20.17), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-48.41, 12.32), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-54.52, 11.30), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-56.52, 11.30), Math.toRadians(0))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(1))))
                 .waitSeconds(2)
                 .splineToConstantHeading(new Vector2d(-50.52, 11.30), Math.toRadians(0))
                 .build();
