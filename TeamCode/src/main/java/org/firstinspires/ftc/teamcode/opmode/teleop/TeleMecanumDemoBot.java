@@ -29,6 +29,9 @@
 
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -47,11 +50,14 @@ public class TeleMecanumDemoBot extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-    public TimerSubsystem  timerSubsystem;
-    private ElapsedTime timer;
+    public TimerSubsystem timerSubsystem;
 
     @Override
     public void runOpMode() {
+
+        timerSubsystem = new TimerSubsystem();
+
+        CommandScheduler.getInstance().reset();
 
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
@@ -92,9 +98,16 @@ public class TeleMecanumDemoBot extends LinearOpMode {
                 rightBackPower  /= max;
             }
 
+            /*
             if(timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, timer)) {
                 stop();
             }
+            */
+
+            new Trigger(()->timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, runtime))
+                    .whenActive(()-> CommandScheduler.getInstance().schedule(
+                            new InstantCommand(()-> requestOpModeStop())
+                    ));
 
             leftFrontDrive.setPower(leftFrontPower/2);
             rightFrontDrive.setPower(rightFrontPower/2);
@@ -102,8 +115,9 @@ public class TeleMecanumDemoBot extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower/2);
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Timer in seconds", DataStorageSubsystem.INTTIMERLENGTH / 1000);
             telemetry.update();
+
+            CommandScheduler.getInstance().run();
         }
     }}

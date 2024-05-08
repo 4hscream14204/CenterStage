@@ -34,7 +34,7 @@ public class TeleSetTimer extends OpMode {
     }
     public void loop(){
 
-        telemetry.addData("Timer in seconds", intTimerLength / 100);
+        telemetry.addData("Timer in seconds", intTimerLength / 1000);
 
         telemetry.update();
 
