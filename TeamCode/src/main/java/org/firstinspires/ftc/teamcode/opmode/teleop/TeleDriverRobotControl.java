@@ -421,7 +421,6 @@ public class TeleDriverRobotControl extends OpMode {
                 new InstantCommand(()->robotBase.rightClawSubsystem.clawOpen())
                 )));
 
-
         //SENSOR BINDS
         //TOUCH SENSOR CODE
         //RIGHT TOUCH SENSOR
