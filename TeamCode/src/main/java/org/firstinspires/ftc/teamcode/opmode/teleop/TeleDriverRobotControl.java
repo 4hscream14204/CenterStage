@@ -471,16 +471,20 @@ public class TeleDriverRobotControl extends OpMode {
         //TESTING
         //CHASSIS
         //DROP RIGHT
-        chassisController.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(()->CommandScheduler.getInstance().schedule(
-                        new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem)
-                ));
+        chassisController.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem));
 
         //DROP LEFT
-        chassisController.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(
-                        new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem)
-                ));
+        chassisController.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem));
+
+        //DUEL CLAW DROPOFF
+        chassisController.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new ParallelCommandGroup(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem),
+                        new ClawOpenCommand(robotBase.armSubsystem,
+                                robotBase.leftClawSubsystem)));
+
 
         //DROP BOTH
         chassisController.getGamepadButton(GamepadKeys.Button.A)
