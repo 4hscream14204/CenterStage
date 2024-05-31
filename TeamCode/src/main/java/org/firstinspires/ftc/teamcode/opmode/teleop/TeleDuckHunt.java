@@ -26,17 +26,16 @@ public class TeleDuckHunt extends OpMode {
     private GamepadEx chassisController;
     private GamepadEx armController;
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+
     public TimerSubsystem timerSubsystem;
+
+
 
     public void init(){
         CommandScheduler.getInstance().reset();
         robotBase = new RobotBase(hardwareMap);
         chassisController = new GamepadEx(gamepad1);
-        armController = new GamepadEx(gamepad1);
+        armController = new GamepadEx(gamepad2);
 
         //CHASSIS CONTROLLER BINDS
         //INTAKE OPERATION
@@ -51,7 +50,47 @@ public class TeleDuckHunt extends OpMode {
                         new InstantCommand(()-> robotBase.intakeSubsystem.intakeStop())
                 ));
     }
+
+
     public void loop(){
+
+            double max;
+
+            double axial   = -gamepad1.left_stick_y;
+            double lateral =  gamepad1.left_stick_x;
+            double yaw     =  gamepad1.right_stick_x;
+
+            double leftFrontPower  = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower   = axial - lateral + yaw;
+            double rightBackPower  = axial + lateral - yaw;
+
+            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+            max = Math.max(max, Math.abs(leftBackPower));
+            max = Math.max(max, Math.abs(rightBackPower));
+
+            if (max > 1.0) {
+                leftFrontPower  /= max;
+                rightFrontPower /= max;
+                leftBackPower   /= max;
+                rightBackPower  /= max;
+            }
+
+            /*
+            if(timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, timer)) {
+                stop();
+            }
+            */
+
+            new Trigger(()->timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, runtime))
+                    .whenActive(()-> CommandScheduler.getInstance().schedule(
+                            new InstantCommand(()-> requestOpModeStop())
+                    ));
+
+            robotBase.leftFrontDrive.setPower(leftFrontPower);
+            robotBase.rightFrontDrive.setPower(rightFrontPower);
+            robotBase.leftBackDrive.setPower(leftBackPower);
+            robotBase.rightBackDrive.setPower(rightBackPower);
     CommandScheduler.getInstance().run();
     }
 }
