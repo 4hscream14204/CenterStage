@@ -38,7 +38,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LightsSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TimerSubsystem;
 
 @TeleOp(name="MecanumDemo", group="Linear OpMode")
@@ -51,6 +53,7 @@ public class TeleMecanumDemoBot extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     public TimerSubsystem timerSubsystem;
+    public LightsSubsystem lightsSubsystem;
 
     @Override
     public void runOpMode() {
@@ -107,6 +110,11 @@ public class TeleMecanumDemoBot extends LinearOpMode {
             new Trigger(()->timerSubsystem.timerIsPassed(DataStorageSubsystem.INTTIMERLENGTH, runtime))
                     .whenActive(()-> CommandScheduler.getInstance().schedule(
                             new InstantCommand(()-> requestOpModeStop())
+                    ));
+
+            new Trigger(()->(runtime.milliseconds()) > (DataStorageSubsystem.INTTIMERLENGTH * (2/3)))
+                    .whenActive(()-> CommandScheduler.getInstance().schedule(
+                            new InstantCommand(()-> lightsSubsystem.greenLightOn())
                     ));
 
             leftFrontDrive.setPower(leftFrontPower/2);
