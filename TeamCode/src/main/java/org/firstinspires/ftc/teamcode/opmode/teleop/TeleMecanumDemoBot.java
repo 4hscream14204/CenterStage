@@ -61,9 +61,8 @@ public class TeleMecanumDemoBot extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         timerSubsystem = new TimerSubsystem();
-        lightsSubsystem = new LightsSubsystem(dgRedLight, dgGreenLight);
+        lightsSubsystem = new LightsSubsystem();
 
         CommandScheduler.getInstance().reset();
 
@@ -122,17 +121,17 @@ public class TeleMecanumDemoBot extends LinearOpMode {
 
             new Trigger(()->(runtime.milliseconds()) > (DataStorageSubsystem.INTTIMERLENGTH * (2/3)))
                     .whenActive(()-> CommandScheduler.getInstance().schedule(
-                            new InstantCommand(()-> lightsSubsystem.greenLightOn())
+                            new InstantCommand(()-> lightsSubsystem.greenLightOn(dgGreenLight))
                     ));
             new Trigger(()->(runtime.milliseconds()) < (DataStorageSubsystem.INTTIMERLENGTH * (2/3)) & (runtime.milliseconds()) > (DataStorageSubsystem.INTTIMERLENGTH * (1/3)))
                     .whenActive(()-> CommandScheduler.getInstance().schedule(
-                            new InstantCommand(()-> lightsSubsystem.lightsOn())
+                            new InstantCommand(()-> lightsSubsystem.lightsOn(dgRedLight, dgGreenLight))
                     ));
             new Trigger(()->(runtime.milliseconds()) < (DataStorageSubsystem.INTTIMERLENGTH * (1/3)))
                     .whenActive(()-> CommandScheduler.getInstance().schedule(
                             new ParallelCommandGroup(
-                                    new InstantCommand(()-> lightsSubsystem.greenLightOff()),
-                            new InstantCommand(()-> lightsSubsystem.redLightOn())
+                                    new InstantCommand(()-> lightsSubsystem.greenLightOff(dgGreenLight)),
+                            new InstantCommand(()-> lightsSubsystem.redLightOn(dgRedLight))
                             )));
 
             leftFrontDrive.setPower(leftFrontPower/2);

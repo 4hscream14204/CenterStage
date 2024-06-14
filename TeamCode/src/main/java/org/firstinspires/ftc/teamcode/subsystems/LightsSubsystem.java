@@ -8,35 +8,39 @@ public class LightsSubsystem extends SubsystemBase {
     LED dgRedLight;
     LED dgGreenLight;
 
+    /*
     public LightsSubsystem(LED redLightConstructor, LED greenLightConstructor){
         dgRedLight = redLightConstructor;
         dgGreenLight = greenLightConstructor;
-        lightsOff();
+    }
+    */
+    public void lightsOn(LED redLightConstructor, LED greenLightConstructor){
+        redLightOn(redLightConstructor);
+        greenLightOn(greenLightConstructor);
     }
 
-    public void lightsOn(){
-        redLightOn();
-        greenLightOn();
+    public void redLightOn(LED redLightConstructor){
+        dgRedLight = redLightConstructor;
+        dgRedLight.enable(true);
     }
 
-    public void redLightOn(){
-        dgRedLight.enableLight(true);
+    public void greenLightOn(LED greenLightConstructor){
+        dgGreenLight = greenLightConstructor;
+        dgGreenLight.enable(true);
     }
 
-    public void greenLightOn(){
-        dgGreenLight.enableLight(true);
+    public void lightsOff (LED redLightConstructor, LED greenLightConstructor){
+        redLightOff(redLightConstructor);
+        greenLightOff(greenLightConstructor);
     }
 
-    public void lightsOff (){
-        redLightOff();
-        greenLightOff();
+    public void redLightOff (LED redLightConstructor){
+        dgRedLight = redLightConstructor;
+        dgRedLight.enable(false);
     }
 
-    public void redLightOff (){
-        dgRedLight.enableLight(false);
-    }
-
-    public void greenLightOff (){
-        dgGreenLight.enableLight(false);
+    public void greenLightOff (LED greenLightConstructor){
+        dgGreenLight = greenLightConstructor;
+        dgGreenLight.enable(false);
     }
 }

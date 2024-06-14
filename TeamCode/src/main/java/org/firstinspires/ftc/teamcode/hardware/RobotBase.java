@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -12,6 +13,8 @@ import org.firstinspires.ftc.teamcode.subsystems.TimerSubsystem;
 public class RobotBase extends Object {
 
     public ElapsedTime runtime = new ElapsedTime();
+    public LED dgRedLight;
+    public LED dgGreenLight;
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
@@ -27,6 +30,8 @@ public class RobotBase extends Object {
         rightBackDrive = hwMap.get(DcMotor.class, "right_back_drive");
 
         intakeSubsystem = new IntakeSubsystem(dcmIntake);
+        lightsSubsystem = new LightsSubsystem();
+        timerSubsystem = new TimerSubsystem();
 
     }
 
