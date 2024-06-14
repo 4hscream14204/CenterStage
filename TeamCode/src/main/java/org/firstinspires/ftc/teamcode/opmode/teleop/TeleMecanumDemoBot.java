@@ -31,11 +31,13 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
@@ -54,13 +56,19 @@ public class TeleMecanumDemoBot extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     public TimerSubsystem timerSubsystem;
     public LightsSubsystem lightsSubsystem;
+    public LED dgRedLight;
+    public LED dgGreenLight;
 
     @Override
     public void runOpMode() {
 
         timerSubsystem = new TimerSubsystem();
+        lightsSubsystem = new LightsSubsystem(dgRedLight, dgGreenLight);
 
         CommandScheduler.getInstance().reset();
+
+        dgRedLight = hardwareMap.get(LED.class, "red light");
+        dgGreenLight = hardwareMap.get(LED.class, "green light");
 
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
@@ -116,6 +124,16 @@ public class TeleMecanumDemoBot extends LinearOpMode {
                     .whenActive(()-> CommandScheduler.getInstance().schedule(
                             new InstantCommand(()-> lightsSubsystem.greenLightOn())
                     ));
+            new Trigger(()->(runtime.milliseconds()) < (DataStorageSubsystem.INTTIMERLENGTH * (2/3)) & (runtime.milliseconds()) > (DataStorageSubsystem.INTTIMERLENGTH * (1/3)))
+                    .whenActive(()-> CommandScheduler.getInstance().schedule(
+                            new InstantCommand(()-> lightsSubsystem.lightsOn())
+                    ));
+            new Trigger(()->(runtime.milliseconds()) < (DataStorageSubsystem.INTTIMERLENGTH * (1/3)))
+                    .whenActive(()-> CommandScheduler.getInstance().schedule(
+                            new ParallelCommandGroup(
+                                    new InstantCommand(()-> lightsSubsystem.greenLightOff()),
+                            new InstantCommand(()-> lightsSubsystem.redLightOn())
+                            )));
 
             leftFrontDrive.setPower(leftFrontPower/2);
             rightFrontDrive.setPower(rightFrontPower/2);
