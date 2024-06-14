@@ -223,7 +223,6 @@ public class RedRight extends OpMode {
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,-10), Math.toRadians(360.0))
-                .splineToConstantHeading(new Vector2d(61,-10), Math.toRadians(360.0))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);

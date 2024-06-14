@@ -21,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionLowCommandGrp;
 import org.firstinspires.ftc.teamcode.commands.GrabAndWristEscapeCommandGrp;
+import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -181,14 +182,15 @@ public class BlueMiddle extends OpMode {
                 .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
-        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-39, 63.3, Math.toRadians(270.00)))
                 /*.splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 45.00), Math.toRadians(270.00))
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 20.00), Math.toRadians(270.00))
                 .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))*/
-                 .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                 //INTAKE
+        /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
                 .waitSeconds(0.25)
                 .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(0))
                 .waitSeconds(0.25)
@@ -200,9 +202,9 @@ public class BlueMiddle extends OpMode {
                         ()->robotBase.intakeSubsystem.intake(-1)
                 )))
                 .setReversed(true)
-                .build();
+                .build();*/
 
-                /*.waitSeconds(15)
+                .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -222,7 +224,7 @@ public class BlueMiddle extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))
-                .build();*/
+                .build();
 
 
         //robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -236,7 +238,6 @@ public class BlueMiddle extends OpMode {
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(50,10), Math.toRadians(0.00))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
