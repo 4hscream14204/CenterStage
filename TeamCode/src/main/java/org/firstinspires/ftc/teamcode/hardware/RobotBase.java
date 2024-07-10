@@ -119,6 +119,10 @@ public class RobotBase extends Object{
         INNER,
         OUTER,
     }
+    public enum CrossSide {
+        INSIDE,
+        OUTSIDE,
+    }
 
     /*
     public DistanceSensor frontDistanceSensor;
@@ -199,6 +203,7 @@ public class RobotBase extends Object{
     public PropPosition propPosition;
     public SyncSlidesMode syncSlidesMode;
     public ParkSide parkSide;
+    public CrossSide crossSide;
 
     public RobotBase (HardwareMap hwMap) {
         /*
