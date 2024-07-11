@@ -187,7 +187,7 @@ public class BlueLeft extends OpMode {
                 .setReversed(false)
                 .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
                 .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0))
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition( 0))
                 ))
                 .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
