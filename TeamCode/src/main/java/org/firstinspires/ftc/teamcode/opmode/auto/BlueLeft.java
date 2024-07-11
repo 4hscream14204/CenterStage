@@ -6,6 +6,7 @@ import android.util.Size;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -90,11 +91,18 @@ public class BlueLeft extends OpMode {
                 .addTemporalMarker(9, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .waitSeconds(1)
                 .setReversed(true)
-                .lineToConstantHeading(new Vector2d(45.00, 36.70))
-                .splineToConstantHeading(new Vector2d(25, 9),  Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-90, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
-                .splineToLinearHeading(new Pose2d(15, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
-                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-108, 15), Math.toRadians(180))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
+                ))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0))
+                ))
+                .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
