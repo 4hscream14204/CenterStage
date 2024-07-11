@@ -43,9 +43,9 @@ public class BlueRightCRI extends OpMode {
     private TrajectorySequence RightSpike;
     private TrajectorySequence InnerCross;
     private TrajectorySequence OuterCross;
-    private TrajectorySequence Leftbackdropoff;
-    private TrajectorySequence Middlebackdropoff;
-    private TrajectorySequence Rightbackdropoff;
+    private TrajectorySequence LeftBackDropOff;
+    private TrajectorySequence MiddleBackDropOff;
+    private TrajectorySequence RightBackDropOff;
     private TrajectorySequence parkLocation;
     private TrajectorySequence crossing;
     private TrajectorySequence InnerPark;
@@ -58,6 +58,7 @@ public class BlueRightCRI extends OpMode {
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
+        robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
         robotBase.leftClawSubsystem.clawClose();
@@ -87,36 +88,44 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         InnerCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
-                .splineToLinearHeading(new Pose2d(-198,46, Math.toRadians(225.00)), Math.toRadians(225.00))
+                .splineToLinearHeading(new Pose2d(-204, 12, Math.toRadians(180.00)), Math.toRadians(180.00))
                 //Code for picking up needed
                 .splineToConstantHeading(new Vector2d(12.00, 12.00), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
         OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
-                .splineToLinearHeading(new Pose2d(-204, 12, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-198,46, Math.toRadians(225.00)), Math.toRadians(225.00))
                 //Code for picking up needed
                 .splineToLinearHeading(new Pose2d(-84,60, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
-        Leftbackdropoff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(180.00)))
-
+        LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(42, 42), Math.toRadians(180.00))
+                //Drop off code here
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
-        Middlebackdropoff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(180.00)))
-
+        MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(36, 42), Math.toRadians(180.00))
+                //Drop off code here
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
-        Rightbackdropoff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(36, 36, Math.toRadians(180.00)))
-
+        RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(30, 42), Math.toRadians(180.00))
+                //Drop off code here
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(45.00, 62.00))
                 .lineTo(new Vector2d(55.00, 62.00))
                 .lineTo(new Vector2d(45.00, 62.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(45.00, 12.00))
                 .lineTo(new Vector2d(55.00, 12.00))
                 .lineTo(new Vector2d(45.00, 12.00))
@@ -148,16 +157,24 @@ public class BlueRightCRI extends OpMode {
 
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
+        telemetry.addLine("Y = Park Side, X = Cross Side");
+        telemetry.addData("Cross Side", (robotBase.crossSide));
         telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.update();
     }
     public void start () {
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleBackDropOff);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightBackDropOff);
         } else {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftBackDropOff);
         }
         currentRouteState = BlueRightCRI.CurrentRouteState.TRAJECTORY_1;
     }
