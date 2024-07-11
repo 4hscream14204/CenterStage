@@ -76,11 +76,11 @@ public class BlueMiddle extends OpMode {
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
                 .build();
-        startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
+        startPose = new Pose2d(-39, 63.3, Math.toRadians(270.00));
 
         stackPose = new Pose2d(-56.66, 52.77, Math.toRadians(270));
 
-        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
 
                 //OLD COMMANDS
                 /*.waitSeconds(10)
@@ -104,7 +104,7 @@ public class BlueMiddle extends OpMode {
                 .waitSeconds(15)
                 .splineTo(new Vector2d(-27.00, 36.00), Math.toRadians(-45))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-36.50, 60.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToLinearHeading(new Pose2d(-36.0, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
@@ -150,7 +150,7 @@ public class BlueMiddle extends OpMode {
 
 
 
-        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-39, 63.3, Math.toRadians(270.00)))
+        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
 
 
     //Old Stack Pickup code
@@ -189,9 +189,9 @@ public class BlueMiddle extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))*/
-               .waitSeconds(10)
+                .waitSeconds(10)
                 .splineToLinearHeading(new Pose2d(-36.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .lineToLinearHeading(new Pose2d(-34, 43, Math.toRadians(315.00)))
+                .lineToLinearHeading(new Pose2d(-34.5, 59, Math.toRadians(315.00)))
                 .splineToSplineHeading(new Pose2d(-5.00, 38.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .splineToSplineHeading(new Pose2d(45.00, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1.5)
@@ -205,7 +205,7 @@ public class BlueMiddle extends OpMode {
                 .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
-        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-39, 63.3, Math.toRadians(270.00)))
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 /*.splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 45.00), Math.toRadians(270.00))
