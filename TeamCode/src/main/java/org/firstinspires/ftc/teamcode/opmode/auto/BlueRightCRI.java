@@ -70,7 +70,7 @@ public class BlueRightCRI extends OpMode {
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
                 .build();
-        startPose = new Pose2d(-88.00, 61.00, Math.toRadians(270.00));
+        startPose = new Pose2d(-88.00, 61.00, Math.toRadians(0.00));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineToLinearHeading(new Pose2d( -72, 30, Math.toRadians(315.00)), Math.toRadians(315.00))
