@@ -58,7 +58,7 @@ public class BlueLeft extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
-        //robotBase.startPosition = RobotBase.StartPosition.LEFT;
+        robotBase.startPosition = RobotBase.StartPosition.LEFT;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
@@ -70,26 +70,31 @@ public class BlueLeft extends OpMode {
                 .setAutoStopLiveView(true)
                 .build();
         startPose = new Pose2d(15.00, 63.00, Math.toRadians(270.00));
-        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.5,63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(3.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .lineTo(new Vector2d(16.00, 52.00))
                 .splineToLinearHeading(new Pose2d(32.95, 35.16, Math.toRadians(0.00)), Math.toRadians(270.00))
-                /*.addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .waitSeconds(1)*/
+                .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(46.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1.5)
-                /*.addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})*/
+                .addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .lineTo(new Vector2d(40, 36))
                 .waitSeconds(1)
-                /*.addTemporalMarker(8.5, () -> { robotBase.leftWristSubsystem.wristPickup();})*/
+                .addTemporalMarker(8.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.5)
-                /*.addTemporalMarker(9, () -> { robotBase.armSubsystem.armGrabbingPosition();})*/
+                .addTemporalMarker(9, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .waitSeconds(1)
+                .setReversed(true)
                 .lineToConstantHeading(new Vector2d(45.00, 36.70))
+                .splineToConstantHeading(new Vector2d(25, 9),  Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-90, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(15, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
@@ -146,7 +151,7 @@ public class BlueLeft extends OpMode {
                 .addTemporalMarker(8.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
-        /*OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(43,61), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(59,61), Math.toRadians(0.00))
@@ -159,9 +164,9 @@ public class BlueLeft extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
         parkLocation = InnerPark;
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void init_loop() {
         autoChassisController.readButtons();
         if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
@@ -173,9 +178,9 @@ public class BlueLeft extends OpMode {
                 parkLocation = InnerPark;
             }
         }
-        /*
+
         robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
-         */
+
         robotBase.propPosition = visionProcesser.getLocation();
 
         telemetry.addData("InitLoop", "true");
@@ -199,13 +204,13 @@ public class BlueLeft extends OpMode {
     }
     @Override
     public void loop () {
-        /*switch (currentRouteState) {
+        switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = BlueLeft.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
-        }*/
+        }
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
     }
