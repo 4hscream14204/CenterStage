@@ -95,17 +95,17 @@ public class BlueLeft extends OpMode {
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-90, 15), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-108, 15), Math.toRadians(180))
                 .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
                 ))
-                .splineToConstantHeading(new Vector2d(-95, 15), Math.toRadians(180))
-                .waitSeconds(3)
+                .splineToConstantHeading(new Vector2d(-108, 12), Math.toRadians(180))
                 .setReversed(false)
+                .waitSeconds(3)
                 .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
                 .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0))
                 ))
+                .waitSeconds(3)
                 .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
                 .build();
