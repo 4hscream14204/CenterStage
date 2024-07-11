@@ -82,24 +82,6 @@ public class BlueMiddle extends OpMode {
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
 
-                //OLD COMMANDS
-                /*.waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
-                .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
-                .splineToLinearHeading(new Pose2d(-20.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(35, 40.5),Math.toRadians(0.00))
-                .waitSeconds(2.5)
-                .addTemporalMarker(16.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(53, 40.5))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(43, 28))
-                .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
-                .build();*/
-
         //USING COMMANDS
                 .waitSeconds(15)
                 .splineTo(new Vector2d(-27.00, 36.00), Math.toRadians(-45))
@@ -123,110 +105,13 @@ public class BlueMiddle extends OpMode {
                 .lineTo(new Vector2d(40.00, 36.00))
                 .build();
 
-                /*.waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
-                .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
-                .splineToLinearHeading(new Pose2d(-20.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(35, 40.5),Math.toRadians(0.00))
-                .waitSeconds(2.5)
-                .addTemporalMarker(16.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(53, 40.5))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(43, 28))
-                .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
-                .build();
-
-                 */
-         /*.splineTo(new Vector2d(-27.76, 32.59), Math.toRadians(-90.00))
-                .waitSeconds(0.25)
-                .splineTo(new Vector2d(-43.14, 50.81), Math.toRadians(90.00))
-                .waitSeconds(0.25)
-                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(180.95))
-                .build();*/
-
-
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
 
-
-    //Old Stack Pickup code
-    /*.splineTo(new Vector2d(-35.96, 33.18), Math.toRadians(-90.00))
-                .waitSeconds(0.25)
-                .splineTo(new Vector2d(-37.14, 52.81), Math.toRadians(90.00))
-                .waitSeconds(0.25)
-                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(180.95))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.rightClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
-                        ()->robotBase.intakeSubsystem.intake(-1)
-                )))
-                .setReversed(true)
-                .build();*/
-
-                /*.waitSeconds(15)
-                .splineTo(new Vector2d(-36.00, 35.00), Math.toRadians(270.00))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                        robotBase.leftClawSubsystem,
-                        robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
-                        robotBase.armSubsystem,
-                        robotBase.leftWristSubsystem,
-                        robotBase.intakeSubsystem,
-                        RobotBase.SlideHeight.LOWEST)))
-                .splineToConstantHeading(new Vector2d(45.00, 33.00), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(51.00, 33.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
-                .waitSeconds(0.5)
-                .lineTo(new Vector2d(40.00, 36.00))*/
-                .waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-36.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .lineToLinearHeading(new Pose2d(-34.5, 59, Math.toRadians(315.00)))
-                .splineToSplineHeading(new Pose2d(-5.00, 38.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .splineToSplineHeading(new Pose2d(45.00, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1.5)
-                .addTemporalMarker(15, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(15.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(53,33))
-                .waitSeconds(2.5)
-                .addTemporalMarker(18.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(43, 28))
-                .addTemporalMarker(20, () -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
-        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                /*.splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                .waitSeconds(0.25)
-                .splineToConstantHeading(new Vector2d(-57.00, 45.00), Math.toRadians(270.00))
-                .waitSeconds(0.25)
-                .splineToConstantHeading(new Vector2d(-57.00, 20.00), Math.toRadians(270.00))
-                .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))*/
-                 //INTAKE
-        /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
-                .waitSeconds(0.25)
-                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(0))
-                .waitSeconds(0.25)
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.rightClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
-                        ()->robotBase.intakeSubsystem.intake(-1)
-                )))
-                .setReversed(true)
-                .build();*/
 
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
@@ -250,7 +135,7 @@ public class BlueMiddle extends OpMode {
                 .build();
 
 
-        //robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
@@ -363,3 +248,114 @@ public class BlueMiddle extends OpMode {
         DataStorageSubsystem.alliance = robotBase.alliance.BLUE;
     }
 }
+//BlueMiddleSpikeExtraCode
+//Old Stack Pickup code
+    /*.splineTo(new Vector2d(-35.96, 33.18), Math.toRadians(-90.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-37.14, 52.81), Math.toRadians(90.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(180.95))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
+                .build();*/
+
+        /*.waitSeconds(15)
+                .splineTo(new Vector2d(-36.00, 35.00), Math.toRadians(270.00))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                        robotBase.leftClawSubsystem,
+                        robotBase.armSubsystem)))
+                .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .splineToConstantHeading(new Vector2d(45.00, 33.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(51.00, 33.00), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .waitSeconds(0.5)
+                .lineTo(new Vector2d(40.00, 36.00))*/
+
+                /*.waitSeconds(10)
+                .splineToLinearHeading(new Pose2d(-36.00, 34.00, Math.toRadians(270.00)), Math.toRadians(270.00))
+                .lineToLinearHeading(new Pose2d(-34.5, 59, Math.toRadians(315.00)))
+                .splineToSplineHeading(new Pose2d(-5.00, 38.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(45.00, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(1.5)
+                .addTemporalMarker(15, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(15.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .lineTo(new Vector2d(53,33))
+                .waitSeconds(2.5)
+                .addTemporalMarker(18.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .lineTo(new Vector2d(43, 28))
+                .addTemporalMarker(20, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .build();*/
+
+//BlueMiddleRightSpikeExtraCode
+/*.splineToLinearHeading(new Pose2d(-50.00, 40.00, Math.toRadians(270.00)), Math.toRadians(270.00))
+                .waitSeconds(0.25)
+                .splineToConstantHeading(new Vector2d(-57.00, 45.00), Math.toRadians(270.00))
+                .waitSeconds(0.25)
+                .splineToConstantHeading(new Vector2d(-57.00, 20.00), Math.toRadians(270.00))
+                .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))*/
+//INTAKE
+        /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(0))
+                .waitSeconds(0.25)
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
+                .build();*/
+//BlueMiddleLeftSpikeExtraCode
+//OLD COMMANDS
+                /*.waitSeconds(10)
+                .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
+                .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
+                .splineToLinearHeading(new Pose2d(-20.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(35, 40.5),Math.toRadians(0.00))
+                .waitSeconds(2.5)
+                .addTemporalMarker(16.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .lineTo(new Vector2d(53, 40.5))
+                .waitSeconds(1)
+                .lineTo(new Vector2d(43, 28))
+                .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .build();*/
+ /*.waitSeconds(10)
+                .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
+                .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
+                .splineToLinearHeading(new Pose2d(-20.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineTo(new Vector2d(36.04, 24.19), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(35, 40.5),Math.toRadians(0.00))
+                .waitSeconds(2.5)
+                .addTemporalMarker(16.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .lineTo(new Vector2d(53, 40.5))
+                .waitSeconds(1)
+                .lineTo(new Vector2d(43, 28))
+                .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .build();
+
+                 */
