@@ -107,7 +107,19 @@ public class BlueMiddle extends OpMode {
 
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-
+                .splineTo(new Vector2d(-35.96, 33.18), Math.toRadians(-90.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-37.14, 52.81), Math.toRadians(90.00))
+                .waitSeconds(0.25)
+                .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(180.95))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.rightClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(
+                        ()->robotBase.intakeSubsystem.intake(-1)
+                )))
+                .setReversed(true)
                 .build();
 
 
