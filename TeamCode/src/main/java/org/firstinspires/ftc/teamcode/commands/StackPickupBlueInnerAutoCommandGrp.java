@@ -18,6 +18,8 @@ public class StackPickupBlueInnerAutoCommandGrp extends SequentialCommandGroup {
         BlueStack = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(cyclePose)
                 .splineToConstantHeading(new Vector2d(25, 9),  Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-90, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(15, 12, Math.toRadians(0.00)), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
                 .build();
     }
 }
