@@ -47,6 +47,11 @@ public class RobotBase extends Object{
         LEFT,
         RIGHT
     }
+    public enum StackState {
+        INNER,
+        OUTER,
+        NONE
+    }
     public enum PropPosition {
         LEFT,
         RIGHT,
@@ -125,14 +130,14 @@ public class RobotBase extends Object{
         OUTSIDE,
     }
     public enum SpikeLocation {
-        LEFT,
-        MIDDLE,
-        RIGHT,
+        LEFTSPIKE,
+        MIDDLESPIKE,
+        RIGHTSPIKE,
     }
     public enum BackDropOff {
-        LEFT,
-        MIDDLE,
-        RIGHT,
+        LEFTDROP,
+        MIDDLEDROP,
+        RIGHTDROP,
     }
 
     /*
@@ -214,6 +219,7 @@ public class RobotBase extends Object{
     public PropPosition propPosition;
     public SyncSlidesMode syncSlidesMode;
     public ParkSide parkSide;
+    public StackState stackState;
     public CrossSide crossSide;
     public SpikeLocation spikeLocation;
     public BackDropOff backDropOff;
