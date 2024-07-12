@@ -75,7 +75,7 @@ public class BlueMiddle extends OpMode {
         robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
-        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
+        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
         visionPortal = new VisionPortal.Builder()
