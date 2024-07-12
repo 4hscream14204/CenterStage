@@ -79,8 +79,10 @@ public class RedLeftCRI extends OpMode {
                 .splineToLinearHeading(new Pose2d(-89, -44.40, Math.toRadians(90.00)), Math.toRadians(145.00))
                 .splineToLinearHeading(new Pose2d(-96, -48.00, Math.toRadians(90.00)), Math.toRadians(180.00))
                 .build();
-        /*
-
+        /* code for left spike v2robot
+.splineTo(new Vector2d(-40, -39.11), Math.toRadians(135.00))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-36.00, -60.00), Math.toRadians(360))
 
          */
 // -88, -93, -89, -96
@@ -88,6 +90,12 @@ public class RedLeftCRI extends OpMode {
                 .splineToLinearHeading(new Pose2d(-84, -25, Math.toRadians(90.00)), Math.toRadians(90.00))
                 .splineToLinearHeading(new Pose2d(-96, -48, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .build();
+
+        /* code for middle spike v2robot
+        .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-36.00, -60.00), Math.toRadians(360.00))
+         */
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineToLinearHeading(new Pose2d (-88, -50, Math.toRadians(0.00)),Math.toRadians(0.00))
@@ -98,6 +106,14 @@ public class RedLeftCRI extends OpMode {
                 .splineToLinearHeading(new Pose2d(-95, 30, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .build();
+
+         */
+
+        /* code for right spike v2robot
+.splineTo(new Vector2d(-30.00, -36.00), Math.toRadians(405.00))
+                    .setReversed(true)
+                    .splineToSplineHeading(new Pose2d(-36.00, -60.00, Math.toRadians(360.00)), Math.toRadians(360.00))
+
 
          */
 
