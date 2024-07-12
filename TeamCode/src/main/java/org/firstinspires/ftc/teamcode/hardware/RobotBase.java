@@ -124,6 +124,16 @@ public class RobotBase extends Object{
         INSIDE,
         OUTSIDE,
     }
+    public enum SpikeLocation {
+        LEFT,
+        MIDDLE,
+        RIGHT,
+    }
+    public enum BackDropOff {
+        LEFT,
+        MIDDLE,
+        RIGHT,
+    }
 
     /*
     public DistanceSensor frontDistanceSensor;
@@ -205,6 +215,8 @@ public class RobotBase extends Object{
     public SyncSlidesMode syncSlidesMode;
     public ParkSide parkSide;
     public CrossSide crossSide;
+    public SpikeLocation spikeLocation;
+    public BackDropOff backDropOff;
 
     public RobotBase (HardwareMap hwMap) {
         /*

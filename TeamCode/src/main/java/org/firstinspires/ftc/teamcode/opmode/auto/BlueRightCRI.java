@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -31,8 +32,10 @@ public class BlueRightCRI extends OpMode {
 
     public RobotBase robotBase;
     enum CurrentRouteState {
-        TRAJECTORY_1,
-        PARKING
+        SPIKE,
+        CROSS,
+        DROP,
+        PARKING,
     }
     public GamepadEx autoChassisController;
     public Pose2d startPose;
@@ -46,9 +49,10 @@ public class BlueRightCRI extends OpMode {
     private TrajectorySequence LeftBackDropOff;
     private TrajectorySequence MiddleBackDropOff;
     private TrajectorySequence RightBackDropOff;
-    private TrajectorySequence SpikeLocation;
+    private TrajectorySequence spikeLocation;
     private TrajectorySequence parkLocation;
     private TrajectorySequence crossing;
+    private TrajectorySequence backDropOff;
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private CurrentRouteState currentRouteState;
@@ -156,7 +160,17 @@ public class BlueRightCRI extends OpMode {
             }
         }
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-            robotBase.
+            robotBase.spikeLocation = RobotBase.SpikeLocation.MIDDLE;
+            spikeLocation = MiddleSpike;
+            backDropOff = MiddleBackDropOff;
+        } else if(robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.RIGHT;
+            spikeLocation = RightSpike;
+            backDropOff = RightBackDropOff;
+        } else {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.LEFT;
+            spikeLocation = LeftSpike;
+            backDropOff = LeftBackDropOff;
         }
         robotBase.propPosition = visionProcesser.getLocation();
 
@@ -168,7 +182,7 @@ public class BlueRightCRI extends OpMode {
         telemetry.update();
     }
     public void start () {
-        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+        /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleBackDropOff);
@@ -180,12 +194,31 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
-        }
-        currentRouteState = BlueRightCRI.CurrentRouteState.TRAJECTORY_1;
+            } */
+        currentRouteState = CurrentRouteState.SPIKE;
     }
+
     public void loop () {
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
+
         switch (currentRouteState) {
-            case TRAJECTORY_1:
+            case SPIKE:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.CROSS;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+                }
+        }
+
+        switch (currentRouteState) {
+            case CROSS:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.DROP;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(backDropOff);
+                }
+        }
+
+        switch (currentRouteState) {
+            case DROP:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = BlueRightCRI.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
