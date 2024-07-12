@@ -72,8 +72,9 @@ public class BlueRightCRI extends OpMode {
                 .build();
         startPose = new Pose2d(-88.00, 61.00, Math.toRadians(0.00));
 
-        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineToLinearHeading(new Pose2d( -72, 30, Math.toRadians(315.00)), Math.toRadians(315.00))
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-88.00, 61.00, Math.toRadians(0.00)))
+                .splineToLinearHeading(new Pose2d (-88, 50, Math.toRadians(180.00)),Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d( -74, 30, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .build();
 
