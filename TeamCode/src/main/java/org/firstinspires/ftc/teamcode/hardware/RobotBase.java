@@ -117,6 +117,7 @@ public class RobotBase extends Object{
 
     public enum ParkSide {
         INNER,
+        MIDDLE,
         OUTER,
     }
     public enum CrossSide {
