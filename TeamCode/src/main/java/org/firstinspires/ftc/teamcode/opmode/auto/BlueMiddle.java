@@ -75,7 +75,7 @@ public class BlueMiddle extends OpMode {
         robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
-        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
+        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
         visionPortal = new VisionPortal.Builder()
@@ -85,17 +85,18 @@ public class BlueMiddle extends OpMode {
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
                 .build();
-        startPose = new Pose2d(-39, 63.3, Math.toRadians(270.00));
+        startPose = new Pose2d(-30, 63.3, Math.toRadians(270.00));
 
         stackPose = new Pose2d(-56.66, 52.77, Math.toRadians(270));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
 
         //USING COMMANDS
-                .waitSeconds(15)
+                .waitSeconds(0)//15
                 .splineTo(new Vector2d(-27.00, 36.00), Math.toRadians(-45))
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-36.0, 36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                /*
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
@@ -112,6 +113,7 @@ public class BlueMiddle extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))
+                */
                 .build();
 
 
