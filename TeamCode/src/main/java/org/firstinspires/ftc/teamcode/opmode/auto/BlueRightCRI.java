@@ -14,7 +14,9 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -159,6 +161,7 @@ public class BlueRightCRI extends OpMode {
                 crossing = InnerCross;
             }
         }
+        //Detection for spike trajectory and for backdrop drop off
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.spikeLocation = RobotBase.SpikeLocation.MIDDLE;
             spikeLocation = MiddleSpike;
@@ -196,10 +199,11 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
             } */
         currentRouteState = CurrentRouteState.SPIKE;
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
     }
 
     public void loop () {
-        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
+
 
         switch (currentRouteState) {
             case SPIKE:
@@ -207,24 +211,18 @@ public class BlueRightCRI extends OpMode {
                     currentRouteState = CurrentRouteState.CROSS;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
                 }
-        }
-
-        switch (currentRouteState) {
             case CROSS:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.DROP;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(backDropOff);
                 }
-        }
-
-        switch (currentRouteState) {
             case DROP:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = BlueRightCRI.CurrentRouteState.PARKING;
+                    currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
-
+        telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
     }
     public void stop (){
