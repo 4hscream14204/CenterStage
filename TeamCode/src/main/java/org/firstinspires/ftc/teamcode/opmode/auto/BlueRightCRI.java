@@ -23,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -67,6 +68,8 @@ public class BlueRightCRI extends OpMode {
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         robotBase.alliance = RobotBase.Alliance.BLUE;
+        robotBase.spikeLocation = RobotBase.SpikeLocation.LEFTSPIKE;
+        robotBase.backDropOff = RobotBase.BackDropOff.LEFTDROP;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
@@ -80,9 +83,10 @@ public class BlueRightCRI extends OpMode {
         startPose = new Pose2d(-88.00, 61.00, Math.toRadians(0.00));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-88.00, 61.00, Math.toRadians(0.00)))
-                .splineToLinearHeading(new Pose2d (-88,40, Math.toRadians(270.00)),Math.toRadians(270.00))
-                .splineToLinearHeading(new Pose2d( -66, 30, Math.toRadians(315.00)), Math.toRadians(315.00))
-                .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineTo(new Vector2d(-90, 51), Math.toRadians(0.00))
+                //.splineTo(new Vector2d(-81, 35.00), Math.toRadians(315.00))
+                //.splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
+                //.splineTo(new Vector2d(-90, 51),Math.toRadians(0.00))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
@@ -161,21 +165,23 @@ public class BlueRightCRI extends OpMode {
                 crossing = InnerCross;
             }
         }
+
         //Detection for spike trajectory and for backdrop drop off
-        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
-            robotBase.spikeLocation = RobotBase.SpikeLocation.MIDDLE;
+        // robotBase.propPosition = visionProcesser.getLocation();
+     /*   if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.MIDDLESPIKE;
             spikeLocation = MiddleSpike;
             backDropOff = MiddleBackDropOff;
         } else if(robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
-            robotBase.spikeLocation = RobotBase.SpikeLocation.RIGHT;
+            robotBase.spikeLocation = RobotBase.SpikeLocation.RIGHTSPIKE;
             spikeLocation = RightSpike;
             backDropOff = RightBackDropOff;
         } else {
-            robotBase.spikeLocation = RobotBase.SpikeLocation.LEFT;
+            robotBase.spikeLocation = RobotBase.SpikeLocation.LEFTSPIKE;
             spikeLocation = LeftSpike;
             backDropOff = LeftBackDropOff;
-        }
-        robotBase.propPosition = visionProcesser.getLocation();
+        } */
+
 
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
@@ -199,13 +205,13 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
             } */
         currentRouteState = CurrentRouteState.SPIKE;
-        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
     }
 
     public void loop () {
 
 
-        switch (currentRouteState) {
+      /*  switch (currentRouteState) {
             case SPIKE:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.CROSS;
@@ -221,7 +227,7 @@ public class BlueRightCRI extends OpMode {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
-        }
+        } */
         telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
     }

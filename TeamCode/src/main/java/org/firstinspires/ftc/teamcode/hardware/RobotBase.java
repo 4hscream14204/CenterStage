@@ -125,14 +125,14 @@ public class RobotBase extends Object{
         OUTSIDE,
     }
     public enum SpikeLocation {
-        LEFT,
-        MIDDLE,
-        RIGHT,
+        LEFTSPIKE,
+        MIDDLESPIKE,
+        RIGHTSPIKE,
     }
     public enum BackDropOff {
-        LEFT,
-        MIDDLE,
-        RIGHT,
+        LEFTDROP,
+        MIDDLEDROP,
+        RIGHTDROP,
     }
 
     /*
