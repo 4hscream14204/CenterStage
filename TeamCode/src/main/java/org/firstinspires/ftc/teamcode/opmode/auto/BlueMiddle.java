@@ -35,7 +35,9 @@ public class BlueMiddle extends OpMode {
     private enum CurrentRouteState {
         TRAJECTORY_1,
         PARKING,
-        STACK
+        STACK,
+        SPIKE,
+        CROSS
     }
 
 
@@ -47,6 +49,9 @@ public class BlueMiddle extends OpMode {
     private TrajectorySequence OuterPark;
     private TrajectorySequence StackPickup;
     private TrajectorySequence parkLocation;
+    private TrajectorySequence InnerCross;
+    private TrajectorySequence OuterCross;
+    private TrajectorySequence cross;
 
     public Pose2d startPose;
 
@@ -64,6 +69,7 @@ public class BlueMiddle extends OpMode {
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
+        robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.RIGHT;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
@@ -127,7 +133,8 @@ public class BlueMiddle extends OpMode {
                 .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(-34, 48), Math.toRadians(220))
+                /*.splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
@@ -143,7 +150,7 @@ public class BlueMiddle extends OpMode {
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(40.00, 36.00))
+                .lineTo(new Vector2d(40.00, 36.00))*/
                 .build();
 
 
@@ -155,9 +162,27 @@ public class BlueMiddle extends OpMode {
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-35.52, 48.27, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(28.64, 53.98), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(38.16, 34.94), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
+                .build();
+
+
+        InnerCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(0)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
+                .splineToLinearHeading(new Pose2d(-24, 58), Math.toRadians(0))
+                //Code for picking up needed
+                .splineToConstantHeading(new Vector2d(24.00, 18.00), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(0))
+                .build();
+
+        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-34.35, 48.71, Math.toRadians(-90)))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(-32.87, 12), Math.toRadians(-90))
+                //Code for picking up needed
+                .splineToLinearHeading(new Pose2d(25.56, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -206,11 +231,22 @@ public class BlueMiddle extends OpMode {
                 parkLocation = InnerPark;
             }
         }
+
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.X))) {
+            if (robotBase.crossSide == RobotBase.CrossSide.INSIDE) {
+                robotBase.crossSide = RobotBase.CrossSide.OUTSIDE;
+                cross = OuterCross;
+            } else {
+                robotBase.crossSide = RobotBase.CrossSide.INSIDE;
+                cross = InnerCross;
+            }
+        }
         //robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
         robotBase.propPosition = visionProcesser.getLocation();
         telemetry.addData("InitLoop","true");
         telemetry.addData("Detection",(robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("Cross Side", (robotBase.crossSide));
         telemetry.update();
     }
     @Override
@@ -237,20 +273,28 @@ public class BlueMiddle extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.CROSS;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(cross);
+                }
+            case CROSS:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.STACK;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
+                }
+            case STACK:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
 
-        /*switch (currentRouteState) {
-            case TRAJECTORY_1:
-                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = CurrentRouteState.STACK;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
-                }
-        }*/
+
+
+
+
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
+        telemetry.addData("Current Trajectory", currentRouteState);
     }
     @Override
     public void stop () {

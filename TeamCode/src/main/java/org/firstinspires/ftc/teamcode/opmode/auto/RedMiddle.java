@@ -37,10 +37,16 @@ public class RedMiddle extends OpMode {
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private TrajectorySequence parkLocation;
+    private TrajectorySequence StackPickup;
+    private TrajectorySequence cross;
+    private TrajectorySequence InnerCross;
+    private TrajectorySequence OuterCross;
 
     private enum CurrentRouteState {
         TRAJECTORY_1,
-        PARKING
+        PARKING,
+        CROSS,
+        STACK
     }
 
     public GamepadEx autoChassisController;
@@ -204,6 +210,15 @@ public class RedMiddle extends OpMode {
                 parkLocation = InnerPark;
             }
         }
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.X))) {
+            if (robotBase.crossSide == RobotBase.CrossSide.INSIDE) {
+                robotBase.crossSide = RobotBase.CrossSide.OUTSIDE;
+                cross = OuterCross;
+            } else {
+                robotBase.crossSide = RobotBase.CrossSide.INSIDE;
+                cross = InnerCross;
+            }
+        }
        // robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
         robotBase.propPosition = visionProcesser.getLocation();
         telemetry.addData("InitLoop","true");
@@ -230,8 +245,18 @@ public class RedMiddle extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = RedMiddle.CurrentRouteState.CROSS;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(cross);
+                }
+            case CROSS:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = RedMiddle.CurrentRouteState.STACK;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
+                }
+            case STACK:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = RedMiddle.CurrentRouteState.PARKING;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(InnerPark);
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
