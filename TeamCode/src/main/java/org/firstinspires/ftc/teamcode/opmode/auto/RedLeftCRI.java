@@ -26,8 +26,10 @@ public class RedLeftCRI extends OpMode {
 
     public RobotBase robotBase;
     enum CurrentRouteState {
-        TRAJECTORY_1,
-        PARKING
+        SPIKE,
+        CROSS,
+        DROP,
+        PARKING,
     }
     public GamepadEx autoChassisController;
     public Pose2d startPose;
@@ -41,8 +43,12 @@ public class RedLeftCRI extends OpMode {
     private TrajectorySequence LeftBackDropOff;
     private TrajectorySequence MiddleBackDropOff;
     private TrajectorySequence RightBackDropOff;
+
+    private TrajectorySequence spikeLocation;
     private TrajectorySequence parkLocation;
     private TrajectorySequence crossing;
+
+    private TrajectorySequence backDropOff;
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private CurrentRouteState currentRouteState;
@@ -184,16 +190,28 @@ public class RedLeftCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
             robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftBackDropOff);
         }
-        currentRouteState = RedLeftCRI.CurrentRouteState.TRAJECTORY_1;
+        currentRouteState = RedLeftCRI.CurrentRouteState.SPIKE;
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
     }
     public void loop () {
         switch (currentRouteState) {
-            case TRAJECTORY_1:
+            case SPIKE:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = RedLeftCRI.CurrentRouteState.CROSS;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+                }
+            case CROSS:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = RedLeftCRI.CurrentRouteState.DROP;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(backDropOff);
+                }
+            case DROP:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = RedLeftCRI.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
+        telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
     }
     public void stop (){
