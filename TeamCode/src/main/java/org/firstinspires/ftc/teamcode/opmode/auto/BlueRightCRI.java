@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -31,8 +32,10 @@ public class BlueRightCRI extends OpMode {
 
     public RobotBase robotBase;
     enum CurrentRouteState {
-        TRAJECTORY_1,
-        PARKING
+        SPIKE,
+        CROSS,
+        DROP,
+        PARKING,
     }
     public GamepadEx autoChassisController;
     public Pose2d startPose;
@@ -46,8 +49,10 @@ public class BlueRightCRI extends OpMode {
     private TrajectorySequence LeftBackDropOff;
     private TrajectorySequence MiddleBackDropOff;
     private TrajectorySequence RightBackDropOff;
+    private TrajectorySequence spikeLocation;
     private TrajectorySequence parkLocation;
     private TrajectorySequence crossing;
+    private TrajectorySequence backDropOff;
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private CurrentRouteState currentRouteState;
@@ -72,8 +77,8 @@ public class BlueRightCRI extends OpMode {
                 .build();
         startPose = new Pose2d(-88.00, 61.00, Math.toRadians(0.00));
 
-        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-88.00, 61.00, Math.toRadians(0.00)))
-                .splineToLinearHeading(new Pose2d (-88, 50, Math.toRadians(180.00)),Math.toRadians(180.00))
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-88.00, 61.00, Math.toRadians(270.00)))
+                .splineToLinearHeading(new Pose2d (-88,40, Math.toRadians(270.00)),Math.toRadians(270.00))
                 .splineToLinearHeading(new Pose2d( -74, 30, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .build();
@@ -154,6 +159,19 @@ public class BlueRightCRI extends OpMode {
                 crossing = InnerCross;
             }
         }
+        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.MIDDLE;
+            spikeLocation = MiddleSpike;
+            backDropOff = MiddleBackDropOff;
+        } else if(robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.RIGHT;
+            spikeLocation = RightSpike;
+            backDropOff = RightBackDropOff;
+        } else {
+            robotBase.spikeLocation = RobotBase.SpikeLocation.LEFT;
+            spikeLocation = LeftSpike;
+            backDropOff = LeftBackDropOff;
+        }
         robotBase.propPosition = visionProcesser.getLocation();
 
         telemetry.addData("InitLoop", "true");
@@ -164,29 +182,49 @@ public class BlueRightCRI extends OpMode {
         telemetry.update();
     }
     public void start () {
-        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+        /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(MiddleBackDropOff);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleBackDropOff);
         } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(RightBackDropOff);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightBackDropOff);
         } else {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(crossing);
-            robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftBackDropOff);
-        }
-        currentRouteState = BlueRightCRI.CurrentRouteState.TRAJECTORY_1;
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
+            } */
+        currentRouteState = CurrentRouteState.SPIKE;
     }
+
     public void loop () {
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
+
         switch (currentRouteState) {
-            case TRAJECTORY_1:
+            case SPIKE:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.CROSS;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+                }
+        }
+
+        switch (currentRouteState) {
+            case CROSS:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.DROP;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(backDropOff);
+                }
+        }
+
+        switch (currentRouteState) {
+            case DROP:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = BlueRightCRI.CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
+
         robotBase.mecanumDriveSubsystem.update();
     }
     public void stop (){

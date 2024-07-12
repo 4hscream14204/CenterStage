@@ -46,12 +46,15 @@ public class BlueMiddle extends OpMode {
     public TrajectorySequence RightSpike;
 
     private TrajectorySequence InnerPark;
+    private TrajectorySequence MiddlePark;
     private TrajectorySequence OuterPark;
     private TrajectorySequence StackPickup;
     private TrajectorySequence parkLocation;
     private TrajectorySequence InnerCross;
     private TrajectorySequence OuterCross;
     private TrajectorySequence cross;
+    private TrajectorySequence InnerStackPickup;
+    private TrajectorySequence OuterStackPickup;
 
     public Pose2d startPose;
 
@@ -162,6 +165,11 @@ public class BlueMiddle extends OpMode {
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
                 .build();
 
+        MiddlePark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(50, 36), Math.toRadians(0))
+                .build();
+
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-35.52, 48.27, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(28.64, 53.98), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(38.16, 34.94), Math.toRadians(0))
@@ -183,6 +191,43 @@ public class BlueMiddle extends OpMode {
                 //Code for picking up needed
                 .splineToLinearHeading(new Pose2d(25.56, 12), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
+                .build();
+
+        InnerStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-90, 15), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-108, 15), Math.toRadians(180))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
+                ))
+                .waitSeconds(1)
+                .splineToConstantHeading(new Vector2d(-95, 15), Math.toRadians(180))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition( 0))
+                ))
+                .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
+                .build();
+
+        OuterStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(25, 63),  Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-98, 63), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-108, 50, Math.toRadians(45)), Math.toRadians(180))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
+                ))
+                .setReversed(false)
+                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-98, 63), Math.toRadians(0.00))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition( 0))
+                ))
+                .splineToConstantHeading(new Vector2d(25, 61), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -226,6 +271,9 @@ public class BlueMiddle extends OpMode {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
                 robotBase.parkSide = RobotBase.ParkSide.OUTER;
                 parkLocation = OuterPark;
+            } else if (robotBase.parkSide == RobotBase.ParkSide.OUTER) {
+                robotBase.parkSide = RobotBase.ParkSide.MIDDLE;
+                parkLocation = MiddlePark;
             } else {
                 robotBase.parkSide = RobotBase.ParkSide.INNER;
                 parkLocation = InnerPark;

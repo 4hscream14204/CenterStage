@@ -33,7 +33,7 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence LeftSpike;
 
     private TrajectorySequence OuterPark;
-
+    private TrajectorySequence MiddlePark;
     private TrajectorySequence InnerPark;
     private TrajectorySequence InnerStackPickup;
     private TrajectorySequence OuterStackPickup;
@@ -85,7 +85,7 @@ public class BlueLeft extends OpMode {
                         RobotBase.SlideHeight.LOWEST)))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(46.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .addTemporalMarker(7, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .lineTo(new Vector2d(40, 36))
                 .waitSeconds(1)
@@ -93,22 +93,6 @@ public class BlueLeft extends OpMode {
                 .waitSeconds(0.5)
                 .addTemporalMarker(9, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .waitSeconds(1)
-                .setReversed(true)
-                .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-90, 15), Math.toRadians(180))
-                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
-                ))
-                .splineToConstantHeading(new Vector2d(-108, 12), Math.toRadians(180))
-                .setReversed(false)
-                .waitSeconds(3)
-                .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
-                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
-                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0))
-                ))
-                .waitSeconds(3)
-                .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
@@ -171,9 +155,13 @@ public class BlueLeft extends OpMode {
                 .splineToConstantHeading(new Vector2d(59,61), Math.toRadians(0.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        MiddlePark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(43,10), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(50, 36), Math.toRadians(0))
+                .build();
+
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(43,10), Math.toRadians(0))
                 .build();
 
         InnerStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
@@ -184,7 +172,7 @@ public class BlueLeft extends OpMode {
                 .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
                 ))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .splineToConstantHeading(new Vector2d(-95, 15), Math.toRadians(180))
                 .setReversed(false)
                 .splineToConstantHeading(new Vector2d(-98, 15), Math.toRadians(0.00))
@@ -204,7 +192,7 @@ public class BlueLeft extends OpMode {
                         new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
                 ))
                 .setReversed(false)
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(-98, 63), Math.toRadians(0.00))
                 .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
                         new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition( 0))
@@ -224,6 +212,9 @@ public class BlueLeft extends OpMode {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
                 robotBase.parkSide = RobotBase.ParkSide.OUTER;
                 parkLocation = OuterPark;
+            } else if (robotBase.parkSide == RobotBase.ParkSide.OUTER) {
+                robotBase.parkSide = RobotBase.ParkSide.MIDDLE;
+                parkLocation = MiddlePark;
             } else {
                 robotBase.parkSide = RobotBase.ParkSide.INNER;
                 parkLocation = InnerPark;
