@@ -33,7 +33,7 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence LeftSpike;
 
     private TrajectorySequence OuterPark;
-
+    private TrajectorySequence MiddlePark;
     private TrajectorySequence InnerPark;
     private TrajectorySequence InnerStackPickup;
     private TrajectorySequence OuterStackPickup;
@@ -171,6 +171,11 @@ public class BlueLeft extends OpMode {
                 .splineToConstantHeading(new Vector2d(59,61), Math.toRadians(0.00))
                 .build();
 
+        MiddlePark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(50, 36), Math.toRadians(0))
+                .build();
+
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(43,10), Math.toRadians(0.00))
@@ -224,6 +229,9 @@ public class BlueLeft extends OpMode {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
                 robotBase.parkSide = RobotBase.ParkSide.OUTER;
                 parkLocation = OuterPark;
+            } else if (robotBase.parkSide == RobotBase.ParkSide.OUTER) {
+                robotBase.parkSide = RobotBase.ParkSide.MIDDLE;
+                parkLocation = MiddlePark;
             } else {
                 robotBase.parkSide = RobotBase.ParkSide.INNER;
                 parkLocation = InnerPark;
