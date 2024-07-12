@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import android.provider.ContactsContract;
 import android.util.Size;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -36,7 +35,9 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence OuterPark;
 
     private TrajectorySequence InnerPark;
-    private TrajectorySequence StackPickup;
+    private TrajectorySequence InnerStackPickup;
+    private TrajectorySequence OuterStackPickup;
+
 
     private TrajectorySequence parkLocation;
 
@@ -175,7 +176,8 @@ public class BlueLeft extends OpMode {
                 .splineToConstantHeading(new Vector2d(43,10), Math.toRadians(0.00))
                 .build();
 
-        StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        InnerStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
                 .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-90, 15), Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-108, 15), Math.toRadians(180))
@@ -191,6 +193,24 @@ public class BlueLeft extends OpMode {
                 ))
                 .splineToConstantHeading(new Vector2d(25, 15), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(90))
+                .build();
+
+        OuterStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(25, 63),  Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-98, 63), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-108, 50, Math.toRadians(45)), Math.toRadians(180))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(0.8))
+                ))
+                .setReversed(false)
+                .waitSeconds(3)
+                .splineToLinearHeading(new Pose2d(-98, 63), Math.toRadians(0.00))
+                .addDisplacementMarker(()->CommandScheduler.getInstance().schedule(
+                        new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition( 0))
+                ))
+                .splineToConstantHeading(new Vector2d(25, 61), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -239,7 +259,7 @@ public class BlueLeft extends OpMode {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.STACK;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(OuterStackPickup);
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
