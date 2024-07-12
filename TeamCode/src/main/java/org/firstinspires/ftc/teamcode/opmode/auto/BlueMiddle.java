@@ -133,7 +133,7 @@ public class BlueMiddle extends OpMode {
                 .waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(-34, 48), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-34, 48), Math.toRadians(220))
                 /*.splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
@@ -163,7 +163,7 @@ public class BlueMiddle extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-35.52, 48.27, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(28.64, 52.98), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(28.64, 53.98), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(38.16, 34.94), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
                 .build();
@@ -177,12 +177,12 @@ public class BlueMiddle extends OpMode {
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(0))
                 .build();
 
-        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-34.35, 48.71, Math.toRadians(250.00)))
+        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-34.35, 48.71, Math.toRadians(-90)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(-20.87, 14.58), Math.toRadians(-4.16))
+                .splineToLinearHeading(new Pose2d(-32.87, 12), Math.toRadians(-90))
                 //Code for picking up needed
-                .splineToConstantHeading(new Vector2d(25.56, 18.97), Math.toRadians(50.00))
-                .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(2.29))
+                .splineToLinearHeading(new Pose2d(25.56, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -284,7 +284,7 @@ public class BlueMiddle extends OpMode {
             case STACK:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.PARKING;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(InnerPark);
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
 
@@ -294,6 +294,7 @@ public class BlueMiddle extends OpMode {
 
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
+        telemetry.addData("Current Trajectory", currentRouteState);
     }
     @Override
     public void stop () {
