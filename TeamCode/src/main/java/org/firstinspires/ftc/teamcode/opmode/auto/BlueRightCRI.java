@@ -66,7 +66,9 @@ public class BlueRightCRI extends OpMode {
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
+        parkLocation = InnerPark;
         robotBase.crossSide = RobotBase.CrossSide.INSIDE;
+        crossing = InnerCross;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.spikeLocation = RobotBase.SpikeLocation.LEFTSPIKE;
         robotBase.backDropOff = RobotBase.BackDropOff.LEFTDROP;
@@ -99,14 +101,14 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         InnerCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
-                .splineToLinearHeading(new Pose2d(-204, 12, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-98, 12, Math.toRadians(180.00)), Math.toRadians(180.00))
                 //Code for picking up needed
                 .splineToConstantHeading(new Vector2d(12.00, 12.00), Math.toRadians(180.00))
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
         OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
-                .splineToLinearHeading(new Pose2d(-198,46, Math.toRadians(225.00)), Math.toRadians(225.00))
+                .splineToLinearHeading(new Pose2d(-98,60, Math.toRadians(225.00)), Math.toRadians(225.00))
                 //Code for picking up needed
                 .splineToLinearHeading(new Pose2d(-84,60, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
@@ -186,7 +188,7 @@ public class BlueRightCRI extends OpMode {
         telemetry.update();
     }
     public void start () {
-         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+        /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleBackDropOff);
@@ -198,7 +200,7 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
-            }
+            } */
         currentRouteState = CurrentRouteState.SPIKE;
         robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
     }
