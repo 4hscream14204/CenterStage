@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Blue Right CRI")
+@Autonomous(name = "Red Left CRI")
 public class RedLeftCRI extends OpMode {
 
     public RobotBase robotBase;
