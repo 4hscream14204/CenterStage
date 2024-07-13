@@ -87,6 +87,7 @@ public class BlueRightCRI extends OpMode {
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineTo(new Vector2d(-81, 28.00), Math.toRadians(315.00))
+                .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
                 .build();
 
@@ -202,13 +203,14 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
             } */
         currentRouteState = CurrentRouteState.SPIKE;
-        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
+        robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
+        robotBase.mecanumDriveSubsystem.followTrajectorySequence(InnerCross);
     }
 
     public void loop () {
 
 
-        switch (currentRouteState) {
+      /*  switch (currentRouteState) {
             case SPIKE:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.CROSS;
@@ -224,7 +226,7 @@ public class BlueRightCRI extends OpMode {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
-        }
+        } */
         telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
     }
