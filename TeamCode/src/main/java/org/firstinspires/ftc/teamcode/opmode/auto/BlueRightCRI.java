@@ -88,25 +88,28 @@ public class BlueRightCRI extends OpMode {
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineTo(new Vector2d(-81, 28.00), Math.toRadians(315.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(-88, 34.50), Math.toRadians(270.00))
-                .splineToLinearHeading(new Pose2d(-96, 48, Math.toRadians(180.00)), Math.toRadians(180.00))
+                .splineTo(new Vector2d(-98, 34.50), Math.toRadians(270.00))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineToLinearHeading(new Pose2d(-93.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
-                .splineToConstantHeading(new Vector2d(-96, 48), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-91.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
                 .build();
 
-        InnerCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
+        //Temporarily not using Innercross
+     /*   InnerCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
                 .splineToLinearHeading(new Pose2d(-98, 12, Math.toRadians(180.00)), Math.toRadians(180.00))
                 //Code for picking up needed
                 .splineToConstantHeading(new Vector2d(12.00, 12.00), Math.toRadians(180.00))
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
-                .build();
+                .build(); */
 
         OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
                 .splineToLinearHeading(new Pose2d(-98,60, Math.toRadians(225.00)), Math.toRadians(225.00))
@@ -115,22 +118,22 @@ public class BlueRightCRI extends OpMode {
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build();
 
-        LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(42, 42), Math.toRadians(180.00))
-                //Drop off code here
-                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
+        LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(48, 42), Math.toRadians(180.00))
+                .waitSeconds(3)
+                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
-        MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(36, 42), Math.toRadians(180.00))
-                //Drop off code here
-                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
+        MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(48, 36), Math.toRadians(180.00))
+                .waitSeconds(3)
+                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
-        RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(30, 42), Math.toRadians(180.00))
-                //Drop off code here
-                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
+        RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+                .splineToConstantHeading(new Vector2d(48, 30), Math.toRadians(180.00))
+                .waitSeconds(3)
+                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
@@ -154,7 +157,7 @@ public class BlueRightCRI extends OpMode {
             }
         }
         //Button press to change crosside
-        if(autoChassisController.wasJustPressed((GamepadKeys.Button.X))) {
+       /* if(autoChassisController.wasJustPressed((GamepadKeys.Button.X))) {
             if (robotBase.crossSide == RobotBase.CrossSide.INSIDE) {
                 robotBase.crossSide = RobotBase.CrossSide.OUTSIDE;
                 crossing = OuterCross;
@@ -162,7 +165,7 @@ public class BlueRightCRI extends OpMode {
                 robotBase.crossSide = RobotBase.CrossSide.INSIDE;
                 crossing = InnerCross;
             }
-        }
+        } */
 
         //Detection for spike trajectory and for backdrop drop off
         robotBase.propPosition = visionProcesser.getLocation();
