@@ -73,9 +73,32 @@ public class RedMiddle extends OpMode {
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
                 .build();
-            startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
-        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
+            startPose = new Pose2d(-30, -63.3, Math.toRadians(90.00));
+
+
+            LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .waitSeconds(15)
+                .splineTo(new Vector2d(-40, -39.11), Math.toRadians(135.00))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-30.00, -60.00), Math.toRadians(360))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                        robotBase.leftClawSubsystem,
+                        robotBase.armSubsystem)))
+                .splineToConstantHeading(new Vector2d(12.00, -60.00), Math.toRadians(360))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .splineToConstantHeading(new Vector2d(45.00, -30.00), Math.toRadians(360.00))
+                .splineToConstantHeading(new Vector2d(51.00, -30.00), Math.toRadians(360.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .waitSeconds(0.5)
+                .lineTo(new Vector2d(45.00, -36.00))
+
+                /*.waitSeconds(15)
                 .splineTo(new Vector2d(-40, -39.11), Math.toRadians(135.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, -60.00), Math.toRadians(360))
@@ -94,11 +117,32 @@ public class RedMiddle extends OpMode {
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(45.00, -36.00))
+                .lineTo(new Vector2d(45.00, -36.00))*/
                 .build();
 
-        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
+        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .waitSeconds(15)
+                .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-30.00, -60.00), Math.toRadians(360.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                        robotBase.leftClawSubsystem,
+                        robotBase.armSubsystem)))
+                .splineToConstantHeading(new Vector2d(12.00, -60.00), Math.toRadians(360.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .splineToConstantHeading(new Vector2d(45.00, -40.00), Math.toRadians(360.00))
+                .splineToConstantHeading(new Vector2d(52.00, -40.00), Math.toRadians(360.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .waitSeconds(0.5)
+                .lineTo(new Vector2d(45.00, -36.00))
+
+                /*.waitSeconds(15)
                 .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, -60.00), Math.toRadians(360.00))
@@ -117,7 +161,7 @@ public class RedMiddle extends OpMode {
                         robotBase.leftClawSubsystem)))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(45.00, -36.00))
+                .lineTo(new Vector2d(45.00, -36.00))*/
                     .build();
 
                     /*.waitSeconds(7)
@@ -138,8 +182,29 @@ public class RedMiddle extends OpMode {
 
 
 
-            RightSpike  = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-38.35, -63.30, Math.toRadians(90.00)))
+            RightSpike  = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                     .waitSeconds(15)
+                    .splineTo(new Vector2d(-30.00, -36.00), Math.toRadians(405.00))
+                    .setReversed(true)
+                    .splineToSplineHeading(new Pose2d(-30.00, -60.00, Math.toRadians(360.00)), Math.toRadians(360.00))
+                    .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                            robotBase.leftClawSubsystem,
+                            robotBase.armSubsystem)))
+                    .splineToConstantHeading(new Vector2d(12.00, -60.00), Math.toRadians(360.00))
+                    .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                            robotBase.armSubsystem,
+                            robotBase.leftWristSubsystem,
+                            robotBase.intakeSubsystem,
+                            RobotBase.SlideHeight.LOWEST)))
+                    .splineToConstantHeading(new Vector2d(45.00, -45.00), Math.toRadians(360.00))
+                    .splineTo(new Vector2d(53.00, -45.00), Math.toRadians(360.00))
+                    .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                            robotBase.leftClawSubsystem)))
+                    .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                    .waitSeconds(0.5)
+                    .lineTo(new Vector2d(45.00, -36.00))
+
+                    /*.waitSeconds(15)
                     .splineTo(new Vector2d(-30.00, -36.00), Math.toRadians(405.00))
                     .setReversed(true)
                     .splineToSplineHeading(new Pose2d(-36.00, -60.00, Math.toRadians(360.00)), Math.toRadians(360.00))
@@ -158,7 +223,7 @@ public class RedMiddle extends OpMode {
                             robotBase.leftClawSubsystem)))
                     .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                     .waitSeconds(0.5)
-                    .lineTo(new Vector2d(45.00, -36.00))
+                    .lineTo(new Vector2d(45.00, -36.00))*/
                     /*.waitSeconds(7)
                     .splineToLinearHeading(new Pose2d(-30.00, -37.00, Math.toRadians(45.00)), Math.toRadians(45))
                     .splineToLinearHeading(new Pose2d(-40.00, -50.00, Math.toRadians(90.00)), Math.toRadians(90))
@@ -184,8 +249,8 @@ public class RedMiddle extends OpMode {
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(360)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(45,-61), Math.toRadians(360.0))
-                .splineToConstantHeading(new Vector2d(59,-61), Math.toRadians(360.0))
+                .splineToConstantHeading(new Vector2d(45,-58), Math.toRadians(360.0))
+                .splineToConstantHeading(new Vector2d(59,-58), Math.toRadians(360.0))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(360)))
