@@ -86,7 +86,7 @@ public class BlueRightCRI extends OpMode {
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(-81, 28.00), Math.toRadians(315.00))
+                .splineTo(new Vector2d(-81, 32.00), Math.toRadians(315.00))
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
                 .build();
@@ -111,11 +111,11 @@ public class BlueRightCRI extends OpMode {
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build(); */
 
-        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-96, 48, Math.toRadians(180.00)))
-                .splineToLinearHeading(new Pose2d(-98,60, Math.toRadians(225.00)), Math.toRadians(225.00))
-                //Code for picking up needed
-                .splineToLinearHeading(new Pose2d(-84,60, Math.toRadians(180.00)), Math.toRadians(180.00))
-                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
+        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-98, 48, Math.toRadians(225.00)))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(-80,60, Math.toRadians(180.00)), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(20,60), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(270.00))
                 .build();
 
         LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
@@ -186,8 +186,8 @@ public class BlueRightCRI extends OpMode {
 
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
-        telemetry.addLine("Y = Park Side, X = Cross Side");
-        telemetry.addData("Cross Side", (robotBase.crossSide));
+        telemetry.addLine("Y = Park Side");
+        //telemetry.addData("Cross Side", (robotBase.crossSide));
         telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.update();
     }
@@ -206,14 +206,13 @@ public class BlueRightCRI extends OpMode {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftBackDropOff);
             } */
         currentRouteState = CurrentRouteState.SPIKE;
-        robotBase.mecanumDriveSubsystem.followTrajectorySequence(LeftSpike);
-        robotBase.mecanumDriveSubsystem.followTrajectorySequence(InnerCross);
+        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(spikeLocation);
     }
 
     public void loop () {
 
 
-      /*  switch (currentRouteState) {
+        switch (currentRouteState) {
             case SPIKE:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.CROSS;
@@ -229,7 +228,7 @@ public class BlueRightCRI extends OpMode {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
-        } */
+        }
         telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
     }
