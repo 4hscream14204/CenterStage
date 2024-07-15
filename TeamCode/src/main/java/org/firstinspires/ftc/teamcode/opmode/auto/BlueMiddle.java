@@ -195,7 +195,7 @@ public class BlueMiddle extends OpMode {
                 .splineToConstantHeading(new Vector2d(49.15, 35.38), Math.toRadians(0))
                 .build();
 
-        InnerStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        /*InnerStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(25, 15),  Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-90, 15), Math.toRadians(180))
@@ -230,7 +230,7 @@ public class BlueMiddle extends OpMode {
                 ))
                 .splineToConstantHeading(new Vector2d(25, 61), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(45, 36),  Math.toRadians(270))
-                .build();
+                .build();*/
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
@@ -326,12 +326,12 @@ public class BlueMiddle extends OpMode {
                     currentRouteState = CurrentRouteState.CROSS;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(cross);
                 }
-            case CROSS:
+            /*case CROSS:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.STACK;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
-                }
-            case STACK:
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(InnerStackPickup);
+                } */
+            case CROSS:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.PARKING;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
