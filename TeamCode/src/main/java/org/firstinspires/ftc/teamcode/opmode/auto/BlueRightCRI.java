@@ -66,7 +66,6 @@ public class BlueRightCRI extends OpMode {
         autoChassisController = new GamepadEx(gamepad1);
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
-        parkLocation = InnerPark;
         //robotBase.crossSide = RobotBase.CrossSide.INSIDE;
         //crossing = InnerCross;
         robotBase.alliance = RobotBase.Alliance.BLUE;
@@ -92,9 +91,9 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(-98, 34.50), Math.toRadians(270.00))
+                .splineToLinearHeading(new Pose2d(-86.00, 33.00, Math.toRadians(270.00)), Math.toRadians(270.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(45.00)), Math.toRadians(180.00))
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
@@ -135,13 +134,15 @@ public class BlueRightCRI extends OpMode {
                 .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(50.00, 14.00), Math.toRadians(0.00))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0.00)))
+                .splineToConstantHeading(new Vector2d(50.00, 10.00), Math.toRadians(0.00))
                 .build();
+
+        parkLocation = InnerPark;
     }
     public void init_loop() {
         autoChassisController.readButtons();
