@@ -63,7 +63,7 @@ public class RedMiddle extends OpMode {
             robotBase.parkSide = RobotBase.ParkSide.INNER;
             robotBase.alliance = RobotBase.Alliance.RED;
             //robotBase.startPosition = RobotBase.StartPosition.LEFT;
-        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
+        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.RIGHT);
             robotBase.leftClawSubsystem.clawClose();
             robotBase.leftWristSubsystem.wristEscape();
         visionPortal = new VisionPortal.Builder()
@@ -308,20 +308,16 @@ public class RedMiddle extends OpMode {
     @Override
     public void loop(){
         switch (currentRouteState) {
-            case TRAJECTORY_1:
+            /*case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = RedMiddle.CurrentRouteState.CROSS;
                     robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(cross);
-                }
-            case CROSS:
+                }*/
+            case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = RedMiddle.CurrentRouteState.STACK;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
-                }
-            case STACK:
-                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = RedMiddle.CurrentRouteState.PARKING;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(InnerPark);
+                    currentRouteState = CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
