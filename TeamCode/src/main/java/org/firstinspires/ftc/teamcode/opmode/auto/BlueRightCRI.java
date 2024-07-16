@@ -86,9 +86,9 @@ public class BlueRightCRI extends OpMode {
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(-81, 32.00), Math.toRadians(315.00))
+                .splineTo(new Vector2d(-80, 31.00), Math.toRadians(315.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(45.00)), Math.toRadians(180.00))
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
@@ -100,7 +100,7 @@ public class BlueRightCRI extends OpMode {
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineToLinearHeading(new Pose2d(-91.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(225.00)), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(-98, 48, Math.toRadians(45.00)), Math.toRadians(180.00))
                 .build();
 
         //Temporarily not using Innercross
@@ -111,37 +111,36 @@ public class BlueRightCRI extends OpMode {
                 .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(180.00))
                 .build(); */
 
-        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-98, 48, Math.toRadians(225.00)))
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-80,60, Math.toRadians(180.00)), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(20,60), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(270.00))
+        OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-98, 48, Math.toRadians(45.00)))
+                .splineToLinearHeading(new Pose2d(-80,58, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(20,58), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(270.00))
                 .build();
 
-        LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+        LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 42), Math.toRadians(180.00))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
-        MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+        MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 36), Math.toRadians(180.00))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
-        RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40, 36, Math.toRadians(180.00)))
+        RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 30), Math.toRadians(180.00))
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(50.00, 61.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
-                .splineToConstantHeading(new Vector2d(50.00, 10.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(50.00, 14.00), Math.toRadians(0.00))
                 .build();
     }
     public void init_loop() {
@@ -216,7 +215,7 @@ public class BlueRightCRI extends OpMode {
             case SPIKE:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
                     currentRouteState = CurrentRouteState.CROSS;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(OuterCross);
                 }
             case CROSS:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
