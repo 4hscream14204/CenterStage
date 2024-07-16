@@ -24,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.R;
+import org.firstinspires.ftc.teamcode.commands.DropOffPositionLowCommandGrp;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -117,21 +118,42 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(48, 42), Math.toRadians(180.00))
-                .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(48, 42), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .lineToConstantHeading(new Vector2d(50,42))
+                .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
+                .lineToConstantHeading(new Vector2d(48,42))
+                .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
+                .splineToConstantHeading(new Vector2d(45,36), Math.toRadians(0.00))
+                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 36), Math.toRadians(180.00))
-                .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 30), Math.toRadians(180.00))
-                .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d(40,36), Math.toRadians(180.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                        robotBase.armSubsystem,
+                        robotBase.leftWristSubsystem,
+                        robotBase.intakeSubsystem,
+                        RobotBase.SlideHeight.LOWEST)))
+                .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
+                .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
+                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0.00)))
@@ -231,6 +253,7 @@ public class BlueRightCRI extends OpMode {
         }
         telemetry.addData("Current Trajectory", currentRouteState);
         robotBase.mecanumDriveSubsystem.update();
+        CommandScheduler.getInstance().run();
     }
     public void stop (){
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
