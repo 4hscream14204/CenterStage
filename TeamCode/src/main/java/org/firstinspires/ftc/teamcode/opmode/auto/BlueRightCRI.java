@@ -67,8 +67,8 @@ public class BlueRightCRI extends OpMode {
         robotBase = new RobotBase(hardwareMap);
         robotBase.parkSide = RobotBase.ParkSide.INNER;
         parkLocation = InnerPark;
-        robotBase.crossSide = RobotBase.CrossSide.INSIDE;
-        crossing = InnerCross;
+        //robotBase.crossSide = RobotBase.CrossSide.INSIDE;
+        //crossing = InnerCross;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.spikeLocation = RobotBase.SpikeLocation.LEFTSPIKE;
         robotBase.backDropOff = RobotBase.BackDropOff.LEFTDROP;
