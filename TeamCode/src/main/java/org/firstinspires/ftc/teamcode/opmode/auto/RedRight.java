@@ -217,7 +217,7 @@ public class RedRight extends OpMode {
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,-61), Math.toRadians(360.0))
-                .splineToConstantHeading(new Vector2d(59,-61), Math.toRadians(360.0))
+                .splineToConstantHeading(new Vector2d(62,-64), Math.toRadians(360.0))
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
