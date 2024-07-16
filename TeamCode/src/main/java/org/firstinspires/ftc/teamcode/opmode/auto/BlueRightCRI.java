@@ -139,9 +139,12 @@ public class BlueRightCRI extends OpMode {
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(50,36))
                 .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .lineToConstantHeading(new Vector2d(45,36))
                 .build();
 
         RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
