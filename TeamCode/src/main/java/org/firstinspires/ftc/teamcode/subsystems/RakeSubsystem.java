@@ -7,6 +7,8 @@ public class RakeSubsystem extends SubsystemBase {
 
     private Servo srvRake;
 
+    private double dblRakePosition =
+
     public RakeSubsystem(Servo rakeConstructor){
         srvRake = rakeConstructor;
     }
@@ -14,4 +16,5 @@ public class RakeSubsystem extends SubsystemBase {
     public void rakePosition(double dblRakePosition){
         srvRake.setPosition(dblRakePosition);
     }
+
 }
