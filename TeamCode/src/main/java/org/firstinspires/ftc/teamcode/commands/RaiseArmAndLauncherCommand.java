@@ -16,8 +16,8 @@ public class RaiseArmAndLauncherCommand extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(()-> leftClawSubsystemCon.clawClose()),
                 new InstantCommand(()-> rightClawSubsystemCon.clawClose()),
-                new InstantCommand(()-> armSubsystemCon.armDropOffPos()),
-                new InstantCommand(()-> airplaneLauncherSubsystemCon.raise())
+                new InstantCommand(()-> armSubsystemCon.armDropOffPos())
+                //new InstantCommand(()-> airplaneLauncherSubsystemCon.raise())
         );
     }
 }

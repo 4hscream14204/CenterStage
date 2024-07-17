@@ -66,11 +66,11 @@ public class RobotBase extends Object{
         GRABBING (0),
         ESCAPE (0),
         LOWEST (0),
-        LOW (0.546),
-        LOWMEDIUM (0.68),
-        MEDIUM (0.827),
-        MEDIUMHIGH (1);
-        //HIGH (1),
+        LOW (0.3),
+        LOWMEDIUM (0.705),
+        MEDIUM (0.8),
+        MEDIUMHIGH (0.972),
+        HIGH (1);
         //HIGHEST (0.8);
         public final double dblSlidePos;
 
@@ -93,8 +93,8 @@ public class RobotBase extends Object{
         }
     }
     public enum AirplaneState {
-        LOWER,
-        RAISE,
+        LOADED,
+        //RAISE,
         RELEASE
     }
     public enum ArmState {

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class AirplaneLauncherSubsystem extends SubsystemBase {
 
     private Servo srvAirplaneLauncher;
-    private Servo srvAirplaneLauncherEv;
+    //private Servo srvAirplaneLauncherEv;
     private RobotBase.AirplaneState airplaneState;
     private double dblReleaseSrvPos = 0.01;
     private double dblEVPosLower = 0.01;
@@ -18,30 +18,42 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
-        srvAirplaneLauncherEv = LauncherElevatorConstructor;
-        lower();
+        //srvAirplaneLauncherEv = LauncherElevatorConstructor;
+        //lower();
     }
         public void release() {
             srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
             airplaneState = RobotBase.AirplaneState.RELEASE;
         }
 
+    public boolean launcherIsLoaded(){
+        if(airplaneState == RobotBase.AirplaneState.LOADED) {
+            return true;
+        }
+        return false;
+    }
+
+        /*
          public void lower(){
         srvAirplaneLauncherEv.setPosition(dblEVPosLower);
         srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
         airplaneState = RobotBase.AirplaneState.LOWER;
     }
+
     public void raise(){
         srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = RobotBase.AirplaneState.RAISE;
     }
+    */
 
+    /*
     public boolean elevatorIsRaised(){
         if(airplaneState == RobotBase.AirplaneState.RAISE) {
             return true;
         }
         return false;
     }
+
 
     public void raiseAndLaunch(){
         switch (airplaneState) {
@@ -53,5 +65,6 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
                 break;
         }
     }
+    */
 }
 
