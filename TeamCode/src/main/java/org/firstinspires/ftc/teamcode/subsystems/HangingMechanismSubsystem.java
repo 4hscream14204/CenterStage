@@ -36,6 +36,15 @@ public class HangingMechanismSubsystem extends SubsystemBase {
         dcmHangingMechanism.setTargetPosition(hangingState.intHangingPos);
     }
 
+    public void stop() {
+        dcmHangingMechanism.setPower(0);
+    }
+
+    public void moveDown() {
+        dcmHangingMechanism.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        dcmHangingMechanism.setPower(-0.2);
+    }
+
     public void hangingToggle() {
         switch (hangingState) {
             case DOWN:

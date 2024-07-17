@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncherSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangingMechanismSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangingSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HuskyLensSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LightsSubsystem;
@@ -84,7 +85,7 @@ public class RobotBase extends Object{
     }
     public enum HangingState {
         DOWN (0),
-        RAISED (2000),
+        RAISED (1700),
         LOWERED (800);
         public final int intHangingPos;
 
@@ -149,6 +150,7 @@ public class RobotBase extends Object{
 
     public DigitalChannel tsLeftIntake;
     public DigitalChannel tsRightIntake;
+    public DigitalChannel tsHangingSensor;
 
     public LED dgRedLeftLight;
     public LED dgRedRightLight;
@@ -209,6 +211,7 @@ public class RobotBase extends Object{
     public ArmSubsystem armSubsystem;
     public TouchSensorSubsystem leftTouchSensorSubsystem;
     public TouchSensorSubsystem rightTouchSensorSubsystem;
+    public HangingSensorSubsystem hangingSensorSubsystem;
     public RakeSubsystem rakeSubsystem;
     public LogitechCameraSubsystem logitechCameraSubsystem;
 
@@ -255,6 +258,7 @@ public class RobotBase extends Object{
         dgGreenRightLight = hwMap.get(LED.class,"greenRightLight");
         tsLeftIntake = hwMap.get(DigitalChannel.class,"tsLeftIntake");
         tsRightIntake = hwMap.get(DigitalChannel.class,"tsRightIntake");
+        tsHangingSensor = hwMap.get(DigitalChannel.class, "tsHangingSensor");
         srvRake = hwMap.get(Servo.class, "srvRake");
 
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
@@ -275,6 +279,7 @@ public class RobotBase extends Object{
         rightLightsSubsystem = new LightsSubsystem(dgRedRightLight, dgGreenRightLight);
         leftTouchSensorSubsystem = new TouchSensorSubsystem(tsLeftIntake);
         rightTouchSensorSubsystem = new TouchSensorSubsystem(tsRightIntake);
+        hangingSensorSubsystem = new HangingSensorSubsystem(tsHangingSensor);
         rakeSubsystem = new RakeSubsystem(srvRake);
         logitechCameraSubsystem = new LogitechCameraSubsystem(startPosition);
         /*
