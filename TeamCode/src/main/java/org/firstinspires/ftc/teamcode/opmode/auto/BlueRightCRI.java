@@ -253,6 +253,7 @@ public class BlueRightCRI extends OpMode {
         telemetry.update();
     }
     public void start () {
+        visionPortal.stopStreaming();
         /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(crossing);
