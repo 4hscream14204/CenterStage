@@ -113,7 +113,7 @@ public class RedRight extends OpMode {
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, -63.00, Math.toRadians(90.00)))
                 .splineToConstantHeading(new Vector2d(10.00, -35.00), Math.toRadians(90.00))
                 .lineTo(new Vector2d(16.00, -52.00))
-                .splineToLinearHeading(new Pose2d(33.00, -38.5, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToLinearHeading(new Pose2d(33.00, -39.5, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .waitSeconds(0.5)
