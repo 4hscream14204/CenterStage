@@ -121,63 +121,78 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         LeftBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(48, 42), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                robotBase.leftClawSubsystem,
+                 robotBase.leftClawSubsystem,
                 robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
-                .splineTo(new Vector2d(45.00, 36.00), Math.toRadians(0.00))
+                .lineToConstantHeading(new Vector2d(45,42))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .splineToConstantHeading(new Vector2d(51.00, 36.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .lineToConstantHeading(new Vector2d(48,42))
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(45.00, 36.00))
+                .addDisplacementMarker( () -> {
+                    robotBase.leftClawSubsystem.clawOpen();
+                })
+                .waitSeconds(0.5)
+                .lineToConstantHeading(new Vector2d(45,42))
+                .addTemporalMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
+                .lineToConstantHeading(new Vector2d(45,36))
+                .addTemporalMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
                 .build();
 
         MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 36), Math.toRadians(180.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                robotBase.leftClawSubsystem,
-                robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .splineToConstantHeading(new Vector2d(45.00, 33.00), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(51.00, 33.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .splineTo(new Vector2d(46.00, 36.00), Math.toRadians(0.00))
+                .waitSeconds(1.5)
+                .addDisplacementMarker( () -> {
+                    robotBase.leftClawSubsystem.clawOpen();
+                })
+                .lineTo(new Vector2d(40, 28))
+                .waitSeconds(1)
+                .addDisplacementMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(45.00, 36.00))
+                .addDisplacementMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
+                .waitSeconds(1)
                 .build();
 
         RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, 36, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(48, 30), Math.toRadians(180.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
-                        robotBase.leftClawSubsystem,
-                        robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(12.00, 60.00), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .splineToConstantHeading(new Vector2d(45.00, 26.00), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(51.00, 26.00), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
-                        robotBase.leftClawSubsystem)))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
+                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(46.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(1)
+                .addDisplacementMarker( () -> {
+                    robotBase.leftClawSubsystem.clawOpen();
+                })
+                .lineTo(new Vector2d(40, 36))
+                .waitSeconds(1)
+                .addDisplacementMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
                 .waitSeconds(0.5)
-                .lineTo(new Vector2d(45.00, 36.00))
+                .addDisplacementMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
+                .waitSeconds(1)
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0.00)))
