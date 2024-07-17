@@ -124,19 +124,19 @@ public class BlueRightCRI extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                  robotBase.leftClawSubsystem,
                 robotBase.armSubsystem)))
-                .lineToConstantHeading(new Vector2d(45,42))
+                .lineToConstantHeading(new Vector2d(45,39))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .lineToConstantHeading(new Vector2d(48,42))
+                .lineToConstantHeading(new Vector2d(45,39))
                 .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(45,42))
+                .lineToConstantHeading(new Vector2d(45,39))
                 .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
