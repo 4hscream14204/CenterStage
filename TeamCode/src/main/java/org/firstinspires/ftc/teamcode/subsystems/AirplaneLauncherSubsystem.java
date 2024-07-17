@@ -17,12 +17,18 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
+        load();
         //srvAirplaneLauncherEv = LauncherElevatorConstructor;
         //lower();
     }
         public void release() {
             srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
             airplaneState = RobotBase.AirplaneState.RELEASE;
+        }
+
+        public void load() {
+            srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
+            airplaneState = RobotBase.AirplaneState.LOADED;
         }
 
     public boolean launcherIsLoaded(){
