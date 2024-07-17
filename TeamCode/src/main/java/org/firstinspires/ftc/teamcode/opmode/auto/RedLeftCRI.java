@@ -24,7 +24,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.R;
+import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionLowCommandGrp;
+import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -129,7 +131,9 @@ public class RedLeftCRI extends OpMode {
                 .lineToConstantHeading(new Vector2d(48,-42))
                 .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
                 .splineToConstantHeading(new Vector2d(45,-36), Math.toRadians(180.00))
-                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .build();
 
         MiddleBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, -36, Math.toRadians(180.00)))
@@ -141,7 +145,9 @@ public class RedLeftCRI extends OpMode {
                         RobotBase.SlideHeight.LOWEST)))
                 .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .build();
 
         RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45, -36, Math.toRadians(180.00)))
@@ -153,7 +159,9 @@ public class RedLeftCRI extends OpMode {
                         RobotBase.SlideHeight.LOWEST)))
                 .addDisplacementMarker(() -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addDisplacementMarker(() -> { robotBase.leftWristSubsystem.wristPickup();})
-                .addDisplacementMarker(() -> { robotBase.armSubsystem.armGrabbingPosition();})
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new ClawOpenCommand(robotBase.armSubsystem,
+                        robotBase.leftClawSubsystem)))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(180.00)))

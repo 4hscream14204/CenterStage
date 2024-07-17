@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -25,7 +24,6 @@ import org.firstinspires.ftc.teamcode.commands.AirplaneLaunchAndLowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.GrabAndWristEscapeCommandGrp;
-import org.firstinspires.ftc.teamcode.commands.RaiseArmAndLauncherCommand;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
@@ -35,7 +33,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="DriverRobotControl")
@@ -44,6 +41,7 @@ public class TeleDriverRobotControl extends OpMode {
     public RobotBase robotBase;
     private RobotBase.SyncSlidesMode syncSlidesMode;
     private RobotBase.HangingState hangingState;
+    private RobotBase.ArmState armState;
     private GamepadEx chassisController;
     private GamepadEx armController;
     private double dblCurrentHeading = 0;
@@ -320,8 +318,8 @@ public class TeleDriverRobotControl extends OpMode {
                 ));
 
         //DUEL SLIDE MEDIUM HIGH
-        armController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+        new Trigger(()-> armController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1)
+                .whenActive(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new GrabAndWristEscapeCommandGrp(
                                         robotBase.leftWristSubsystem,
@@ -343,6 +341,30 @@ public class TeleDriverRobotControl extends OpMode {
                                                 RobotBase.SlideHeight.MEDIUMHIGH))
                         )
                 ));
+
+        armController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                        .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                        new ParallelCommandGroup(
+                                                new GrabAndWristEscapeCommandGrp(
+                                                        robotBase.leftWristSubsystem,
+                                                        robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                                new GrabAndWristEscapeCommandGrp(
+                                                        robotBase.rightWristSubsystem,
+                                                        robotBase.rightClawSubsystem, robotBase.armSubsystem)
+                                        ),
+                                        new ParallelCommandGroup(
+                                                new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                        robotBase.armSubsystem,
+                                                        robotBase.leftWristSubsystem,
+                                                        robotBase.intakeSubsystem,
+                                                        RobotBase.SlideHeight.HIGH),
+                                                new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                        robotBase.armSubsystem,
+                                                        robotBase.rightWristSubsystem,
+                                                        robotBase.intakeSubsystem,
+                                                        RobotBase.SlideHeight.HIGH))
+                                )
+                        ));
 
         //AIRPLANE LAUNCHER OPERATION
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
@@ -395,10 +417,9 @@ public class TeleDriverRobotControl extends OpMode {
                                                                 robotBase.rightWristSubsystem,
                                                                 robotBase.intakeSubsystem,
                                                                 RobotBase.SlideHeight.LOWEST)
+                                                )
                                                 ),
-                                                new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise())
-                                                ),
-                                        ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
+                                        ()->robotBase.armSubsystem.armIsPassedSafeDrop()
                                                 )));
 
         //RAKE OPERATION
@@ -416,7 +437,6 @@ public class TeleDriverRobotControl extends OpMode {
                 .whenPressed(()->CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                 new InstantCommand(()->CommandScheduler.getInstance().cancelAll()),
-                new InstantCommand(()->robotBase.airplaneLauncherSubsystem.lower()),
                 new InstantCommand(()->robotBase.leftClawSubsystem.clawOpen()),
                 new InstantCommand(()->robotBase.rightClawSubsystem.clawOpen())
                 )));
