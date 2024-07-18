@@ -156,13 +156,13 @@ public class BlueRightCRI extends OpMode {
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .lineToConstantHeading(new Vector2d(50,26))
+                .lineToConstantHeading(new Vector2d(50,24))
                 .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .waitSeconds(0.5)
-                .lineToConstantHeading(new Vector2d(42.5,26))
+                .lineToConstantHeading(new Vector2d(42.5,24))
                 .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
@@ -202,7 +202,7 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(42.00, 30.00, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(50.00, 10.00), Math.toRadians(0.00))
+                .lineToConstantHeading(new Vector2d(47, 10))
                 .build();
 
         parkLocation = InnerPark;

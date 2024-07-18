@@ -14,13 +14,9 @@ public class MeepMeepTesting {
                 .setDimensions(12.5,17.75)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15).followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(46, 33, Math.toRadians(0.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(42, 30, Math.toRadians(0.00)))
 
-                                .splineToConstantHeading(new Vector2d(45,33), Math.toRadians(90.00))
-                                .lineToConstantHeading(new Vector2d(50,33))
-                                .waitSeconds(0.5)
-                                .lineToConstantHeading(new Vector2d(42.5,33))
-                                .lineToConstantHeading(new Vector2d(45,33))
+                                .lineToConstantHeading(new Vector2d(47, 10))
                                 .build());
         //Don't delete lines below
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
