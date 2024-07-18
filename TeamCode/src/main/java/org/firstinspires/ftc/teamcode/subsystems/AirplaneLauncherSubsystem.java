@@ -13,7 +13,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     private double dblReleaseSrvPos = 0.485;
     //private double dblEVPosLower = 0.01;
     //private double dblEVPosRaise = 0.182222;
-    private double dblLoadedLauncherPos = 0.595;
+    private double dblLoadedLauncherPos = 0.59;
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;

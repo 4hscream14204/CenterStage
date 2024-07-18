@@ -173,28 +173,29 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         RightBackDropOff = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(44, 33, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(48, 30), Math.toRadians(180.00))
+                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
+                robotBase.leftClawSubsystem,
+                robotBase.armSubsystem)))
+                .splineToConstantHeading(new Vector2d(45,33), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(46.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(50,18))
+                .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
-                .lineTo(new Vector2d(40, 36))
-                .waitSeconds(1)
-                .addDisplacementMarker( () -> {
+                .waitSeconds(0.5)
+                .lineToConstantHeading(new Vector2d(42.5,18))
+                .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
-                .waitSeconds(0.5)
-                .addDisplacementMarker( () -> {
+                .lineToConstantHeading(new Vector2d(45,33))
+                .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
                 })
-                .waitSeconds(1)
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 35.00, Math.toRadians(0.00)))
@@ -202,7 +203,7 @@ public class BlueRightCRI extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(42.00, 30.00, Math.toRadians(0.00)))
-                .lineToConstantHeading(new Vector2d(47, 10))
+                .lineToConstantHeading(new Vector2d(47, 8))
                 .build();
 
         parkLocation = InnerPark;
