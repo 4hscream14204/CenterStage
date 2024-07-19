@@ -74,7 +74,7 @@ public class RedRight extends OpMode {
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .splineToLinearHeading(new Pose2d(50.00, -30.50, Math.toRadians(0.00)), Math.toRadians(-5.50))
+                .splineToLinearHeading(new Pose2d(48.00, -33.50, Math.toRadians(0.00)), Math.toRadians(-5.50))
                 .waitSeconds(1.5)
                 .addTemporalMarker(7.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .lineTo(new Vector2d(40, -36))
@@ -118,7 +118,7 @@ public class RedRight extends OpMode {
                 .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .waitSeconds(0.5)
                 .addTemporalMarker(6, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(50, -36))
+                .lineTo(new Vector2d(50, -37))
                 .waitSeconds(1)
                 .addTemporalMarker(6.5, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.5)
@@ -174,11 +174,11 @@ public class RedRight extends OpMode {
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, -63.00, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(18.5, -37.00), Math.toRadians(90.00))
                 .lineTo(new Vector2d(15.00, -50.00))
-                .splineToLinearHeading(new Pose2d(40.00, -43.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .lineTo(new Vector2d(50.00, -43.00))
-                .addTemporalMarker(3, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
-                .addTemporalMarker(3.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .lineTo(new Vector2d(41,-43))
+                .splineToLinearHeading(new Pose2d(40.00, -47.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .lineTo(new Vector2d(47.5, -47.00))
+                .addTemporalMarker(2.5, () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addTemporalMarker(3.2, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .lineTo(new Vector2d(41,-47))
                 .waitSeconds(1)
                 .lineTo(new Vector2d(40, -36))
                 .addTemporalMarker(5, () -> { robotBase.leftClawSubsystem.clawOpen();})
@@ -222,7 +222,7 @@ public class RedRight extends OpMode {
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(45,-10), Math.toRadians(360.0))
+                .splineToConstantHeading(new Vector2d(45,-17), Math.toRadians(360.0))
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);

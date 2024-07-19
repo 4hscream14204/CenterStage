@@ -115,8 +115,8 @@ public class BlueRightCRI extends OpMode {
                 .build(); */
 
         OuterCross = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-88, 58, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(-80,58), Math.toRadians(0.00))
-                .splineToConstantHeading(new Vector2d(20,58), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(-80,56), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(20,56), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(44,33), Math.toRadians(270.00))
                 .build();
 
@@ -130,7 +130,7 @@ public class BlueRightCRI extends OpMode {
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .lineToConstantHeading(new Vector2d(50,34.00))
+                .lineToConstantHeading(new Vector2d(47,32.00))
                 .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
@@ -150,13 +150,13 @@ public class BlueRightCRI extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                         robotBase.leftClawSubsystem,
                         robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(45,33), Math.toRadians(90.00))
+                .splineToConstantHeading(new Vector2d(45,23), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .lineToConstantHeading(new Vector2d(50,24))
+                .lineToConstantHeading(new Vector2d(48,23))
                 .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
@@ -176,13 +176,13 @@ public class BlueRightCRI extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
                 robotBase.leftClawSubsystem,
                 robotBase.armSubsystem)))
-                .splineToConstantHeading(new Vector2d(45,33), Math.toRadians(90.00))
+                .splineToConstantHeading(new Vector2d(45,17), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .lineToConstantHeading(new Vector2d(50,18))
+                .lineToConstantHeading(new Vector2d(48,17))
                 .waitSeconds(0.5)
                 .addDisplacementMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();

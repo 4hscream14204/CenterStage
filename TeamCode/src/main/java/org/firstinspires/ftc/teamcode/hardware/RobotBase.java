@@ -67,9 +67,9 @@ public class RobotBase extends Object{
         GRABBING (0),
         ESCAPE (0),
         LOWEST (0),
-        LOW (0.3),
-        LOWMEDIUM (0.6),
-        MEDIUM (0.7),
+        LOW (0.6),
+        LOWMEDIUM (0.7),
+        MEDIUM (0.75),
         MEDIUMHIGH (0.8),
         HIGH (1);
         //HIGHEST (0.8);

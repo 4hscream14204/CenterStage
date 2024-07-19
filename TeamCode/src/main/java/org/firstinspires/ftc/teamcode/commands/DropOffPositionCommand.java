@@ -24,7 +24,7 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(()->intakeSubsystemCon.intake(-0.5))
         );
-                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH){
+                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH || slideHeightCon == RobotBase.SlideHeight.HIGH){
                     addCommands(
                             new InstantCommand(()->armSubsystemCon.armDropOffMHPos())
                     );
@@ -40,7 +40,7 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                 addCommands(
                 new WaitUntilCommand(()->armSubsystemCon.armIsPassedWristSafe())
                 );
-                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH) {
+                if (slideHeightCon == RobotBase.SlideHeight.MEDIUMHIGH || slideHeightCon == RobotBase.SlideHeight.HIGH) {
                     addCommands(
                             new InstantCommand(()->wristSubsystemCon.wristDropOffMediumHigh())
                     );
