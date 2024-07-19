@@ -10,10 +10,10 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     private Servo srvAirplaneLauncher;
     //private Servo srvAirplaneLauncherEv;
     private RobotBase.AirplaneState airplaneState;
-    private double dblReleaseSrvPos = 0.485;
+    private double dblReleaseSrvPos = 0.61111111111;
     //private double dblEVPosLower = 0.01;
     //private double dblEVPosRaise = 0.182222;
-    private double dblLoadedLauncherPos = 0.59;
+    private double dblLoadedLauncherPos = 0.68055555555;
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
