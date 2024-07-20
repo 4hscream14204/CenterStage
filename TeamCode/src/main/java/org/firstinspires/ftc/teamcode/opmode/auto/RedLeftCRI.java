@@ -204,7 +204,7 @@ public class RedLeftCRI extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -33.00, Math.toRadians(0.00)))
-                .lineToConstantHeading(new Vector2d(47, -12))
+                .lineToConstantHeading(new Vector2d(47, -13))
                 .build();
 
         parkLocation = InnerPark;
