@@ -53,6 +53,8 @@ public class BlueLeft extends OpMode {
 
     private LogitechCameraSubsystemBetter visionProcesser;
     private VisionPortal visionPortal;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
     @Override
     public void init() {
@@ -252,6 +254,14 @@ public class BlueLeft extends OpMode {
                 tsStackPickup = OuterStackPickup;
                 robotBase.stackState = RobotBase.StackState.OUTER;
             }
+
+            if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+                timer = timer + 1;
+            }
+
+            if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                timer = timer - 1;
+            }
             /*
             switch (robotBase.stackState) {
                 case OUTER:
@@ -278,6 +288,13 @@ public class BlueLeft extends OpMode {
                     parkLocation = InnerPark;
                 }
             }
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            timer = timer - 1;
+        }
 
             robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
 
@@ -287,11 +304,18 @@ public class BlueLeft extends OpMode {
             telemetry.addData("Detection", (robotBase.propPosition));
             telemetry.addData("Park Side", (robotBase.parkSide));
             telemetry.addData("Cycle State", (robotBase.stackState));
+            telemetry.addData("TimerValue", (timer));
             telemetry.update();
 
         }
         @Override
         public void start () {
+            if (timer > 0) {
+                timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                        .waitSeconds(timer)
+                        .build();
+                robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+            }
             visionPortal.stopStreaming();
             if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
                 robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -324,7 +348,10 @@ public class BlueLeft extends OpMode {
             }
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
+            telemetry.addData("TimerValue", (timer));
+            telemetry.update();
     }
+
     @Override
     public void stop () {
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);

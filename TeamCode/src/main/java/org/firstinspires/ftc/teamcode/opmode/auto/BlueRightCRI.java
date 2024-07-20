@@ -63,6 +63,8 @@ public class BlueRightCRI extends OpMode {
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private CurrentRouteState currentRouteState;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
 
     public void init() {
@@ -87,6 +89,8 @@ public class BlueRightCRI extends OpMode {
                 .build();
         startPose = new Pose2d(-88.00, 61.00, Math.toRadians(270.00));
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+
+
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
                 .splineTo(new Vector2d(-79.5, 31.00), Math.toRadians(315.00))
@@ -220,6 +224,15 @@ public class BlueRightCRI extends OpMode {
                 parkLocation = InnerPark;
             }
         }
+
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+            if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                timer = timer - 1;
+            }
+
         //Button press to change crosside
        /* if(autoChassisController.wasJustPressed((GamepadKeys.Button.X))) {
             if (robotBase.crossSide == RobotBase.CrossSide.INSIDE) {
@@ -253,9 +266,16 @@ public class BlueRightCRI extends OpMode {
         telemetry.addLine("Y = Park Side");
         //telemetry.addData("Cross Side", (robotBase.crossSide));
         telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("TimerValue", (timer));
         telemetry.update();
     }
     public void start () {
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -296,6 +316,7 @@ public class BlueRightCRI extends OpMode {
         }
         telemetry.addData("Current Trajectory", currentRouteState);
         telemetry.addData("Trajectory", robotBase.spikeLocation);
+        telemetry.addData("TimerValue", timer);
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
     }
