@@ -63,6 +63,8 @@ public class RedLeftCRI extends OpMode {
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private CurrentRouteState currentRouteState;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
 
     public void init() {
@@ -246,15 +248,30 @@ public class RedLeftCRI extends OpMode {
             backDropOff = LeftBackDropOff;
         }
 
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            timer = timer - 1;
+        }
+
 
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
         telemetry.addLine("Y = Park Side");
         //telemetry.addData("Cross Side", (robotBase.crossSide));
         telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("TimerValue", (timer));
         telemetry.update();
     }
     public void start () {
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         /* if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -295,8 +312,10 @@ public class RedLeftCRI extends OpMode {
         }
         telemetry.addData("Current Trajectory", currentRouteState);
         telemetry.addData("Trajectory", robotBase.spikeLocation);
+        telemetry.addData("TimerValue", (timer));
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
+        telemetry.update();
     }
     public void stop (){
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);

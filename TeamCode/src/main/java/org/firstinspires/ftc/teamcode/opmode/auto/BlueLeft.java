@@ -254,14 +254,6 @@ public class BlueLeft extends OpMode {
                 tsStackPickup = OuterStackPickup;
                 robotBase.stackState = RobotBase.StackState.OUTER;
             }
-
-            if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
-                timer = timer + 1;
-            }
-
-            if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                timer = timer - 1;
-            }
             /*
             switch (robotBase.stackState) {
                 case OUTER:

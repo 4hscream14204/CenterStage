@@ -65,6 +65,8 @@ public class BlueMiddle extends OpMode {
 
     private LogitechCameraSubsystemBetter visionProcesser;
     private VisionPortal visionPortal;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
     @Override
     public void init(){
@@ -352,16 +354,30 @@ public class BlueMiddle extends OpMode {
                 cross = InnerCross;
             }
         }
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            timer = timer - 1;
+        }
         //robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
         robotBase.propPosition = visionProcesser.getLocation();
         telemetry.addData("InitLoop","true");
         telemetry.addData("Detection",(robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.addData("Cross Side", (robotBase.crossSide));
+        telemetry.addData("TimerValue", (timer));
         telemetry.update();
     }
     @Override
     public void start () {
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -406,6 +422,8 @@ public class BlueMiddle extends OpMode {
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
         telemetry.addData("Current Trajectory", currentRouteState);
+        telemetry.addData("TimerValue", (timer));
+        telemetry.update();
     }
     @Override
     public void stop () {

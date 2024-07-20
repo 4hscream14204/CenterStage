@@ -54,6 +54,8 @@ public class RedMiddle extends OpMode {
 
     private LogitechCameraSubsystemBetter visionProcesser;
     private VisionPortal visionPortal;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
     @Override
     public void init(){
@@ -77,7 +79,6 @@ public class RedMiddle extends OpMode {
 
 
             LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .waitSeconds(15)
                 .splineTo(new Vector2d(-40, -39.11), Math.toRadians(135.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-30.00, -60.00), Math.toRadians(360))
@@ -121,7 +122,6 @@ public class RedMiddle extends OpMode {
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .waitSeconds(15)
                 .splineTo(new Vector2d(-36.00, -35.00), Math.toRadians(90.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-30.00, -60.00), Math.toRadians(360.00))
@@ -183,7 +183,6 @@ public class RedMiddle extends OpMode {
 
 
             RightSpike  = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                    .waitSeconds(15)
                     .splineTo(new Vector2d(-30.00, -36.00), Math.toRadians(405.00))
                     .setReversed(true)
                     .splineToSplineHeading(new Pose2d(-30.00, -60.00, Math.toRadians(360.00)), Math.toRadians(360.00))
@@ -284,16 +283,31 @@ public class RedMiddle extends OpMode {
                 cross = InnerCross;
             }
         }
-       // robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            timer = timer - 1;
+        }
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
         robotBase.propPosition = visionProcesser.getLocation();
         telemetry.addData("InitLoop","true");
         telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.addData("TimerValue", (timer));
         telemetry.addData("Park Side", (robotBase.parkSide));
         telemetry.update();
 
     }
     @Override
     public void start(){
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -322,6 +336,8 @@ public class RedMiddle extends OpMode {
         }
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
+        telemetry.addData("TimerValue", (timer));
+        telemetry.update();
     }
     @Override
     public void stop(){
