@@ -41,6 +41,7 @@ public class RedMiddle extends OpMode {
     private TrajectorySequence cross;
     private TrajectorySequence InnerCross;
     private TrajectorySequence OuterCross;
+    private TrajectorySequence MiddlePark;
 
     private enum CurrentRouteState {
         TRAJECTORY_1,
@@ -252,6 +253,11 @@ public class RedMiddle extends OpMode {
                 .splineToConstantHeading(new Vector2d(59,-58), Math.toRadians(360.0))
                 .build();
 
+        MiddlePark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(50, -36), Math.toRadians(0))
+                .build();
+
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(360)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,-13), Math.toRadians(360.0))
@@ -265,10 +271,13 @@ public class RedMiddle extends OpMode {
     public void init_loop(){
 
         autoChassisController.readButtons();
-        if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.Y)) {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
                 robotBase.parkSide = RobotBase.ParkSide.OUTER;
                 parkLocation = OuterPark;
+            } else if (robotBase.parkSide == RobotBase.ParkSide.OUTER) {
+                robotBase.parkSide = RobotBase.ParkSide.MIDDLE;
+                parkLocation = MiddlePark;
             } else {
                 robotBase.parkSide = RobotBase.ParkSide.INNER;
                 parkLocation = InnerPark;

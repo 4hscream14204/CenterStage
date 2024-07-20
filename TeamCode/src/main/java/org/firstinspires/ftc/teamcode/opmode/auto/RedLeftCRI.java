@@ -62,6 +62,7 @@ public class RedLeftCRI extends OpMode {
     private TrajectorySequence backDropOff;
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
+    private TrajectorySequence MiddlePark;
     private CurrentRouteState currentRouteState;
     private double timer = 0;
     private TrajectorySequence timewait;
@@ -202,6 +203,10 @@ public class RedLeftCRI extends OpMode {
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(43.00, -33.00, Math.toRadians(0.00)))
                 .splineToConstantHeading(new Vector2d(60.00, -60.00), Math.toRadians(0.00))
                 .build();
+        MiddlePark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0)))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(50, -36), Math.toRadians(0))
+                .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -33.00, Math.toRadians(0.00)))
                 .lineToConstantHeading(new Vector2d(47, -13))
@@ -212,10 +217,13 @@ public class RedLeftCRI extends OpMode {
     public void init_loop() {
         autoChassisController.readButtons();
         //Button press to change parking
-        if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.Y)) {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
                 robotBase.parkSide = RobotBase.ParkSide.OUTER;
                 parkLocation = OuterPark;
+            } else if (robotBase.parkSide == RobotBase.ParkSide.OUTER) {
+                robotBase.parkSide = RobotBase.ParkSide.MIDDLE;
+                parkLocation = MiddlePark;
             } else {
                 robotBase.parkSide = RobotBase.ParkSide.INNER;
                 parkLocation = InnerPark;
