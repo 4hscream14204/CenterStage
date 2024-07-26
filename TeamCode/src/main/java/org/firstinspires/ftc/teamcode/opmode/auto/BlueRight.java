@@ -84,7 +84,7 @@ public class BlueRight extends OpMode {
                 .build();
         startPose = new Pose2d(-38.35, 63.3, Math.toRadians(270.00));
 
-        stackPose = new Pose2d(-56.66, 52.77, Math.toRadians(270));
+        //stackPose = new Pose2d(-56.66, 52.77, Math.toRadians(270));
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
                 .splineTo(new Vector2d(-27.76, 32.59), Math.toRadians(-90.00))
@@ -192,7 +192,9 @@ public class BlueRight extends OpMode {
                 .waitSeconds(0.25)
                 .splineToConstantHeading(new Vector2d(-57.00, 20.00), Math.toRadians(270.00))
                 .splineToLinearHeading(new Pose2d(-57.00, 12.00, Math.toRadians(180.00)), Math.toRadians(270.00))*/
-                 .splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
+
+        //old stack code
+        /*.splineTo(new Vector2d(-40.00, 39.00), Math.toRadians(225.00))
                 .waitSeconds(0.25)
                 .splineTo(new Vector2d(-48.66, 52.77), Math.toRadians(0))
                 .waitSeconds(0.25)
@@ -204,9 +206,9 @@ public class BlueRight extends OpMode {
                         ()->robotBase.intakeSubsystem.intake(-1)
                 )))
                 .setReversed(true)
-                .build();
+                .build();*/
 
-                /*.waitSeconds(15)
+                //.waitSeconds(15)
                 .splineTo(new Vector2d(-40, 39.11), Math.toRadians(225.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-36.00, 60.00), Math.toRadians(0.00))
@@ -226,12 +228,12 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new UniversalGrabbingPosCommand(robotBase)))
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, 36.00))
-                .build();*/
+                .build();
 
 
         //robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        /*OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,60), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(59,60), Math.toRadians(0.00))
@@ -241,11 +243,11 @@ public class BlueRight extends OpMode {
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(45,10), Math.toRadians(0.00))
                 .splineToConstantHeading(new Vector2d(61,10), Math.toRadians(0.00))
-                .build();*/
+                .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-48.66, 52.77, Math.toRadians(0)))
+        /*StackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-48.66, 52.77, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(-48.15, 20.17), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-48.41, 12.32), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-54.52, 11.30), Math.toRadians(0))
@@ -253,7 +255,7 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new InstantCommand(()-> robotBase.rakeSubsystem.rakePosition(1))))
                 .waitSeconds(2)
                 .splineToConstantHeading(new Vector2d(-50.52, 11.30), Math.toRadians(0))
-                .build();
+                .build();*/
 
         //TOUCH SENSOR CODE
         //RIGHT TOUCH SENSOR
@@ -328,8 +330,8 @@ public class BlueRight extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = CurrentRouteState.STACK;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(StackPickup);
+                    currentRouteState = CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
