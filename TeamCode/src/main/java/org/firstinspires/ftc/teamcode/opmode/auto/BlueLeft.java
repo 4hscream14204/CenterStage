@@ -37,6 +37,8 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence InnerPark;
 
     private TrajectorySequence parkLocation;
+    private double timer = 0;
+    private TrajectorySequence timewait;
 
     public Pose2d startPose;
 
@@ -174,6 +176,14 @@ public class BlueLeft extends OpMode {
                 parkLocation = InnerPark;
             }
         }
+
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer +1;
+        }
+
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_DOWN))) {
+            timer = timer -1;
+        }
         /*
         robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
          */
@@ -182,11 +192,18 @@ public class BlueLeft extends OpMode {
         telemetry.addData("InitLoop", "true");
         telemetry.addData("Detection", (robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("TimerValue", (timer));
         telemetry.update();
 
     }
     @Override
     public void start () {
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -198,6 +215,8 @@ public class BlueLeft extends OpMode {
 
         currentRouteState = BlueLeft.CurrentRouteState.TRAJECTORY_1;
     }
+
+
     @Override
     public void loop () {
         switch (currentRouteState) {
@@ -208,6 +227,7 @@ public class BlueLeft extends OpMode {
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
+        telemetry.addData("TimerValue", (timer));
         CommandScheduler.getInstance().run();
     }
     @Override

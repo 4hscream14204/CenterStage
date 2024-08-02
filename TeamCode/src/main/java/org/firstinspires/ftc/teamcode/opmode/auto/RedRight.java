@@ -35,6 +35,8 @@ public class RedRight extends OpMode {
     private TrajectorySequence InnerPark;
     private TrajectorySequence OuterPark;
     private TrajectorySequence parkLocation;
+    private double timer = 0;
+    private TrajectorySequence timewait;
     public Pose2d startPose;
     private enum CurrentRouteState {
         TRAJECTORY_1,
@@ -233,6 +235,13 @@ public class RedRight extends OpMode {
     }
     @Override
     public void init_loop(){
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer +1;
+        }
+
+        if(autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_DOWN))) {
+            timer = timer -1;
+        }
         autoChassisController.readButtons();
         if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
             if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
@@ -248,10 +257,17 @@ public class RedRight extends OpMode {
         telemetry.addData("InitLoop","true");
         telemetry.addData("Detection",(robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("TimerValue", (timer));
         telemetry.update();
     }
     @Override
     public void start(){
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
         visionPortal.stopStreaming();
         if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
@@ -280,6 +296,7 @@ public class RedRight extends OpMode {
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
+        telemetry.addData("TimerValue", (timer));
         CommandScheduler.getInstance().run();
     }
     @Override
