@@ -80,7 +80,7 @@ public class RedMiddle extends OpMode {
 
 
             LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(-40, -39.11), Math.toRadians(135.00))
+                .splineTo(new Vector2d(-43, -39.11), Math.toRadians(135.00))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(-30.00, -60.00), Math.toRadians(360))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new GrabAndWristEscapeCommandGrp(robotBase.leftWristSubsystem,
