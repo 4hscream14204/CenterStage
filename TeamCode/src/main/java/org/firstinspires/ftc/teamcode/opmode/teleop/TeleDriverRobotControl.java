@@ -342,7 +342,7 @@ public class TeleDriverRobotControl extends OpMode {
                         )
                 ));
 
-        //DUEL SLIDE HIGHEST
+        //DUEL SLIDE HIGH
         armController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                                 new ParallelCommandGroup(
