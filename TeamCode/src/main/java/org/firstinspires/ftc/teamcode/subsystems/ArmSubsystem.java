@@ -49,6 +49,12 @@ public class ArmSubsystem extends SubsystemBase {
         dcmArm.setTargetPosition(intDropOffMediumHighPosition);
     }
 
+    public void armDropOffLaunchPos() {
+        dcmArm.setPower(dblMainPower);
+        armState = RobotBase.ArmState.LAUNCHING;
+        dcmArm.setTargetPosition(RobotBase.ArmState.LAUNCHING.intArmPosition);
+    }
+
     public void armDropOffLowestPos() {
         dcmArm.setPower(dblMainPower);
         armState = RobotBase.ArmState.DROPOFF;
@@ -77,7 +83,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean armIsPassedSafeDrop() {
         boolean bolArmIsPassedSafeDrop = false;
-        if(getArmPosition() > 1100) {
+        if(getArmPosition() > 1070) {
             bolArmIsPassedSafeDrop = true;
         }
         return bolArmIsPassedSafeDrop;

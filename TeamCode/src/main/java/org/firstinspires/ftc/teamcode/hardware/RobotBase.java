@@ -64,6 +64,7 @@ public class RobotBase extends Object{
         CLOSED
     }
     public enum SlideHeight {
+        LAUNCHING (0),
         GRABBING (0),
         ESCAPE (0),
         LOWEST (0),
@@ -100,6 +101,7 @@ public class RobotBase extends Object{
     }
     public enum ArmState {
         GRABBING (0),
+        LAUNCHING (1082),
         DROPOFF (1298),
         RETURNING(0);
 

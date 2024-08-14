@@ -28,7 +28,11 @@ public class DropOffPositionCommand extends SequentialCommandGroup {
                     addCommands(
                             new InstantCommand(()->armSubsystemCon.armDropOffMHPos())
                     );
-                } else if (slideHeightCon == RobotBase.SlideHeight.LOWEST) {
+                }else if (slideHeightCon == RobotBase.SlideHeight.LAUNCHING) {
+                    addCommands(
+                            new InstantCommand(()->armSubsystemCon.armDropOffLaunchPos())
+                    );
+                }else if (slideHeightCon == RobotBase.SlideHeight.LOWEST) {
                     addCommands(
                             new InstantCommand(()->armSubsystemCon.armDropOffLowestPos())
                     );
