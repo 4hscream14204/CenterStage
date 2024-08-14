@@ -385,12 +385,12 @@ public class TeleDriverRobotControl extends OpMode {
                                                                 robotBase.armSubsystem,
                                                                 robotBase.leftWristSubsystem,
                                                                 robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LOWEST),
+                                                                RobotBase.SlideHeight.LAUNCHING),
                                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                                 robotBase.armSubsystem,
                                                                 robotBase.rightWristSubsystem,
                                                                 robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LOWEST)
+                                                                RobotBase.SlideHeight.LAUNCHING)
                                                 ),
                                                 new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
                                                 robotBase.leftClawSubsystem,
@@ -412,12 +412,12 @@ public class TeleDriverRobotControl extends OpMode {
                                                                 robotBase.armSubsystem,
                                                                 robotBase.leftWristSubsystem,
                                                                 robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LOWEST),
+                                                                RobotBase.SlideHeight.LAUNCHING),
                                                         new DropOffPositionCommand(robotBase.rightSlideSubsystem,
                                                                 robotBase.armSubsystem,
                                                                 robotBase.rightWristSubsystem,
                                                                 robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LOWEST)
+                                                                RobotBase.SlideHeight.LAUNCHING)
                                                 )
                                                 ),
                                         ()->robotBase.armSubsystem.armIsPassedSafeDrop()
