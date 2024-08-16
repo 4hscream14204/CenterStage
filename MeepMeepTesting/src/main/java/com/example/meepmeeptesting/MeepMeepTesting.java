@@ -6,6 +6,8 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
+import java.util.Vector;
+
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
@@ -14,16 +16,8 @@ public class MeepMeepTesting {
                 .setDimensions(12.5,17.75)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15).followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-41.00, 63.00, Math.toRadians(270.00)))
-                                .splineToLinearHeading(new Pose2d(-47.00, 38.00, Math.toRadians(270.00)), Math.toRadians(270.00))
-                                .lineToConstantHeading(new Vector2d(-35.00, 48.00))
-                                .splineToConstantHeading(new Vector2d(-33.00, 24.00), Math.toRadians(270.00))
-                                .splineToSplineHeading(new Pose2d(-52, 12, Math.toRadians(0.00)),Math.toRadians(180.00))
-                                .waitSeconds(1)
-                                .splineToSplineHeading(new Pose2d(25.00, 12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                                .splineToLinearHeading(new Pose2d(35, 27, Math.toRadians(0.00)), Math.toRadians(0.00))
-                                .lineTo(new Vector2d(53,27))
-                                .lineTo(new Vector2d(43, 27))
+                        drive.trajectorySequenceBuilder(new Pose2d(40.00, 36.00, Math.toRadians(0.00)))
+                                .splineToConstantHeading(new Vector2d(56.00, 12.00), Math.toRadians(0.00))
                                 .build());
         //Don't delete lines below
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

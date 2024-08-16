@@ -66,7 +66,7 @@ public class BlueRightAsync extends OpMode {
                 .addTemporalMarker(17, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(53, 40.5))
                 .waitSeconds(1)
-                .lineTo(new Vector2d(43, 28))
+                .lineTo(new Vector2d(40, 28))
                 .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
@@ -85,7 +85,7 @@ public class BlueRightAsync extends OpMode {
                 .lineTo(new Vector2d(53,33))
                 .waitSeconds(2.5)
                 .addTemporalMarker(18.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
-                .lineTo(new Vector2d(43, 28))
+                .lineTo(new Vector2d(40, 28))
                 .addTemporalMarker(20, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(20.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
                 .build();
@@ -104,7 +104,7 @@ public class BlueRightAsync extends OpMode {
                 .addTemporalMarker(18.5, () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .lineTo(new Vector2d(53,27))
                 .waitSeconds(2.75)
-                .lineTo(new Vector2d(43, 27))
+                .lineTo(new Vector2d(40, 27))
                 .addTemporalMarker(21.5, () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .addTemporalMarker(22, () -> { robotBase.leftWristSubsystem.wristPickup();})
                 .addTemporalMarker(22.5, () -> { robotBase.armSubsystem.armGrabbingPosition();})
@@ -112,16 +112,12 @@ public class BlueRightAsync extends OpMode {
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
 
-        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
-                .lineTo(new Vector2d(45.00, 62.00))
-                .lineTo(new Vector2d(55.00, 62.00))
-                .lineTo(new Vector2d(45.00, 62.00))
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, 36.00, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(58.00, 62.00), Math.toRadians(0.00))
                 .build();
 
-        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
-                .lineTo(new Vector2d(45.00, 12.00))
-                .lineTo(new Vector2d(55.00, 12.00))
-                .lineTo(new Vector2d(45.00, 12.00))
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, 36.00, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(56.00, 12.00), Math.toRadians(0.00))
                 .build();
 
 
