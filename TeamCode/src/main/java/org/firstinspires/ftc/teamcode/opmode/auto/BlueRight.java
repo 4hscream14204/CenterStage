@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 
-@Autonomous(name = "BlueRightAsync")
+@Autonomous(name = "BlueRight")
 public class BlueRight extends OpMode {
     public RobotBase robotBase;
 
