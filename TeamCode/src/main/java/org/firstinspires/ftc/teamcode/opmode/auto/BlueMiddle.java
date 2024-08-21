@@ -11,6 +11,7 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -27,7 +28,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
 import org.firstinspires.ftc.vision.VisionPortal;
-
+@Disabled
 @Autonomous(name = "BlueMiddle")
 public class BlueMiddle extends OpMode {
     public RobotBase robotBase;
