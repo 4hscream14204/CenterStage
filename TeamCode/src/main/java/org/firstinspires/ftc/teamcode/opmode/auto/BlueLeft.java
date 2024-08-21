@@ -79,14 +79,14 @@ public class BlueLeft extends OpMode {
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.5, 63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(3.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(47.00, 28.00, Math.toRadians(180.00)), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(47.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
                 .waitSeconds(1)
-                .splineToSplineHeading(new Pose2d(50.00,28.00, Math.toRadians(180.00)), Math.toRadians(0.00))
+                .splineToSplineHeading(new Pose2d(50.00,28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(1)
                 .addTemporalMarker(7, () -> {
                     robotBase.leftClawSubsystem.clawOpen();
@@ -106,14 +106,13 @@ public class BlueLeft extends OpMode {
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToConstantHeading(new Vector2d(10.00, 35.00), Math.toRadians(270.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(33, 37, Math.toRadians(180.00)), Math.toRadians(270.00))
-                .splineTo(new Vector2d(45.00, 36.00), Math.toRadians(180.00))
+                .splineToLinearHeading(new Pose2d(45.00, 36.00), Math.toRadians(270.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .splineTo(new Vector2d(50.00, 36.00), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(50.00, 36.00), Math.toRadians(0.00))
                 .waitSeconds(1.5)
                 .addTemporalMarker(6, () -> {
                     robotBase.leftClawSubsystem.clawOpen();
