@@ -13,6 +13,7 @@ import com.arcrobotics.ftclib.command.Robot;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -33,7 +34,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
 import org.firstinspires.ftc.vision.VisionPortal;
-
+ @Disabled
 @Autonomous(name = "Blue Right CRI")
 public class BlueRightCRI extends OpMode {
 
