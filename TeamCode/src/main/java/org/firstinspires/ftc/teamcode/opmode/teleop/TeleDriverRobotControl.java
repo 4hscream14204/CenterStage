@@ -23,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.commands.AirplaneLaunchAndLowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.DropOffSequentialCommandGrp;
 import org.firstinspires.ftc.teamcode.commands.GrabAndWristEscapeCommandGrp;
 import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
@@ -293,6 +294,7 @@ public class TeleDriverRobotControl extends OpMode {
 
 
         //DUEL SLIDE MEDIUM
+        /*
         armController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(()-> CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                                 new ParallelCommandGroup(
@@ -316,6 +318,7 @@ public class TeleDriverRobotControl extends OpMode {
                                                 RobotBase.SlideHeight.MEDIUM))
                         )
                 ));
+        */
 
         //DUEL SLIDE MEDIUM HIGH
         new Trigger(()-> armController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.1)
@@ -511,6 +514,12 @@ public class TeleDriverRobotControl extends OpMode {
                                new ClawOpenCommand(robotBase.armSubsystem, robotBase.leftClawSubsystem),
                                new ClawOpenCommand(robotBase.armSubsystem, robotBase.rightClawSubsystem)
                        )
+                ));
+
+        //SLIDE MEDIUM
+        armController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(()->CommandScheduler.getInstance().schedule(
+                        new DropOffSequentialCommandGrp(robotBase, RobotBase.SlideHeight.MEDIUM)
                 ));
 
     }
