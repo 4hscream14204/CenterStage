@@ -8,18 +8,23 @@ import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 public class AirplaneLauncherSubsystem extends SubsystemBase {
 
     private Servo srvAirplaneLauncher;
-    //private Servo srvAirplaneLauncherEv;
+    private Servo srvAirplaneLauncherEv;
     private RobotBase.AirplaneState airplaneState;
+    /*
     private double dblReleaseSrvPos = 0.61111111111;
-    //private double dblEVPosLower = 0.01;
-    //private double dblEVPosRaise = 0.182222;
+    private double dblEVPosLower = 0;
+    private double dblEVPosRaise = 0.01;
     private double dblLoadedLauncherPos = 0.68055555555;
+    */
+    private double dblReleaseSrvPos = 0.61111111111;
+    private double dblEVPosLower = 1;
+    private double dblEVPosRaise = 0.01;
+    private double dblLoadedLauncherPos = 0.0138;
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
-        load();
-        //srvAirplaneLauncherEv = LauncherElevatorConstructor;
-        //lower();
+        srvAirplaneLauncherEv = LauncherElevatorConstructor;
+        lower();
     }
         public void release() {
             srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
@@ -38,20 +43,20 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         return false;
     }
 
-        /*
+
          public void lower(){
         srvAirplaneLauncherEv.setPosition(dblEVPosLower);
         srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
-        airplaneState = RobotBase.AirplaneState.LOWER;
+        airplaneState = RobotBase.AirplaneState.LOADED;
     }
 
     public void raise(){
         srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = RobotBase.AirplaneState.RAISE;
     }
-    */
 
-    /*
+
+
     public boolean elevatorIsRaised(){
         if(airplaneState == RobotBase.AirplaneState.RAISE) {
             return true;
@@ -59,7 +64,7 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         return false;
     }
 
-
+    /*
     public void raiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
@@ -71,5 +76,6 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         }
     }
     */
+
 }
 
