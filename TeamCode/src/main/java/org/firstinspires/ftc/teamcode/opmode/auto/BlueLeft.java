@@ -35,8 +35,8 @@ public class BlueLeft extends OpMode {
     private TrajectorySequence OuterPark;
     private TrajectorySequence MiddlePark;
     private TrajectorySequence InnerPark;
-    private TrajectorySequence InnerStackPickup;
-    private TrajectorySequence OuterStackPickup;
+  //  private TrajectorySequence InnerStackPickup;
+ //   private TrajectorySequence OuterStackPickup;
     private TrajectorySequence parkLocation;
 
     /*public TrajectorySequence tsStackPickup; */
@@ -64,7 +64,7 @@ public class BlueLeft extends OpMode {
         robotBase.parkSide = RobotBase.ParkSide.OUTER;
         robotBase.alliance = RobotBase.Alliance.BLUE;
         robotBase.startPosition = RobotBase.StartPosition.LEFT;
-        robotBase.stackState = RobotBase.StackState.NONE;
+       // robotBase.stackState = RobotBase.StackState.NONE;
         visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
         robotBase.leftClawSubsystem.clawClose();
         robotBase.leftWristSubsystem.wristEscape();
@@ -182,7 +182,7 @@ public class BlueLeft extends OpMode {
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .splineToConstantHeading(new Vector2d(43, 17), Math.toRadians(0))
                 .build();
-
+/*
         OuterStackPickup = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, 36.00, Math.toRadians(0)))
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(25, 63), Math.toRadians(180))
@@ -201,6 +201,8 @@ public class BlueLeft extends OpMode {
                 .splineToConstantHeading(new Vector2d(45, 36), Math.toRadians(270))
                 .build();
 
+ */
+
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
         parkLocation = OuterPark;
     }
@@ -209,29 +211,31 @@ public class BlueLeft extends OpMode {
     public void init_loop() {
         autoChassisController.readButtons();
 
-        if (autoChassisController.wasJustPressed(GamepadKeys.Button.B)) {
-            if (robotBase.stackState == RobotBase.StackState.OUTER) {
-               /* tsStackPickup = InnerStackPickup; */
-                robotBase.stackState = RobotBase.StackState.INNER;
-            } else if (robotBase.stackState == RobotBase.StackState.INNER) {
-                robotBase.stackState = RobotBase.StackState.NONE;
-            } else {
-             /*   tsStackPickup = OuterStackPickup; */
-                robotBase.stackState = RobotBase.StackState.OUTER;
-            }
-            /*
-            switch (robotBase.stackState) {
-                case OUTER:
-                    tsStackPickup = InnerStackPickup;
-                    robotBase.stackState = RobotBase.StackState.INNER;
-                case INNER:
-                    robotBase.stackState = RobotBase.StackState.NONE;
-                case NONE:
-                    tsStackPickup = OuterStackPickup;
-                    robotBase.stackState = RobotBase.StackState.OUTER;
-            }
-            */
-        }
+       // if (autoChassisController.wasJustPressed(GamepadKeys.Button.B)) {
+         //   if (robotBase.stackState == RobotBase.StackState.OUTER) {
+               // tsStackPickup = InnerStackPickup;
+           //     robotBase.stackState = RobotBase.StackState.INNER;
+          //  } else if (robotBase.stackState == RobotBase.StackState.INNER) {
+              //  robotBase.stackState = RobotBase.StackState.NONE;
+        //    } else {
+             //   tsStackPickup = OuterStackPickup;
+             //   robotBase.stackState = RobotBase.StackState.OUTER;
+         //   }
+
+
+
+           // switch (robotBase.stackState) {
+               // case OUTER:
+                 //   tsStackPickup = InnerStackPickup;
+                   // robotBase.stackState = RobotBase.StackState.INNER;
+               // case INNER:
+                 //   robotBase.stackState = RobotBase.StackState.NONE;
+               // case NONE:
+                   // tsStackPickup = OuterStackPickup;
+                //    robotBase.stackState = RobotBase.StackState.OUTER;
+      //      }
+
+     //   }
 
             if (autoChassisController.wasJustPressed(GamepadKeys.Button.Y)) {
                 if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
@@ -260,7 +264,7 @@ public class BlueLeft extends OpMode {
             telemetry.addData("InitLoop", "true");
             telemetry.addData("Detection", (robotBase.propPosition));
             telemetry.addData("Park Side", (robotBase.parkSide));
-            telemetry.addData("Cycle State", (robotBase.stackState));
+          //  telemetry.addData("Cycle State", (robotBase.stackState));
             telemetry.addData("TimerValue", (timer));
             telemetry.update();
 
@@ -274,7 +278,7 @@ public class BlueLeft extends OpMode {
                 robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
             }
             visionPortal.stopStreaming();
-            if (robotBase.propPosition == robotBase.propPosition.MIDDLE) {
+            if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
                 robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
             } else if (robotBase.propPosition == RobotBase.PropPosition.LEFT) {
                 robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
@@ -295,11 +299,11 @@ public class BlueLeft extends OpMode {
                             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
                         }
                     }
-                case STACK:
-                    if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                        currentRouteState = CurrentRouteState.PARKING;
-                        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
-                    }
+               // case STACK:
+                 //   if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                   //     currentRouteState = CurrentRouteState.PARKING;
+                     //   robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                    //}
             }
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
