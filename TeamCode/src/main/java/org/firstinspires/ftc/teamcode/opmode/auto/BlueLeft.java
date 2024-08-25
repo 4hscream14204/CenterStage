@@ -79,51 +79,51 @@ public class BlueLeft extends OpMode {
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.5, 63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(3.00, 38.00, Math.toRadians(225.00)), Math.toRadians(225.00))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(47.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
+                .addTemporalMarker( 2.5,() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .waitSeconds(1)
+                .splineToSplineHeading(new Pose2d(47.00, 28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(0.2)
                 .splineToSplineHeading(new Pose2d(50.00,28.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1)
-                .addTemporalMarker(7, () -> {
+                .waitSeconds(.5)
+                .addTemporalMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .lineTo(new Vector2d(40, 36))
-                .waitSeconds(1)
-                .addTemporalMarker(8.5, () -> {
+                .waitSeconds(.5)
+                .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(9, () -> {
+                .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
                 })
-                .waitSeconds(1)
+                .waitSeconds(.5)
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToConstantHeading(new Vector2d(10.00, 35.00), Math.toRadians(270.00))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(45.00, 36.00), Math.toRadians(270.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
+                .splineToLinearHeading(new Pose2d(45.00, 36.00), Math.toRadians(270.00))
                 .splineToConstantHeading(new Vector2d(50.00, 36.00), Math.toRadians(0.00))
-                .waitSeconds(1.5)
-                .addTemporalMarker(6, () -> {
+                .waitSeconds(0.2)
+                .addTemporalMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .lineTo(new Vector2d(40, 28))
                 .waitSeconds(1)
-                .addTemporalMarker(8.5, () -> {
+                .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
-                .addTemporalMarker(9, () -> {
+                .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
                 })
                 .waitSeconds(1)
@@ -145,15 +145,15 @@ public class BlueLeft extends OpMode {
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, 63.00, Math.toRadians(270.00)))
                 .splineToLinearHeading(new Pose2d(15.00, 35.00, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .lineTo(new Vector2d(10.00, 49.69))
-                .splineToSplineHeading(new Pose2d(40.00, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker(() -> CommandScheduler.getInstance().schedule(new DropOffPositionLowCommandGrp(robotBase.leftSlideSubsystem,
                         robotBase.armSubsystem,
                         robotBase.leftWristSubsystem,
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
-                .waitSeconds(1.5)
+                .splineToSplineHeading(new Pose2d(40.00, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(0.2)
                 .splineToSplineHeading(new Pose2d(50.00, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .waitSeconds(1)
+                .waitSeconds(1.5)
                 .lineTo(new Vector2d(40.00, 36.00))
                 .addTemporalMarker(7, () -> {
                     robotBase.leftClawSubsystem.clawOpen();
