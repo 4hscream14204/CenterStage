@@ -162,7 +162,7 @@ public class BlueRight extends OpMode {
 
         robotBase.propPosition = visionProcesser.getLocation();
 
-        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+        //robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
         telemetry.addData("InitLoop","true");
         telemetry.addData("Detection",(robotBase.propPosition));
         telemetry.addData("Park Side", (robotBase.parkSide));
