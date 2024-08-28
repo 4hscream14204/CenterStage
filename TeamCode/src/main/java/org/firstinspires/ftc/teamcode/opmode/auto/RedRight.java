@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
-@Autonomous(name = "BlueLeft")
+@Autonomous(name = "RedRight")
 public class RedRight extends OpMode {
 
     public RobotBase robotBase;
