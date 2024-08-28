@@ -1,0 +1,229 @@
+package org.firstinspires.ftc.teamcode.opmode.auto;
+
+import android.util.Size;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
+import org.firstinspires.ftc.teamcode.hardware.RobotBase;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LogitechCameraSubsystemBetter;
+import org.firstinspires.ftc.vision.VisionPortal;
+
+@Autonomous(name = "RedLeft")
+public class RedLeft extends OpMode {
+    public RobotBase robotBase;
+    public TrajectorySequence LeftSpike;
+    public TrajectorySequence MiddleSpike;
+    public TrajectorySequence RightSpike;
+
+    private TrajectorySequence InnerPark;
+    private TrajectorySequence OuterPark;
+    private TrajectorySequence parkLocation;
+
+    public Pose2d startPose;
+
+    enum CurrentRouteState {
+        TRAJECTORY_1,
+        PARKING
+    }
+
+    public GamepadEx autoChassisController;
+    private CurrentRouteState currentRouteState;
+    private LogitechCameraSubsystemBetter visionProcesser;
+    private VisionPortal visionPortal;
+
+    private double timer = 0;
+    private TrajectorySequence timewait;
+    @Override
+    public void init(){
+        CommandScheduler.getInstance().reset();
+        autoChassisController = new GamepadEx(gamepad1);
+        robotBase = new RobotBase(hardwareMap);
+        robotBase.parkSide = RobotBase.ParkSide.INNER;
+        robotBase.alliance = RobotBase.Alliance.RED;
+        robotBase.startPosition = RobotBase.StartPosition.LEFT;
+        visionProcesser = new LogitechCameraSubsystemBetter(RobotBase.StartPosition.LEFT);
+        robotBase.leftClawSubsystem.clawClose();
+        robotBase.leftWristSubsystem.wristEscape();
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam1"))
+                .addProcessor(visionProcesser)
+                .setCameraResolution(new Size(864, 480))
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
+        startPose = new Pose2d(-38.35, -63.3, Math.toRadians(90.00));
+
+        RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
+                .splineToLinearHeading(new Pose2d(-28.00, -39.00, Math.toRadians(45.00)), Math.toRadians(45.00))
+                .lineToSplineHeading(new Pose2d(-40.00, -50.00, Math.toRadians(90.00)))
+                .splineToSplineHeading(new Pose2d(-52.00, -12.00, Math.toRadians(0.00)), Math.toRadians(90.00))
+                .waitSeconds(2)
+                .splineTo(new Vector2d(27.00, -12.00), Math.toRadians(0))
+                .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .splineToConstantHeading(new Vector2d(43, -40.5),Math.toRadians(0.00))
+                .lineTo(new Vector2d(53, -40.5))
+                .waitSeconds(0.2)
+                .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .waitSeconds(0.2)
+                .lineTo(new Vector2d(40, -36))
+                .addDisplacementMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
+                .waitSeconds(0.5)
+                .addDisplacementMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
+                .build();
+
+
+        MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
+                .splineToLinearHeading(new Pose2d(-36.00, -34.00, Math.toRadians(90.00)), Math.toRadians(90.00))
+                .lineToLinearHeading(new Pose2d(-52, -36, Math.toRadians(0.00)))
+                .splineToSplineHeading(new Pose2d(12.00, -36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .splineToSplineHeading(new Pose2d(45.00, -36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .lineTo(new Vector2d(53,-33))
+                .waitSeconds(0.2)
+                .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .waitSeconds(0.2)
+                .lineTo(new Vector2d(40, -36))
+                .addTemporalMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
+                .waitSeconds(0.5)
+                .addTemporalMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
+                .build();
+
+        LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
+                .splineToLinearHeading(new Pose2d(-49.00, -46.00, Math.toRadians(90.00)), Math.toRadians(90.00))
+                .lineToConstantHeading(new Vector2d(-37.00, -49.00))
+                .splineToConstantHeading(new Vector2d(-37.00, -35.00), Math.toRadians(90.00))
+                .splineToSplineHeading(new Pose2d(30.00, -12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
+                .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
+                .splineToLinearHeading(new Pose2d(38, -25, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(0.3)
+                .lineTo(new Vector2d(51,-25))
+                .waitSeconds(0.2)
+                .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
+                .waitSeconds(0.2)
+                .lineTo(new Vector2d(40, -36))
+                .addTemporalMarker( () -> {
+                    robotBase.leftWristSubsystem.wristPickup();
+                })
+                .waitSeconds(0.5)
+                .addTemporalMarker( () -> {
+                    robotBase.armSubsystem.armGrabbingPosition();
+                })
+                .build();
+
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+
+        OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, -36.00, Math.toRadians(0.00)))
+                .splineToConstantHeading(new Vector2d(57.00, -62.00), Math.toRadians(0.00))
+                .build();
+
+        InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, -36.00, Math.toRadians(0.00)))
+                .splineToConstantHeading(new Vector2d(59.00, -10.00), Math.toRadians(0.00))
+                .build();
+
+
+
+        robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
+        parkLocation = InnerPark;
+    }
+    @Override
+    public void init_loop() {
+        autoChassisController.readButtons();
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.Y))) {
+            if (robotBase.parkSide == RobotBase.ParkSide.INNER) {
+                robotBase.parkSide = RobotBase.ParkSide.OUTER;
+                parkLocation = OuterPark;
+            } else {
+                robotBase.parkSide = RobotBase.ParkSide.INNER;
+                parkLocation = InnerPark;
+            }
+        }
+        if (autoChassisController.wasJustPressed((GamepadKeys.Button.DPAD_UP))) {
+            timer = timer + 1;
+        }
+
+        if (autoChassisController.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            timer = timer - 1;
+        }
+
+        robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+
+        robotBase.propPosition = visionProcesser.getLocation();
+
+        //robotBase.propPosition = robotBase.huskyLensSubsystem.getLocation(robotBase.alliance, robotBase.startPosition);
+        telemetry.addData("InitLoop","true");
+        telemetry.addData("Detection",(robotBase.propPosition));
+        telemetry.addData("Park Side", (robotBase.parkSide));
+        telemetry.addData("TimerValue", (timer));
+        telemetry.update();
+    }
+    @Override
+    public void start () {
+        if (timer > 0) {
+            timewait = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(timer)
+                    .build();
+            robotBase.mecanumDriveSubsystem.followTrajectorySequence(timewait);
+        }
+        visionPortal.stopStreaming();
+        if (robotBase.propPosition == RobotBase.PropPosition.MIDDLE) {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(MiddleSpike);
+            //robotBase.grabber.drop();
+            //robotBase.mecanumDrive.followTrajectorySequence(RedRightCenterInner2);
+        } else if (robotBase.propPosition == RobotBase.PropPosition.RIGHT) {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(RightSpike);
+        } else {
+            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(LeftSpike);
+        }
+        currentRouteState = CurrentRouteState.TRAJECTORY_1;
+
+
+
+    }
+    @Override
+    public void loop () {
+
+        switch (currentRouteState) {
+            case TRAJECTORY_1:
+                if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.PARKING;
+                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                }
+        }
+        robotBase.mecanumDriveSubsystem.update();
+        CommandScheduler.getInstance().run();
+        telemetry.addData("TimerValue", (timer));
+        telemetry.update();
+    }
+    @Override
+    public void stop () {
+        Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        double dblCurrentHeading = angles.firstAngle;
+        DataStorageSubsystem.dblIMUFinalHeading = dblCurrentHeading;
+        DataStorageSubsystem.alliance = robotBase.alliance.RED;
+    }
+}
