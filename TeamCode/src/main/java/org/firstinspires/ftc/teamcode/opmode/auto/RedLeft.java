@@ -97,12 +97,13 @@ public class RedLeft extends OpMode {
                 .splineToSplineHeading(new Pose2d(12.00, -36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .splineToSplineHeading(new Pose2d(45.00, -36.00, Math.toRadians(0.00)), Math.toRadians(0.00))
-                .lineTo(new Vector2d(53,-33))
+                .splineToSplineHeading(new Pose2d(45.00, -41.00, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .waitSeconds(0.2)
+                .lineTo(new Vector2d(53,-41))
                 .waitSeconds(0.2)
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
-                .lineTo(new Vector2d(40, -36))
+                .lineTo(new Vector2d(40, -41))
                 .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
@@ -114,14 +115,14 @@ public class RedLeft extends OpMode {
 
         LeftSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-49.00, -46.00, Math.toRadians(90.00)), Math.toRadians(90.00))
-                .lineToConstantHeading(new Vector2d(-37.00, -49.00))
-                .splineToConstantHeading(new Vector2d(-37.00, -35.00), Math.toRadians(90.00))
+                .lineToConstantHeading(new Vector2d(-38.00, -49.00))
+                .splineToConstantHeading(new Vector2d(-40.00, -35.00), Math.toRadians(90.00))
                 .splineToSplineHeading(new Pose2d(30.00, -12.00, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .splineToLinearHeading(new Pose2d(38, -25, Math.toRadians(0.00)), Math.toRadians(0.00))
+                .splineToLinearHeading(new Pose2d(38, -30, Math.toRadians(0.00)), Math.toRadians(0.00))
                 .waitSeconds(0.3)
-                .lineTo(new Vector2d(51,-25))
+                .lineTo(new Vector2d(51,-30))
                 .waitSeconds(0.2)
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
@@ -142,7 +143,7 @@ public class RedLeft extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, -36.00, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(59.00, -10.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(61.00, -10.00), Math.toRadians(0.00))
                 .build();
 
 
