@@ -71,6 +71,7 @@ public class RedLeft extends OpMode {
                 .splineToLinearHeading(new Pose2d(-28.00, -39.00, Math.toRadians(45.00)), Math.toRadians(45.00))
                 .lineToSplineHeading(new Pose2d(-40.00, -50.00, Math.toRadians(90.00)))
                 .splineToSplineHeading(new Pose2d(-52.00, -12.00, Math.toRadians(0.00)), Math.toRadians(90.00))
+                .waitSeconds(0.2)
                 .splineTo(new Vector2d(27.00, -12.00), Math.toRadians(0))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
