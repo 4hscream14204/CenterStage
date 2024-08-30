@@ -372,59 +372,60 @@ public class TeleDriverRobotControl extends OpMode {
 
         //AIRPLANE LAUNCHER OPERATION
         armController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .and(armController.getGamepadButton(GamepadKeys.Button.START))
-                                .whenActive(()-> CommandScheduler.getInstance().schedule(new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new ParallelCommandGroup(
-                                                        new GrabAndWristEscapeCommandGrp(
-                                                                robotBase.leftWristSubsystem,
-                                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
-                                                        new GrabAndWristEscapeCommandGrp(
-                                                                robotBase.rightWristSubsystem,
-                                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
-                                                ),
-                                                new ParallelCommandGroup(
-                                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                                                robotBase.armSubsystem,
-                                                                robotBase.leftWristSubsystem,
-                                                                robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LAUNCHING),
-                                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                                                robotBase.armSubsystem,
-                                                                robotBase.rightWristSubsystem,
-                                                                robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LAUNCHING)
-                                                ),
-                                                new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
-                                                robotBase.leftClawSubsystem,
-                                                robotBase.rightClawSubsystem),
-                                                new WaitCommand(500),
-                                                new UniversalGrabbingPosCommand(robotBase)
-                                        ),
-                                        new SequentialCommandGroup(
-                                                new ParallelCommandGroup(
-                                                        new GrabAndWristEscapeCommandGrp(
-                                                                robotBase.leftWristSubsystem,
-                                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
-                                                        new GrabAndWristEscapeCommandGrp(
-                                                                robotBase.rightWristSubsystem,
-                                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
-                                                ),
-                                                new ParallelCommandGroup(
-                                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
-                                                                robotBase.armSubsystem,
-                                                                robotBase.leftWristSubsystem,
-                                                                robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LAUNCHING),
-                                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
-                                                                robotBase.armSubsystem,
-                                                                robotBase.rightWristSubsystem,
-                                                                robotBase.intakeSubsystem,
-                                                                RobotBase.SlideHeight.LAUNCHING)
-                                                )
-                                                ),
-                                        ()->robotBase.armSubsystem.armIsPassedSafeDrop()
-                                                )));
+                .and(armController.getGamepadButton(GamepadKeys.Button.START))
+                .whenActive(()-> CommandScheduler.getInstance().schedule(new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new GrabAndWristEscapeCommandGrp(
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                        new GrabAndWristEscapeCommandGrp(
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
+                                ),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.intakeSubsystem,
+                                                RobotBase.SlideHeight.LOWEST),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.intakeSubsystem,
+                                                RobotBase.SlideHeight.LOWEST)
+                                ),
+                                new AirplaneLaunchAndLowerCommand(robotBase.airplaneLauncherSubsystem,
+                                        robotBase.leftClawSubsystem,
+                                        robotBase.rightClawSubsystem),
+                                new WaitCommand(500),
+                                new UniversalGrabbingPosCommand(robotBase)
+                        ),
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new GrabAndWristEscapeCommandGrp(
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.leftClawSubsystem, robotBase.armSubsystem),
+                                        new GrabAndWristEscapeCommandGrp(
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.rightClawSubsystem, robotBase.armSubsystem)
+                                ),
+                                new ParallelCommandGroup(
+                                        new DropOffPositionCommand(robotBase.leftSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.leftWristSubsystem,
+                                                robotBase.intakeSubsystem,
+                                                RobotBase.SlideHeight.LOWEST),
+                                        new DropOffPositionCommand(robotBase.rightSlideSubsystem,
+                                                robotBase.armSubsystem,
+                                                robotBase.rightWristSubsystem,
+                                                robotBase.intakeSubsystem,
+                                                RobotBase.SlideHeight.LOWEST)
+                                ),
+                                new InstantCommand(()->robotBase.airplaneLauncherSubsystem.raise())
+                        ),
+                        ()->robotBase.airplaneLauncherSubsystem.elevatorIsRaised()
+                )));
 
         //RAKE OPERATION
         new Trigger(()-> armController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1)

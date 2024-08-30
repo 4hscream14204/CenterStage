@@ -10,52 +10,31 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
     private Servo srvAirplaneLauncher;
     private Servo srvAirplaneLauncherEv;
     private RobotBase.AirplaneState airplaneState;
-    /*
-    private double dblReleaseSrvPos = 0.61111111111;
-    private double dblEVPosLower = 0;
-    private double dblEVPosRaise = 0.01;
-    private double dblLoadedLauncherPos = 0.68055555555;
-    */
-    private double dblReleaseSrvPos = 0.61111111111;
+    private double dblReleaseSrvPos = 0.01;
     private double dblEVPosLower = 1;
-    private double dblEVPosRaise = 0.01;
-    private double dblLoadedLauncherPos = 0.0138;
+    private double dblEVPosRaise = 0.8593;
+    private double dblLoadedLauncherPos = 0;
+
 
     public AirplaneLauncherSubsystem(Servo airplaneLauncherConstructor, Servo LauncherElevatorConstructor) {
         srvAirplaneLauncher = airplaneLauncherConstructor;
         srvAirplaneLauncherEv = LauncherElevatorConstructor;
         lower();
     }
-        public void release() {
-            srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
-            airplaneState = RobotBase.AirplaneState.RELEASE;
-        }
-
-        public void load() {
-            srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
-            airplaneState = RobotBase.AirplaneState.LOADED;
-        }
-
-    public boolean launcherIsLoaded(){
-        if(airplaneState == RobotBase.AirplaneState.LOADED) {
-            return true;
-        }
-        return false;
+    public void release() {
+        srvAirplaneLauncher.setPosition(dblReleaseSrvPos);
+        airplaneState = RobotBase.AirplaneState.RELEASE;
     }
 
-
-         public void lower(){
+    public void lower(){
         srvAirplaneLauncherEv.setPosition(dblEVPosLower);
         srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
-        airplaneState = RobotBase.AirplaneState.LOADED;
+        airplaneState = RobotBase.AirplaneState.LOWER;
     }
-
     public void raise(){
         srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = RobotBase.AirplaneState.RAISE;
     }
-
-
 
     public boolean elevatorIsRaised(){
         if(airplaneState == RobotBase.AirplaneState.RAISE) {
@@ -64,7 +43,6 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         return false;
     }
 
-    /*
     public void raiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
@@ -75,7 +53,4 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
                 break;
         }
     }
-    */
-
 }
-

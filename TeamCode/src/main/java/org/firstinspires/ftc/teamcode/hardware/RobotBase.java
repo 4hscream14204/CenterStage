@@ -97,6 +97,7 @@ public class RobotBase extends Object{
     public enum AirplaneState {
         LOADED,
         RAISE,
+        LOWER,
         RELEASE
     }
     public enum ArmState {
