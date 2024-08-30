@@ -75,7 +75,7 @@ public class RedLeft extends OpMode {
                 .lineToSplineHeading(new Pose2d(-40.00, -50.00, Math.toRadians(90.00)))
                 .splineToSplineHeading(new Pose2d(-52.00, -16.00, Math.toRadians(0.00)), Math.toRadians(90.00))
                 .waitSeconds(0.2)
-                .splineTo(new Vector2d(27.00, -13.00), Math.toRadians(0))
+                .splineTo(new Vector2d(27.00, -15.00), Math.toRadians(0))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
                 .splineToConstantHeading(new Vector2d(43, -51),Math.toRadians(0.00))
@@ -146,7 +146,7 @@ public class RedLeft extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, -36.00, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(61.00, -14.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(54.00, -15.00), Math.toRadians(0.00))
                 .build();
 
 
@@ -214,12 +214,11 @@ public class RedLeft extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
+                    currentRouteState = CurrentRouteState.PARKING;
                     CommandScheduler.getInstance().schedule(
                             new SequentialCommandGroup(
                                     new UniversalGrabbingPosCommand(robotBase),
                                     new WaitCommand(200),
-                                    new InstantCommand(()->
-                                            currentRouteState = CurrentRouteState.PARKING),
                                     new InstantCommand(()->
                                             robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation))
                             )
