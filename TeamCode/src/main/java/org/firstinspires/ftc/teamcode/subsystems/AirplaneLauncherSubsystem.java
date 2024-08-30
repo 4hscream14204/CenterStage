@@ -31,18 +31,21 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
         srvAirplaneLauncher.setPosition(dblLoadedLauncherPos);
         airplaneState = RobotBase.AirplaneState.LOWER;
     }
+
     public void raise(){
         srvAirplaneLauncherEv.setPosition(dblEVPosRaise);
         airplaneState = RobotBase.AirplaneState.RAISE;
     }
 
     public boolean elevatorIsRaised(){
+        boolean bolElevatorIsRaised = false;
         if(airplaneState == RobotBase.AirplaneState.RAISE) {
-            return true;
+            bolElevatorIsRaised = true;
         }
-        return false;
+        return bolElevatorIsRaised;
     }
 
+    /*
     public void raiseAndLaunch(){
         switch (airplaneState) {
             case LOWER:
@@ -53,4 +56,5 @@ public class AirplaneLauncherSubsystem extends SubsystemBase {
                 break;
         }
     }
+    */
 }
