@@ -5,6 +5,9 @@ import android.util.Size;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -71,7 +74,7 @@ public class BlueRight extends OpMode {
                 .splineToLinearHeading(new Pose2d(-28.00, 39.00, Math.toRadians(315.00)), Math.toRadians(315.00))
                 .lineToSplineHeading(new Pose2d(-40.00, 50.00, Math.toRadians(270.00)))
                 .splineToSplineHeading(new Pose2d(-52.00, 12.00, Math.toRadians(0.00)), Math.toRadians(270.00))
-                .waitSeconds(2)
+                .waitSeconds(0.2)
                 .splineTo(new Vector2d(27.00, 12.00), Math.toRadians(0))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
@@ -81,13 +84,13 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
                 .lineTo(new Vector2d(40, 36))
-                .addDisplacementMarker( () -> {
+                /*.addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
-                .addDisplacementMarker( () -> {
+                .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
-                })
+                }) */
                 .build();
 
 
@@ -103,13 +106,13 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
                 .lineTo(new Vector2d(40, 36))
-                .addTemporalMarker( () -> {
+                /*.addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
                 .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
-                })
+                }) */
                 .build();
 
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, 63.3, Math.toRadians(270.00)))
@@ -126,13 +129,13 @@ public class BlueRight extends OpMode {
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
                 .lineTo(new Vector2d(40, 36))
-                .addTemporalMarker( () -> {
+                /*.addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
                 .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
-                })
+                }) */
                 .build();
 
         robotBase.mecanumDriveSubsystem.setPoseEstimate(startPose);
@@ -210,8 +213,15 @@ public class BlueRight extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    currentRouteState = CurrentRouteState.PARKING;
-                    robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
+                    currentRouteState = BlueRight.CurrentRouteState.PARKING;
+                    CommandScheduler.getInstance().schedule(
+                            new SequentialCommandGroup(
+                                    new UniversalGrabbingPosCommand(robotBase),
+                                    new WaitCommand(200),
+                                    new InstantCommand(()->
+                                            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation))
+                            )
+                    );
                 }
         }
         robotBase.mecanumDriveSubsystem.update();
