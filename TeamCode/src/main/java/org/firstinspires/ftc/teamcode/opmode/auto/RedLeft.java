@@ -70,22 +70,22 @@ public class RedLeft extends OpMode {
         RightSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(-41, -63.3, Math.toRadians(90.00)))
                 .splineToLinearHeading(new Pose2d(-28.00, -39.00, Math.toRadians(45.00)), Math.toRadians(45.00))
                 .lineToSplineHeading(new Pose2d(-40.00, -50.00, Math.toRadians(90.00)))
-                .splineToSplineHeading(new Pose2d(-52.00, -12.00, Math.toRadians(0.00)), Math.toRadians(90.00))
+                .splineToSplineHeading(new Pose2d(-52.00, -16.00, Math.toRadians(0.00)), Math.toRadians(90.00))
                 .waitSeconds(0.2)
                 .splineTo(new Vector2d(27.00, -12.00), Math.toRadians(0))
                 .addDisplacementMarker( () -> { robotBase.armSubsystem.armDropOffLowestPos();})
                 .addDisplacementMarker( () -> { robotBase.leftWristSubsystem.wristDropOffLowest();})
-                .splineToConstantHeading(new Vector2d(43, -48),Math.toRadians(0.00))
-                .lineTo(new Vector2d(53, -48))
+                .splineToConstantHeading(new Vector2d(43, -54),Math.toRadians(0.00))
+                .lineTo(new Vector2d(53, -54))
                 .waitSeconds(0.2)
                 .addDisplacementMarker( () -> { robotBase.leftClawSubsystem.clawOpen();})
                 .waitSeconds(0.2)
-                .lineTo(new Vector2d(40, -48))
-                .addDisplacementMarker( () -> {
+                .lineTo(new Vector2d(40, -54))
+                .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
-                .addDisplacementMarker( () -> {
+                .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
                 })
                 .build();
@@ -143,7 +143,7 @@ public class RedLeft extends OpMode {
                 .build();
 
         InnerPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(40.00, -36.00, Math.toRadians(0.00)))
-                .splineToConstantHeading(new Vector2d(61.00, -10.00), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(61.00, -17.00), Math.toRadians(0.00))
                 .build();
 
 
