@@ -6,6 +6,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.kotlin.extensions.geometry.Vector2dExtKt;
@@ -18,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.commands.DropOffPositionLowCommandGrp;
+import org.firstinspires.ftc.teamcode.commands.UniversalGrabbingPosCommand;
 import org.firstinspires.ftc.teamcode.hardware.RobotBase;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.DataStorageSubsystem;
@@ -96,7 +99,7 @@ public class RedRight extends OpMode {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .lineTo(new Vector2d(40, -36))
-                .waitSeconds(0.5)
+               /* .waitSeconds(0.5)
                 .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
@@ -104,7 +107,7 @@ public class RedRight extends OpMode {
                 .addTemporalMarker( () -> {
                     robotBase.armSubsystem.armGrabbingPosition();
                 })
-                .waitSeconds(.5)
+                .waitSeconds(.5) */
                 .build();
 
         MiddleSpike = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(17.50, -63.00, Math.toRadians(90.00)))
@@ -116,14 +119,14 @@ public class RedRight extends OpMode {
                         robotBase.intakeSubsystem,
                         RobotBase.SlideHeight.LOWEST)))
                 .splineToLinearHeading(new Pose2d(45.00, -39.00), Math.toRadians(90.00))
-                .splineToConstantHeading(new Vector2d(50.00, 39.00), Math.toRadians(180.00))
+                .splineToConstantHeading(new Vector2d(50.00, -39.00), Math.toRadians(180.00))
                 .waitSeconds(0.2)
                 .addTemporalMarker( () -> {
                     robotBase.leftClawSubsystem.clawOpen();
                 })
                 .lineTo(new Vector2d(40, -36))
                 .waitSeconds(0.25)
-                .addTemporalMarker( () -> {
+               /* .addTemporalMarker( () -> {
                     robotBase.leftWristSubsystem.wristPickup();
                 })
                 .waitSeconds(0.5)
@@ -142,7 +145,7 @@ public class RedRight extends OpMode {
                 //.waitSeconds(1)
                 //.lineToLinearHeading(new Pose2d(45.00, 36.00, Math.toRadians(180.00)))
                 //.addDisplacementMarker(() -> {robotBase.Grabber.DownPosition();})
-                // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00))
+                // .splineTo(new Vector2d(60.00, 60.00), Math.toRadians(0.00)) */
                 .build();
 
 
@@ -163,9 +166,9 @@ public class RedRight extends OpMode {
                 .waitSeconds(0.5)
                 .lineTo(new Vector2d(40.00, -36.00))
                 .waitSeconds(0.2)
-                .addTemporalMarker( () -> {robotBase.leftWristSubsystem.wristPickup();})
+             /*   .addTemporalMarker( () -> {robotBase.leftWristSubsystem.wristPickup();})
                 .waitSeconds(0.2)
-                .addTemporalMarker( () -> {robotBase.armSubsystem.armGrabbingPosition();})
+                .addTemporalMarker( () -> {robotBase.armSubsystem.armGrabbingPosition();}) */
                 .build();
 
         OuterPark = robotBase.mecanumDriveSubsystem.trajectorySequenceBuilder(new Pose2d(45.00, -36.00, Math.toRadians(0.00)))
@@ -293,17 +296,16 @@ public class RedRight extends OpMode {
         switch (currentRouteState) {
             case TRAJECTORY_1:
                 if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                    if (robotBase.stackState != RobotBase.StackState.NONE) {
-                        /*  currentRouteState = CurrentRouteState.STACK; */
-                        currentRouteState = CurrentRouteState.PARKING;
-                        robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
-                    }
+                    currentRouteState = RedRight.CurrentRouteState.PARKING;
+                    CommandScheduler.getInstance().schedule(
+                            new SequentialCommandGroup(
+                                    new UniversalGrabbingPosCommand(robotBase),
+                                    new WaitCommand(200),
+                                    new InstantCommand(()->
+                                            robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation))
+                            )
+                    );
                 }
-                // case STACK:
-                //   if (!robotBase.mecanumDriveSubsystem.isBusy()) {
-                //     currentRouteState = CurrentRouteState.PARKING;
-                //   robotBase.mecanumDriveSubsystem.followTrajectorySequenceAsync(parkLocation);
-                //}
         }
         robotBase.mecanumDriveSubsystem.update();
         CommandScheduler.getInstance().run();
