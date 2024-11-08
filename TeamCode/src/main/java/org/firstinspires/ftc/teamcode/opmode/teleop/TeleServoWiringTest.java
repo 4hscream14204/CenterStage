@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="ServoWiringTest")
@@ -18,6 +19,15 @@ public class TeleServoWiringTest extends OpMode {
     private Servo srvServo4;
     private Servo srvServo5;
     private Servo srvServo6;
+
+    public TeleServoWiringTest(HardwareMap hwMap) {
+        srvServo1 = hwMap.get(Servo.class, "servo1");
+        srvServo2 = hwMap.get(Servo.class, "servo2");
+        srvServo3 = hwMap.get(Servo.class, "servo3");
+        srvServo4 = hwMap.get(Servo.class, "servo4");
+        srvServo5 = hwMap.get(Servo.class, "servo5");
+        srvServo6 = hwMap.get(Servo.class, "servo6");
+    }
 
     public void init() {
         CommandScheduler.getInstance().reset();
