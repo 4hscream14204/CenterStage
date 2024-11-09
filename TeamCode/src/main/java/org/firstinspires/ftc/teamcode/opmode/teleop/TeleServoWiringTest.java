@@ -13,23 +13,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TeleServoWiringTest extends OpMode {
 
     private GamepadEx testingController;
-    private Servo srvServo1;
-    private Servo srvServo2;
-    private Servo srvServo3;
-    private Servo srvServo4;
-    private Servo srvServo5;
-    private Servo srvServo6;
-
-    public TeleServoWiringTest(HardwareMap hwMap) {
-        srvServo1 = hwMap.get(Servo.class, "servo1");
-        srvServo2 = hwMap.get(Servo.class, "servo2");
-        srvServo3 = hwMap.get(Servo.class, "servo3");
-        srvServo4 = hwMap.get(Servo.class, "servo4");
-        srvServo5 = hwMap.get(Servo.class, "servo5");
-        srvServo6 = hwMap.get(Servo.class, "servo6");
-    }
+    Servo srvServo1;
+    Servo srvServo2;
+    Servo srvServo3;
+    Servo srvServo4;
+    Servo srvServo5;
+    Servo srvServo6;
 
     public void init() {
+
+        srvServo1 = hardwareMap.get(Servo.class, "servo1");
+        srvServo2 = hardwareMap.get(Servo.class, "servo2");
+        srvServo3 = hardwareMap.get(Servo.class, "servo3");
+        srvServo4 = hardwareMap.get(Servo.class, "servo4");
+        srvServo5 = hardwareMap.get(Servo.class, "servo5");
+        srvServo6 = hardwareMap.get(Servo.class, "servo6");
+
         CommandScheduler.getInstance().reset();
         testingController = new GamepadEx(gamepad1);
 
@@ -84,6 +83,5 @@ public class TeleServoWiringTest extends OpMode {
     }
     public void loop() {
         CommandScheduler.getInstance().run();
-
     }
 }
