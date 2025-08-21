@@ -49,6 +49,7 @@ public class TeleDriverRobotControl extends OpMode {
     private double dblChassisControllerRightX = 0;
     private double dblChassisControllerRightY = 0;
     private double dblChassisControllerLeftX = 0;
+    private double dblChassisControllerLeftY = 0;
     private TriggerReader leftTriggerChassisReader;
     private TriggerReader rightTriggerChassisReader;
     private TriggerReader leftTriggerArmReader;
@@ -533,6 +534,7 @@ public class TeleDriverRobotControl extends OpMode {
         dblChassisControllerRightX = Math.abs(chassisController.getRightX()) * chassisController.getRightX();
         dblChassisControllerRightY = Math.abs(chassisController.getRightY()) * chassisController.getRightY();
         dblChassisControllerLeftX = Math.abs(chassisController.getLeftX()) * chassisController.getLeftX();
+        dblChassisControllerLeftY = Math.abs(chassisController.getLeftY()) * chassisController.getLeftY();
         //dblCurrentHeading = robotBase.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         Orientation angles = robotBase.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         dblCurrentHeading = angles.firstAngle + DataStorageSubsystem.dblIMUFinalHeading;
@@ -542,18 +544,18 @@ public class TeleDriverRobotControl extends OpMode {
 
         if (robotBase.controlScheme == RobotBase.ChassisControlType.FIELDCENTRIC) {
             Vector2d input = new Vector2d(
-                    -dblChassisControllerRightY,
-                    -dblChassisControllerRightX
+                    -dblChassisControllerLeftY,
+                    dblChassisControllerLeftX
             ).rotated(-dblCurrentHeading);
 
-            if(Math.abs(chassisController.getLeftX()) > 0.05) {
+            if(Math.abs(chassisController.getRightX()) > 0.05) {
                 dblLastStickTime = dblCurrentTime;
 
                 robotBase.mecanumDriveSubsystem.setWeightedDrivePower(
                         new Pose2d(
                                 input.getX(),
                                 input.getY(),
-                                -dblChassisControllerLeftX
+                                -dblChassisControllerRightX
                         )
                 );
 
@@ -565,7 +567,7 @@ public class TeleDriverRobotControl extends OpMode {
                         new Pose2d(
                                 input.getX(),
                                 input.getY(),
-                                -dblChassisControllerLeftX
+                                -dblChassisControllerRightX
                         )
                 );
 
